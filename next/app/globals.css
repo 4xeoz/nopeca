@@ -1,24 +1,61 @@
-@import './prism.css';
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ================================
+   Root Color System (Nopeca)
+   ================================ */
+
 :root {
-  --foreground-rgb: 255, 255, 255;
+  /* Base surfaces */
+  --color-bg-primary: #f5f5f5;      /* Main background */
+  --color-bg-secondary: #ccd3d9;    /* Sections, cards */
+
+  /* Brand */
+  --color-brand-primary: #012340;   /* Navy */
+  --color-brand-secondary: #d9b573;    /* Gold */
+
+  /* Neutral / text */
+  --color-text-primary: #444444;    /* Main text */
+  --color-text-muted: #8195a6;      /* Secondary text */
+
+  /* Supporting */
+  --color-border-soft: #d1c7b1;     /* Dividers, subtle borders */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-  }
-}
+
 
 body {
-  color: rgb(var(--foreground-rgb));
+  @apply antialiased;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
   }
 }
