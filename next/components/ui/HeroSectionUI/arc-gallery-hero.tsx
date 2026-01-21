@@ -1,21 +1,22 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
-
+import AnimatedVectorline from './animated-vector-line';
 type ArcGalleryHeroProps = {
   images: string[];
-  // angle range in degrees (e.g., -110 to 110 for a nice top arc)
   startAngle?: number;
   endAngle?: number;
-  // radius as a tailwind-friendly pixel value
-  radiusLg?: number;
-  radiusMd?: number;
-  radiusSm?: number;
-  // size of each card
+  // Responsive radius for all breakpoints
+  radiusXl?: number;   // >= 1536px
+  radiusLg?: number;   // 1280px - 1535px
+  radiusMd?: number;   // 1024px - 1279px
+  radiusSm?: number;   // 768px - 1023px
+  radiusXs?: number;   // < 768px
+  // Responsive card sizes
+  cardSizeXl?: number;
   cardSizeLg?: number;
   cardSizeMd?: number;
   cardSizeSm?: number;
-  // optional extra class on outer section
+  cardSizeXs?: number;
   className?: string;
 };
 
@@ -23,104 +24,121 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   images,
   startAngle = -110,
   endAngle = 110,
-  radiusLg = 340,
+  radiusXl = 420,
+  radiusLg = 380,
   radiusMd = 280,
-  radiusSm = 200,
-  cardSizeLg = 120,
-  cardSizeMd = 100,
-  cardSizeSm = 80,
+  radiusSm = 240,
+  radiusXs = 180,
+  cardSizeXl = 160,
+  cardSizeLg = 140,
+  cardSizeMd = 120,
+  cardSizeSm = 100,
+  cardSizeXs = 70,
   className = '',
 }) => {
   const [dimensions, setDimensions] = useState({
-    radius: radiusLg,
-    cardSize: cardSizeLg,
+    radius: radiusXl,
+    cardSize: cardSizeXl,
   });
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 640) {
-        setDimensions({ radius: radiusSm, cardSize: cardSizeSm });
+      let radius = radiusXl;
+      let cardSize = cardSizeXl;
+
+      if (width < 768) {
+        radius = radiusXs;
+        cardSize = cardSizeXs;
       } else if (width < 1024) {
-        setDimensions({ radius: radiusMd, cardSize: cardSizeMd });
+        radius = radiusSm;
+        cardSize = cardSizeSm;
+      } else if (width < 1280) {
+        radius = radiusMd;
+        cardSize = cardSizeMd;
+      } else if (width < 1536) {
+        radius = radiusLg;
+        cardSize = cardSizeLg;
       } else {
-        setDimensions({ radius: radiusLg, cardSize: cardSizeLg });
+        radius = radiusXl;
+        cardSize = cardSizeXl;
       }
+
+      setDimensions({ radius, cardSize });
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [radiusLg, radiusMd, radiusSm, cardSizeLg, cardSizeMd, cardSizeSm]);
-  // Ensure at least 2 points to distribute angles
+  }, [radiusXl, radiusLg, radiusMd, radiusSm, radiusXs, cardSizeXl, cardSizeLg, cardSizeMd, cardSizeSm, cardSizeXs]);
+
   const count = Math.max(images.length, 2);
   const step = (endAngle - startAngle) / (count - 1);
 
   return (
-    <section className={`relative  bg-red-50 h-screen flex flex-col ${className}`}>
-      {/* Background ring container that controls geometry */}
-      <div
-        className="relative mx-auto bg-blue-100 2xl:translate-y-[15%] md:translate-y-8 translate-y-4"
-        style={{
-          width: '100%',
-          height: dimensions.radius * 1.2,
-        }}
-      >
-        {/* Center pivot for transforms - positioned at bottom center */}
-        <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
-          {/* Each image is positioned on the circle and rotated to face outward */}
-          {images.map((src, i) => {
-            const angle = startAngle + step * i; // degrees
-            const angleRad = (angle * Math.PI) / 180;
-            
-            // Calculate x and y positions
-            const x = Math.cos(angleRad) * dimensions.radius ;
-            const y = Math.sin(angleRad) * dimensions.radius;
-            
-            return (
-              <div
-                key={i}
-                className="absolute opacity-0 animate-fade-in-up"
-                style={{
-                  width: dimensions.cardSize,
-                  height: dimensions.cardSize,
-                  left: `calc(50% + ${x}px)`,
-                  bottom: `${y}px`,
-                  transform: `translate(-50%, 50%)`,
-                  animationDelay: `${i * 100}ms`,
-                  animationFillMode: 'forwards',
-                  zIndex: count - i,
-                }}
-              >
-                <div 
-                  className="rounded-2xl shadow-xl overflow-hidden ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full"
-                  style={{ transform: `rotate(${angle / 4}deg)` }}
+    <section className={`relative bg-red-50 h-screen max-h-[1120px] flex items-end ${className}`}>
+      <div className="relative flex-1 flex items-end justify-center px-6 bg-green-50">
+        <div
+          className="absolute -translate-y-[15%] 2xl:-translate-y-[25%]  xl:-translate-y-[10%] bg-blue-100 opacity-50 flex-1 flex items-center justify-center"
+          style={{
+            width: '100%',
+            height: dimensions.radius,
+          }}
+        >
+          <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
+            {images.map((src, i) => {
+              const angle = startAngle + step * i;
+              const angleRad = (angle * Math.PI) / 180;
+              const x = Math.cos(angleRad) * dimensions.radius;
+              const y = Math.sin(angleRad) * dimensions.radius;
+
+              return (
+                <div
+                  key={i}
+                  className="absolute opacity-0 animate-fade-in-up"
+                  style={{
+                    width: dimensions.cardSize,
+                    height: dimensions.cardSize,
+                    left: `calc(50% + ${x}px)`,
+                    bottom: `${y}px`,
+                    transform: `translate(-50%, 50%)`,
+                    animationDelay: `${i * 100}ms`,
+                    animationFillMode: 'forwards',
+                    zIndex: count - i,
+                  }}
                 >
-                  <img
-                    src={src}
-                    alt=""
-                    className="block w-full h-full object-cover"
-                    draggable={false}
-                  />
+                  <div
+                    className="rounded-2xl shadow-xl overflow-hidden ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full"
+                    style={{ transform: `rotate(${angle / 4}deg)` }}
+                  >
+                    <img
+                      src={src}
+                      alt=""
+                      className="block w-full h-full object-cover"
+                      draggable={false}
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-      </div>
-
-      {/* Content positioned below the arc */}
-      <div className="relative z-10 flex-1 flex items-center justify-center px-6 -mt-40 md:-mt-52 lg:-mt-72">
-        <div className="text-center max-w-3xl px-6 opacity-0 animate-fade-in" style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
-          <h1 className="text-3xl sm:text-5xl lg:text-8xl font-bold tracking-tight text-foreground">
-            Unlock Your Future Education
+        <div className="text-center max-w-3xl px-6 opacity-0 animate-fade-in " style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
+          <h1 className="text-3xl sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
+            Unlock Your{" "}
+            <span className="relative inline-block bg-yellow-200">
+              Future Education
+              <span className="pointer-events-none absolute right-0 -bottom-10 w-[60%]">
+                <AnimatedVectorline />
+              </span>
+            </span>
           </h1>
           <p className="mt-8 text-lg text-muted-foreground">
             Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-20 py-5 bg-[--color-brand-secondary] text-white rounded-full text-xl font-bold ">Get Started</button>
+            <button className="px-20 py-5 bg-[--color-brand-secondary] text-white rounded-full text-xl font-bold">Get Started</button>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import React from 'react'
 import ArcGalleryHero from '../ui/HeroSectionUI/arc-gallery-hero'
 
@@ -20,19 +20,20 @@ const images = [
 ];
 
   return (
-    <section className="w-full max-h-screen bg-red-200 ">
+    <section className="w-full h-screen max-h-[1120px] bg-red-200 pt-16 ">
       <div className="max-w-7xl mx-auto  relative">
         <ArcGalleryHero
         images={images}
         startAngle={20}
         endAngle={160}
-        radiusLg={window.innerWidth/3}
-        radiusMd={360}
-        radiusSm={260}
+        radiusXl={560}
+        radiusLg={560}
+        radiusMd={550}
+        radiusSm={490}
         cardSizeLg={150}
-        cardSizeMd={100}
-        cardSizeSm={80}
-        className="pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24"
+        cardSizeMd={140}
+        cardSizeSm={140}
+        className="pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-10 xl:pt-32 xl:pb-16 2xl:pt-40 2xl:pb-40 overflow-hidden"
       />
       </div>
     </section>
