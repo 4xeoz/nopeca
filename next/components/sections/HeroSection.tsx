@@ -20,7 +20,7 @@ const images = [
 ];
 
   return (
-    <section className="w-full h-screen max-h-[1120px] bg-red-200 pt-16 ">
+    <section id="home" className="w-full h-screen max-h-[1120px] bg-red-200 overflow-hidden ">
       <div className="max-w-7xl mx-auto  relative">
         <ArcGalleryHero
         images={images}
@@ -33,7 +33,7 @@ const images = [
         cardSizeLg={150}
         cardSizeMd={140}
         cardSizeSm={140}
-        className="pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-10 xl:pt-32 xl:pb-16 2xl:pt-40 2xl:pb-40 overflow-hidden"
+        className="pt-16 pb-16 md:pt-20 md:pb-20 lg:pt-24 lg:pb-10 xl:pt-32 xl:pb-16 2xl:pt-40 2xl:pb-40"
       />
       </div>
     </section>

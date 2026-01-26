@@ -11,7 +11,7 @@
 :root {
   /* Base surfaces */
   --color-bg-primary: #f8f5ee;      /* Main background */
-  --color-bg-secondary: #ccd3d9;    /* Sections, cards */
+  --color-bg-secondary: #F5F5F5;    /* Sections, cards */
 
   /* Brand */
   --color-brand-primary: #012340;   /* Navy */
@@ -23,6 +23,17 @@
 
   /* Supporting */
   --color-border-soft: #d1c7b1;     /* Dividers, subtle borders */
+
+  /* Feature palettes */
+  --color-ink-deep: #0a1628;
+  --color-ink-deep-0: rgba(10, 22, 40, 0);
+  --color-ink-deep-30: rgba(10, 22, 40, 0.3);
+  --color-ink-muted: #27344a;
+  --color-ink-muted-80: rgba(39, 52, 74, 0.8);
+  --color-highlight-amber: #d4a84b;
+  --color-accent-arc: #d4c9b5;
+  --color-stripe-wisp: #e8e4dd;
+  --color-stripe-wisp-60: rgba(232, 228, 221, 0.6);
 }
 
 body {

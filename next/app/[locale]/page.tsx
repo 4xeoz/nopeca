@@ -3,10 +3,9 @@ import HomePageWrapper from '@/components/layout/HomePageWrapper';
 import HeroSection from '@/components/sections/HeroSection';
 import AnimatedLogoBand from '@/components/sections/AnimatedLogoBand';
 import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
-import DiscoverSection from '@/components/sections/DiscoverSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
 import RegistrationStepsSection from '@/components/sections/RegistrationStepsSection';
-import Footer from '@/components/sections/Footer';
+import DiscoverPathwaysSection from '@/components/sections/DiscoverPathwaysSection';
 
 const HomePage = () => {
         {/* // AnimationLoaderComponent -- on its own needs full flexibity -- no layout constrains */}
@@ -25,10 +24,10 @@ const HomePage = () => {
       <HeroSection />
       <AnimatedLogoBand />
       <WhyWeLovedSection />
-      <DiscoverSection />
+      <DiscoverPathwaysSection />
       <UniShowcaseSection />
       <RegistrationStepsSection />
-      <Footer />
+      
     </HomePageWrapper>
   );
 };

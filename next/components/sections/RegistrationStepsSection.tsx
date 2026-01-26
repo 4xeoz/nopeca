@@ -1,9 +1,214 @@
-export default function RegistrationStepsSection() {
+"use client";
+
+import { useRef } from "react";
+import { useTransform, motion, useScroll, MotionValue } from "motion/react";
+import Image, { StaticImageData } from "next/image";
+import steps1Img from "@/public/steps-1.png";
+import steps2Img from "@/public/steps-2.png";
+import steps3Img from "@/public/steps-3.png";
+
+const registrationSteps = [
+  {
+    step: 1,
+    title: "Register & Apply",
+    description:
+      "Call us to Apply for the course that fits your goals. We help you select the right university and prepare everything correctly from day one.",
+    color: "#0a1628",
+    image: steps1Img,
+  },
+  {
+    step: 2,
+    title: "Visa & Flight",
+    description:
+      "From visa documents to flight booking, our team guides you through every requirement so nothing is missed and no time is wasted.",
+    color: "#d4a84b",
+    image: steps2Img,
+  },
+  {
+    step: 3,
+    title: "Arrival & 1-to-1 Support",
+    description:
+      "Land in your new country knowing you’re supported. You’ll receive full 1-to-1 guidance for settling in, studying, and building your future.",
+    color: "#0a1628",
+    image: steps3Img,
+  }
+];
+
+interface StepCardProps {
+  i: number;
+  step: number;
+  title: string;
+  description: string;
+  color: string;
+  image: StaticImageData;
+  progress: MotionValue<number>;
+  range: [number, number];
+  targetScale: number;
+}
+
+function StepCard({
+  i,
+  step,
+  title,
+  description,
+  color,
+  image,
+  progress,
+  range,
+  targetScale,
+}: StepCardProps) {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "start start"],
+  });
+
+
+  const imageScale = useTransform(scrollYProgress, [0, 1], [2,1]);
+  const scale = useTransform(progress, range, [1, targetScale]);
+
   return (
-    <section className="w-full py-20 px-4 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold">Registration Steps Section</h2>
+    <div
+      ref={container}
+      className="h-screen flex items-center justify-center sticky top-0"
+    >
+      <motion.div
+        style={{
+          backgroundColor: color,
+          scale,
+          top: `calc(-5vh + ${i * 25}px)`,
+        }}
+        className="relative flex flex-col max-h-[700px] h-[70vh] w-[90%] max-w-4xl rounded-3xl p-8 lg:p-12 origin-top shadow-2xl"
+      >
+        {/* Step number badge */}
+        <div className="absolute -top-4 left-8 bg-[#f5f2ed] text-[#0a1628] w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
+          {step}
+        </div>
+
+        <div className="flex flex-col lg:flex-row h-full gap-8 pt-4">
+          {/* Left side - Text content */}
+          <div className="lg:w-1/2 flex flex-col justify-center">
+            <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+              {title}
+            </h3>
+            <p className="text-white/80 text-lg leading-relaxed">
+              {description}
+            </p>
+          </div>
+
+          {/* Right side - Step image */}
+          <div className="lg:w-1/2 flex items-center justify-center overflow-hidden rounded-xl">
+            <motion.div className="relative w-full h-full  overflow-hidden" style={{scale: imageScale}}>
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+export default function RegistrationStepsSection() {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <section
+      id="steps"
+      ref={container}
+      className="relative w-full py-20 px-4 bg-[#f5f0e8]"
+    >
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Vertical stripes */}
+        <div className="absolute inset-0 flex justify-between ">
+          {[...Array(12)].map((_, i) => (
+            <div
+              key={i}
+              className="w-px h-full bg-[#0a1628]/[0.06]"
+            />
+          ))}
+        </div>
+
+        {/* Decorative arcs */}
+        <svg
+          className="absolute -left-32 top-0 h-[600px] w-[600px] opacity-40"
+          viewBox="0 0 600 600"
+          fill="none"
+        >
+          <path
+            d="M-100 600 C 100 400, 300 200, 600 100"
+            stroke="#e8dcc8"
+            strokeWidth="120"
+            fill="none"
+          />
+        </svg>
+        <svg
+          className="absolute -right-32 bottom-0 h-[500px] w-[500px] opacity-30"
+          viewBox="0 0 500 500"
+          fill="none"
+        >
+          <path
+            d="M500 -50 C 400 150, 200 300, -50 400"
+            stroke="#e8dcc8"
+            strokeWidth="100"
+            fill="none"
+          />
+        </svg>
       </div>
+
+      {/* Header section */}
+      <div className="relative h-[50vh] max-h-[400px] flex items-center justify-center px-4 ">
+        <div className="text-center max-w-3xl">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-8 shadow-sm">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#d4a84b]" />
+            <span className="text-sm font-medium text-[#0a1628]">
+              How it works
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-6xl font-bold text-[#0a1628] leading-tight text-balance mb-6">
+            Your journey starts here
+          </h2>
+          <p className="text-lg text-[#0a1628]/80 max-w-xl mx-auto">
+            Follow these simple steps to begin your path to studying abroad.
+            Scroll down to explore each step.
+          </p>
+        </div>
+      </div>
+
+      {/* Stacking cards section */}
+      <div className="relative">
+        {registrationSteps.map((stepData, i) => {
+          const targetScale = 1 - (registrationSteps.length - i) * 0.05;
+          return (
+            <StepCard
+              key={`step_${i}`}
+              i={i}
+              step={stepData.step}
+              title={stepData.title}
+              description={stepData.description}
+              color={stepData.color}
+              image={stepData.image}
+              progress={scrollYProgress}
+              range={[i * 0.2, 1]}
+              targetScale={targetScale}
+            />
+          );
+        })}
+      </div>
+
+      
+      
     </section>
   );
 }

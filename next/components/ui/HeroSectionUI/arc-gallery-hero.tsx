@@ -79,7 +79,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     <section className={`relative bg-red-50 h-screen max-h-[1120px] flex items-end ${className}`}>
       <div className="relative flex-1 flex items-end justify-center px-6 bg-green-50">
         <div
-          className="absolute -translate-y-[15%] 2xl:-translate-y-[25%]  xl:-translate-y-[10%] bg-blue-100 opacity-50 flex-1 flex items-center justify-center"
+          className="absolute -translate-y-[15%] 2xl:-translate-y-[25%]  xl:-translate-y-[10%] bg-blue-100 opacity-50 flex-1 flex items-center justify-center "
           style={{
             width: '100%',
             height: dimensions.radius,
@@ -108,7 +108,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                   }}
                 >
                   <div
-                    className="rounded-2xl shadow-xl overflow-hidden ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full"
+                    className="rounded-2xl shadow-xl ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full"
                     style={{ transform: `rotate(${angle / 4}deg)` }}
                   >
                     <img
