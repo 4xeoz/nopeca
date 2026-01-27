@@ -55,7 +55,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-6 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between gap-6 rounded-full border border-[--color-border-soft] bg-[--color-bg-secondary] px-6 py-4 shadow-xl shadow-black/10 backdrop-blur">
+        <nav className="flex items-center justify-between gap-6 rounded-full border border-[--color-border-soft] bg-[--color-bg-secondary] px-4 py-3 shadow-xl shadow-black/10 backdrop-blur">
           <div className="flex items-center gap-4">
             <Image
               src={logoMark}
@@ -67,13 +67,13 @@ export default function Navbar() {
             />
           </div>
 
-          <div className="hidden items-center gap-10 text-base font-semibold text-[--color-text-primary] md:flex">
+          {/* <div className="hidden items-center gap-10 text-base font-semibold text-[--color-text-primary] md:flex">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="transition-colors hover:text-[--color-brand-primary]">
                 {link.label}
               </Link>
             ))}
-          </div>
+          </div> */}
 
           <div className="flex items-center gap-4">
             <Link
@@ -83,7 +83,7 @@ export default function Navbar() {
               Apply now
             </Link>
             <Link
-              href="https://wa.me/15551234567"
+              href="https://wa.me/213561799531"
               target="_blank"
               className="hidden items-center justify-center rounded-full bg-[--color-brand-secondary] p-3 transition hover:-translate-y-0.5 hover:shadow-lg md:inline-flex"
             >
@@ -109,9 +109,9 @@ export default function Navbar() {
         </nav>
 
         {isOpen && (
-          <div className="mt-3 rounded-3xl border border-[--color-border-soft] bg-[--color-bg-primary]/95 p-5 shadow-2xl shadow-black/10 md:hidden">
+          <div className="mt-3 rounded-[3rem] border border-[--color-border-soft] bg-[--color-bg-primary] p-5 shadow-2xl shadow-black/10 md:hidden">
             <div className="flex flex-col gap-3 text-base font-semibold text-[--color-text-primary]">
-              {navLinks.map((link) => (
+              {/* {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -120,7 +120,7 @@ export default function Navbar() {
                 >
                   {link.label}
                 </Link>
-              ))}
+              ))} */}
               <div className="mt-2 flex flex-col gap-2">
                 <Link
                   href="#steps"
@@ -130,7 +130,7 @@ export default function Navbar() {
                   Apply now
                 </Link>
                 <Link
-                  href="https://wa.me/15551234567"
+                  href="https://wa.me/213561799531"
                   target="_blank"
                   onClick={handleClose}
                   className="inline-flex items-center justify-center rounded-full bg-[--color-brand-secondary] p-3 shadow-md transition hover:-translate-y-0.5"

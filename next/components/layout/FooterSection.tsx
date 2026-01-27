@@ -5,11 +5,13 @@ import React from "react";
 import { useState } from "react";
 import Image from "next/image";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { toast } from "sonner";
 import footerLogo from "@/public/NopecaFooterLogo.png";
 import footerLogoText from "@/public/NopecaFooterLogoText.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { submitContactForm } from "@/actions/contact";
 
 // WhatsApp icon component
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -32,21 +34,30 @@ export default function FooterSection() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setSubmitted(true);
+
+    const result = await submitContactForm(formData);
+    
+    if (result.success) {
+      toast.success("Message sent!", {
+        description: "Thank you for reaching out. We'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } else {
+      toast.error("Failed to send message", {
+        description: result.message,
+      });
+    }
+    
     setIsSubmitting(false);
-    setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
   const socialLinks = [
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: WhatsAppIcon, href: "https://wa.me/", label: "WhatsApp" },
+    { icon: WhatsAppIcon, href: "https://wa.me/213561799531", label: "WhatsApp" },
     { icon: Mail, href: "mailto:contact@nopeca.com", label: "Email" },
     { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   ];
@@ -75,54 +86,45 @@ export default function FooterSection() {
 
             {/* Contact Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {submitted ? (
-                <div className="bg-[#d4a84b]/20 border border-[#d4a84b] rounded-xl p-6 text-center">
-                  <p className="text-[#d4a84b] font-semibold text-lg">Thank you for reaching out!</p>
-                  <p className="text-white/70 mt-2">We will get back to you soon.</p>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Input
-                      type="text"
-                      placeholder="Your Name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Email Address"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
-                    />
-                  </div>
-                  <Input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
-                  />
-                  <Textarea
-                    placeholder="Tell us about your educational goals..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl min-h-[120px] resize-none"
-                  />
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-semibold rounded-full h-12 w-full sm:w-auto sm:px-8"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
-                </>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Input
+                  type="text"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+                />
+                <Input
+                  type="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+                />
+              </div>
+              <Input
+                type="tel"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+              />
+              <Textarea
+                placeholder="Tell us about your educational goals..."
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                required
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl min-h-[120px] resize-none"
+              />
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-semibold rounded-full h-12 w-full sm:w-auto sm:px-8"
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </Button>
             </form>
 
             {/* Social Links */}
@@ -146,14 +148,14 @@ export default function FooterSection() {
           </div>
 
           {/* Right column - Map */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8 ">
             <div>
               <h3 className="text-xl font-bold mb-2">Our Location</h3>
               <p className="text-white/70 text-sm">Visit us at our office</p>
             </div>
             
             {/* Map container */}
-            <div className="relative w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden border border-white/10">
+            <div className="relative w-full h-[30vh] md:h-full rounded-2xl overflow-hidden border border-white/10">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.086330004891!2d-122.4194!3d37.7749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1234567890"
                 width="100%"
@@ -168,7 +170,7 @@ export default function FooterSection() {
             </div>
 
             {/* Contact details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
                   <Mail className="w-4 h-4 text-[#d4a84b]" />
@@ -183,8 +185,17 @@ export default function FooterSection() {
                   <Phone className="w-4 h-4 text-[#d4a84b]" />
                 </div>
                 <div>
-                  <p className="text-white/50 text-xs">Phone</p>
-                  <p className="text-white text-sm">+1 (555) 123-4567</p>
+                  <p className="text-white/50 text-xs">Mobile</p>
+                  <p className="text-white text-sm">0560409193</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 text-[#d4a84b]" />
+                </div>
+                <div>
+                  <p className="text-white/50 text-xs">Mobile</p>
+                  <p className="text-white text-sm">0560409195</p>
                 </div>
               </div>
             </div>
@@ -193,7 +204,7 @@ export default function FooterSection() {
       </div>
 
       {/* Bottom section with copyright */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-white/10 ">
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/50 text-sm">
             © {new Date().getFullYear()} Nopeca. All rights reserved.

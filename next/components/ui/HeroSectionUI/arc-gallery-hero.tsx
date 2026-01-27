@@ -28,12 +28,12 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   radiusLg = 380,
   radiusMd = 280,
   radiusSm = 240,
-  radiusXs = 180,
+  radiusXs = 280,
   cardSizeXl = 160,
   cardSizeLg = 140,
   cardSizeMd = 120,
   cardSizeSm = 100,
-  cardSizeXs = 70,
+  cardSizeXs = 90,
   className = '',
 }) => {
   const [dimensions, setDimensions] = useState({
@@ -76,10 +76,10 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   const step = (endAngle - startAngle) / (count - 1);
 
   return (
-    <section className={`relative bg-red-50 h-screen max-h-[1120px] flex items-end ${className}`}>
-      <div className="relative flex-1 flex items-end justify-center px-6 bg-green-50">
+    <section className={`relative  h-[90vh] max-h-[1120px] flex items-center  md:items-end    ${className}`}>
+      <div className="relative flex-1 flex items-center justify-center md:items-end px-6  h-full">
         <div
-          className="absolute -translate-y-[15%] 2xl:-translate-y-[25%]  xl:-translate-y-[10%] bg-blue-100 opacity-50 flex-1 flex items-center justify-center "
+          className="absolute -translate-y-[60%]  md:-translate-y-[20%] xl:-translate-y-[10%]  opacity-50 flex-1 flex items-center justify-center "
           style={{
             width: '100%',
             height: dimensions.radius,
@@ -108,7 +108,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                   }}
                 >
                   <div
-                    className="rounded-2xl shadow-xl ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full"
+                    className="rounded-2xl shadow-xl ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full overflow-hidden"
                     style={{ transform: `rotate(${angle / 4}deg)` }}
                   >
                     <img
@@ -125,11 +125,11 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
         </div>
 
         <div className="text-center max-w-3xl px-6 opacity-0 animate-fade-in " style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
-          <h1 className="text-3xl sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
+          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
             Unlock Your{" "}
-            <span className="relative inline-block bg-yellow-200">
+            <span className="relative inline-block">
               Future Education
-              <span className="pointer-events-none absolute right-0 -bottom-10 w-[60%]">
+              <span className="pointer-events-none absolute right-0 -bottom-5 w-[60%] lg:-bottom-10">
                 <AnimatedVectorline />
               </span>
             </span>
@@ -137,8 +137,8 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           <p className="mt-8 text-lg text-muted-foreground">
             Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-20 py-5 bg-[--color-brand-secondary] text-white rounded-full text-xl font-bold">Get Started</button>
+          <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">
+            <button className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">Get Started</button>
           </div>
         </div>
       </div>

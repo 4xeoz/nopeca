@@ -9,33 +9,44 @@ export default function UniShowcaseSection() {
   ];
 
   return (
-    <section id="universities" className="w-full py-20 px-4 bg-[--color-brand-primary] h-[80vh] max-h-[920px] overflow-hidden flex items-center ">
-      <div className="max-w-6xl mx-auto flex h-1/2 gap-6">
-        {/* Left column - 30% */}
-        <div className="w-[30%] shrink-0 flex flex-col gap-8">
+    <section
+      id="universities"
+      className="flex w-full items-center overflow-hidden bg-[--color-brand-primary] px-4 py-12 md:py-20 lg:h-[80vh] lg:max-h-[920px]"
+    >
+      <div className="mx-auto flex h-auto max-w-6xl flex-col gap-8 md:gap-12 lg:h-1/2 lg:flex-row lg:items-center lg:gap-6">
+        {/* =====================================================
+            LEFT COLUMN - Header Content
+            - Mobile: Full width, stacked above grid
+            - Desktop (lg+): 30% width, left side
+        ===================================================== */}
+        <div className="flex w-full shrink-0 flex-col gap-6 md:gap-8 lg:w-[30%] lg:gap-12">
           {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-[#f5f0e8] rounded-full px-4 py-2 w-fit">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0a1628]" />
-              <span className="text-sm font-medium text-[#0a1628]">
-                Why we are loved
-              </span>
-            </div>
+          <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#f5f0e8] px-4 py-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#0a1628]" />
+            <span className="text-sm font-medium text-[#0a1628]">
+              Why we are loved
+            </span>
+          </div>
 
-            {/* Heading */}
-            <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8] leading-tight text-balance">
-              World's Top Education
-            </h2>
-
+          {/* Heading - Progressive text sizing */}
+          <h2 className="text-balance text-3xl font-bold leading-tight text-[#f5f0e8] sm:text-4xl md:text-5xl">
+            World&apos;s Top Education
+          </h2>
         </div>
 
-        {/* Right column - remaining space */}
-        <div className="flex-1">
-          {/* University boxes grid */}
-          <div className="flex gap-4">
+        {/* =====================================================
+            RIGHT COLUMN - University Cards Grid
+            - Mobile: Horizontal scroll, 2 visible cards
+            - Tablet: Horizontal scroll, 3 visible cards
+            - Desktop (lg+): Fills remaining space, all cards visible
+        ===================================================== */}
+        <div className="w-full flex-1 overflow-x-auto lg:overflow-visible">
+          {/* University boxes - Horizontal scroll on mobile, flex on desktop */}
+          <div className="flex gap-3 pb-4 sm:gap-4 lg:gap-4 lg:pb-0">
             {universities.map((uni) => (
               <div
                 key={uni.id}
-                className="h-[280px] w-[280px] rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white text-lg font-medium hover:bg-white/20 transition-colors cursor-pointer"
+                className="flex h-40 w-40 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/10 text-base font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-[280px] lg:w-[280px] lg:text-lg"
               >
                 {uni.name}
               </div>

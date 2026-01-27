@@ -85,20 +85,20 @@ function StepCard({
           {step}
         </div>
 
-        <div className="flex flex-col lg:flex-row h-full gap-8 pt-4">
+        <div className="flex flex-col lg:flex-row h-full gap-6 lg:gap-8 pt-4">
           {/* Left side - Text content */}
           <div className="lg:w-1/2 flex flex-col justify-center">
-            <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 lg:mb-4">
               {title}
             </h3>
-            <p className="text-white/80 text-lg leading-relaxed">
+            <p className="text-white/80 text-base lg:text-lg leading-relaxed">
               {description}
             </p>
           </div>
 
           {/* Right side - Step image */}
-          <div className="lg:w-1/2 flex items-center justify-center overflow-hidden rounded-xl">
-            <motion.div className="relative w-full h-full  overflow-hidden" style={{scale: imageScale}}>
+          <div className="flex-1 lg:w-1/2 flex items-center justify-center overflow-hidden rounded-xl min-h-[180px] sm:min-h-[220px]">
+            <motion.div className="relative w-full h-full overflow-hidden" style={{scale: imageScale}}>
               <Image
                 src={image}
                 alt={title}

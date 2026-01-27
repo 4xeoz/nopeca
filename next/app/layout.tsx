@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { i18n } from '@/i18n.config';
+import { Toaster } from '@/components/ui/sonner';
+import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,7 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
-      <body className='bg-[--color-bg-primary]'>{children}</body>
+      <body className=''>
+        <SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
+        <Toaster position="bottom-right" />
+      </body>
     </html>
   );
 }
