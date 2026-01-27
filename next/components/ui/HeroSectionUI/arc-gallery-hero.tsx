@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import AnimatedVectorline from './animated-vector-line';
 type ArcGalleryHeroProps = {
   images: string[];
@@ -111,11 +112,13 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                     className="rounded-2xl shadow-xl ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full overflow-hidden"
                     style={{ transform: `rotate(${angle / 4}deg)` }}
                   >
-                    <img
+                    <Image
                       src={src}
                       alt=""
-                      className="block w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                       draggable={false}
+                      unoptimized
                     />
                   </div>
                 </div>

@@ -4,7 +4,10 @@ const nextConfig = {
     root: process.cwd().replace('/next', ''),
   },
   images: {
-    remotePatterns: [{ hostname: process.env.IMAGE_HOSTNAME || 'localhost' }],
+    remotePatterns: [
+      { hostname: process.env.IMAGE_HOSTNAME || 'localhost' },
+      { hostname: 'images.unsplash.com' },
+    ],
   },
   pageExtensions: ['ts', 'tsx'],
   async redirects() {

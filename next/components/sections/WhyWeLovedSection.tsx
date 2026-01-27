@@ -86,7 +86,7 @@ export default function WhyWeLovedSection() {
           ===================================================== */}
           <div className="flex items-center justify-center text-center lg:col-span-2 lg:my-auto lg:justify-start lg:text-left">
             <h3 className="text-balance text-2xl font-black leading-tight text-[color:var(--color-ink-deep)] sm:text-3xl md:text-4xl lg:text-5xl">
-              We've been there before and, We know how to get you there.
+              We&apos;ve been there before and, We know how to get you there.
             </h3>
           </div>
         </div>
