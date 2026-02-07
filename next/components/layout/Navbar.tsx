@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import logoMark from "@/public/singl_logo_colord_white_background@4x.png";
 
 const navLinks = [
@@ -48,12 +49,37 @@ function IconClose() {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    // Only hide/show on desktop (md: 768px+)
+    if (window.innerWidth < 768) {
+      setHidden(false);
+      return;
+    }
+
+    const direction = latest > lastY.current ? "down" : "up";
+    // Hide when scrolling down past 80px, show when scrolling up
+    if (direction === "down" && latest > 80) {
+      setHidden(true);
+    } else if (direction === "up") {
+      setHidden(false);
+    }
+    lastY.current = latest;
+  });
 
   const handleToggle = () => setIsOpen((open) => !open);
   const handleClose = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-6 z-50">
+    <motion.header
+      className="sticky top-6 z-50"
+      animate={{ y: hidden ? "-150%" : "0%" }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between gap-6 rounded-full border border-[--color-border-soft] bg-[--color-bg-secondary] px-4 py-3 shadow-xl shadow-black/10 backdrop-blur">
           <div className="flex items-center gap-4">
@@ -150,6 +176,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-    </header>
+    </motion.header>
   );
 }
