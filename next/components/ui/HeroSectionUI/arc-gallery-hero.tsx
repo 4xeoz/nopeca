@@ -1,18 +1,18 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { motion } from 'motion/react';
 import AnimatedVectorline from './animated-vector-line';
+
 type ArcGalleryHeroProps = {
   images: string[];
   startAngle?: number;
   endAngle?: number;
-  // Responsive radius for all breakpoints
-  radiusXl?: number;   // >= 1536px
-  radiusLg?: number;   // 1280px - 1535px
-  radiusMd?: number;   // 1024px - 1279px
-  radiusSm?: number;   // 768px - 1023px
-  radiusXs?: number;   // < 768px
-  // Responsive card sizes
+  radiusXl?: number;
+  radiusLg?: number;
+  radiusMd?: number;
+  radiusSm?: number;
+  radiusXs?: number;
   cardSizeXl?: number;
   cardSizeLg?: number;
   cardSizeMd?: number;
@@ -77,10 +77,10 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   const step = (endAngle - startAngle) / (count - 1);
 
   return (
-    <section className={`relative  h-[90vh] max-h-[1120px] flex items-center  md:items-end    ${className}`}>
-      <div className="relative flex-1 flex items-center justify-center md:items-end px-6  h-full">
+    <section className={`relative h-[90vh] max-h-[1120px] flex items-center md:items-end ${className}`}>
+      <div className="relative flex-1 flex items-center justify-center md:items-end px-6 h-full">
         <div
-          className="absolute -translate-y-[60%]  md:-translate-y-[20%] xl:-translate-y-[10%]  opacity-50 flex-1 flex items-center justify-center "
+          className="absolute -translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center"
           style={{
             width: '100%',
             height: dimensions.radius,
@@ -94,18 +94,23 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
               const y = Math.sin(angleRad) * dimensions.radius;
 
               return (
-                <div
+                <motion.div
                   key={i}
-                  className="absolute opacity-0 animate-fade-in-up"
+                  className="absolute"
                   style={{
                     width: dimensions.cardSize,
                     height: dimensions.cardSize,
                     left: `calc(50% + ${x}px)`,
                     bottom: `${y}px`,
                     transform: `translate(-50%, 50%)`,
-                    animationDelay: `${i * 100}ms`,
-                    animationFillMode: 'forwards',
                     zIndex: count - i,
+                  }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.1,
+                    ease: 'easeOut',
                   }}
                 >
                   <div
@@ -116,18 +121,24 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                       src={src}
                       alt=""
                       fill
+                      sizes="(max-width: 768px) 90px, (max-width: 1024px) 100px, (max-width: 1280px) 120px, (max-width: 1536px) 140px, 160px"
                       className="object-cover"
                       draggable={false}
-                      unoptimized
+                      priority={i < 4}
                     />
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
         </div>
 
-        <div className="text-center max-w-3xl px-6 opacity-0 animate-fade-in " style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
+        <motion.div
+          className="text-center max-w-3xl px-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
+        >
           <h1 className="text-[2.6rem] sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
             Unlock Your{" "}
             <span className="relative inline-block">
@@ -143,7 +154,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">
             <button className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">Get Started</button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
