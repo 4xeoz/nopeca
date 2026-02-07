@@ -1,12 +1,14 @@
+"use client";
+
 import { MarqueeDemo } from "../ui/HeroSectionUI/InfiniteMarquee";
-import { Marquee } from "../ui/Magic/marquee";
+import ScrollReveal from "../ui/ScrollReveal";
 
 export default function AnimatedLogoBand() {
   return (
     <section className="w-full py-12 px-4 bg-brown-50">
-      <div className="max-w-7xl mx-auto ">
+      <ScrollReveal className="max-w-7xl mx-auto" duration={0.7}>
         <MarqueeDemo />
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

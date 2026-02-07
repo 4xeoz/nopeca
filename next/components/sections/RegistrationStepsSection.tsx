@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useTransform, motion, useScroll, MotionValue } from "motion/react";
 import Image, { StaticImageData } from "next/image";
+import ScrollReveal from "../ui/ScrollReveal";
 import steps1Img from "@/public/steps-1.png";
 import steps2Img from "@/public/steps-2.png";
 import steps3Img from "@/public/steps-3.png";
@@ -167,7 +168,7 @@ export default function RegistrationStepsSection() {
 
       {/* Header section */}
       <div className="relative h-[50vh] max-h-[400px] flex items-center justify-center px-4 ">
-        <div className="text-center max-w-3xl">
+        <ScrollReveal className="text-center max-w-3xl" duration={0.7}>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-8 shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-[#d4a84b]" />
@@ -183,7 +184,7 @@ export default function RegistrationStepsSection() {
             Follow these simple steps to begin your path to studying abroad.
             Scroll down to explore each step.
           </p>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* Stacking cards section */}
