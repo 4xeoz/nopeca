@@ -1,22 +1,36 @@
 "use client"
 import React from 'react'
 import ArcGalleryHero from '../ui/HeroSectionUI/arc-gallery-hero'
+import img1 from '@/public/arc_gallery/image-gen (1).png'
+import img3 from '@/public/arc_gallery/image-gen (3).png'
+import img4 from '@/public/arc_gallery/image-gen (4).png'
+import img5 from '@/public/arc_gallery/image-gen (5).png'
+import img6 from '@/public/arc_gallery/image-gen (6).png'
+import img12 from '@/public/arc_gallery/image-gen (12).png'
+import img14 from '@/public/arc_gallery/image-gen (14).png'
+import img15 from '@/public/arc_gallery/image-gen (15).png'
+import img16 from '@/public/arc_gallery/image-gen (16).png'
+import imgJpg from '@/public/arc_gallery/image-gen.jpg'
 
 const HeroSection = () => {
 
 const images = [
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-  "https://images.unsplash.com/photo-1519681393784-d120267933ba",
-  "https://images.unsplash.com/photo-1520975916090-3105956dac38",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-  "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+  
+  
 
+  img5,
 
+  img12,
+  
+    img16,
+    img3,
+    img1,
+  img14,
+    img4,
+    img6,
+  img15,
+
+  imgJpg,
 ];
 
   return (

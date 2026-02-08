@@ -1,11 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import { motion } from 'motion/react';
 import AnimatedVectorline from './animated-vector-line';
 
 type ArcGalleryHeroProps = {
-  images: string[];
+  images: Array<string | StaticImageData>;
   startAngle?: number;
   endAngle?: number;
   radiusXl?: number;
@@ -93,7 +93,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
 
   return (
     <section className={`relative h-[90dvh] max-h-[1120px] flex items-center md:items-end ${className} `}>
-      <div className="relative flex-1 flex items-center justify-center md:items-end px-6 h-full">
+      <div className="relative flex-1 flex items-center justify-center md:items-end h-full">
         <div
           className="absolute -translate-y-[10%] sm:-translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%]  flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
           style={{
@@ -130,7 +130,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                 >
                   <div
                     className="rounded-2xl shadow-xl ring-1 ring-border bg-card transition-transform hover:scale-105 w-full h-full overflow-hidden"
-                    style={{ transform: `rotate(${angle / 4}deg)` }}
+                    style={{ transform: `rotate(${angle / 10}deg)` }}
                   >
                     <Image
                       src={src}
@@ -154,9 +154,9 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           animate={canAnimate ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: canAnimate ? 0.8 : 0, ease: 'easeOut' }}
         >
-          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
+          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6 ">
             Unlock Your{" "}
-            <span className="relative inline-block now">
+            <span className="relative inline-block text-nowrap ">
               Future Education
               <span className="pointer-events-none absolute right-0 -bottom-5 w-[60%] lg:-bottom-10">
                 <AnimatedVectorline />

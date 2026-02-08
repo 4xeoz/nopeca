@@ -2,15 +2,20 @@
 
 import { motion } from "motion/react";
 import ScrollReveal from "../ui/ScrollReveal";
+import Image from "next/image";
+import uni12 from "@/public/univeristy_showcase/image-gen (12).png";
+import uni13 from "@/public/univeristy_showcase/image-gen (13).png";
+import uni14 from "@/public/univeristy_showcase/image-gen (14).png";
+import uni15 from "@/public/univeristy_showcase/image-gen (15).png";
+import uni16 from "@/public/univeristy_showcase/image-gen (16).png";
 
 export default function UniShowcaseSection() {
   const universities = [
-    { id: 1, name: "University 1" },
-    { id: 2, name: "University 2" },
-    { id: 3, name: "University 3" },
-    { id: 4, name: "University 4" },
-    { id: 5, name: "University 5" },
-    { id: 6, name: "University 6" },
+    { id: 1, name: "Oxford", image: uni12 },
+    { id: 2, name: "Brookes", image: uni13 },
+    { id: 3, name: "Cambridge", image: uni14 },
+    { id: 4, name: "Royal Holloway", image: uni15 },
+    { id: 5, name: "UCL", image: uni16 },
   ];
 
   return (
@@ -58,9 +63,19 @@ export default function UniShowcaseSection() {
                   visible: { opacity: 1, y: 0 },
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="flex h-40 w-40 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/10 text-base font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-[280px] lg:w-[280px] lg:text-lg"
+                className="relative flex h-40 w-40 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white/10 text-base font-medium text-white backdrop-blur-sm transition-transform hover:scale-[1.02] sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-[280px] lg:w-[280px] lg:text-lg"
               >
-                {uni.name}
+                <Image
+                  src={uni.image}
+                  alt={uni.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 280px"
+                  priority={uni.id <= 3}
+                />
+                <div className="absolute inset-x-3 bottom-3 rounded-md bg-[#f5f0e8] px-3 py-1 text-center text-sm font-semibold uppercase tracking-wide text-[#0a1628]">
+                  {uni.name}
+                </div>
               </motion.div>
             ))}
           </motion.div>
