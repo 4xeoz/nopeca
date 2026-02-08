@@ -71,15 +71,15 @@ function StepCard({
   return (
     <div
       ref={container}
-      className="h-screen flex items-center justify-center sticky top-0"
+      className="h-dvh flex items-center justify-center sticky top-0"
     >
       <motion.div
         style={{
           backgroundColor: color,
           scale,
-          top: `calc(-5vh + ${i * 25}px)`,
+          top: `calc(-5dvh + ${i * 25}px)`,
         }}
-        className="relative flex flex-col max-h-[700px] h-[70vh] w-[90%] max-w-4xl rounded-3xl p-8 lg:p-12 origin-top shadow-2xl"
+        className="relative flex flex-col max-h-[700px] h-[70dvh] w-[90%] max-w-4xl rounded-3xl p-8 lg:p-12 origin-top shadow-2xl"
       >
         {/* Step number badge */}
         <div className="absolute -top-4 left-8 bg-[#f5f2ed] text-[#0a1628] w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
@@ -167,7 +167,7 @@ export default function RegistrationStepsSection() {
       </div>
 
       {/* Header section */}
-      <div className="relative h-[50vh] max-h-[400px] flex items-center justify-center px-4 ">
+      <div className="relative h-[50dvh] max-h-[400px] flex items-center justify-center px-4 ">
         <ScrollReveal className="text-center max-w-3xl" duration={0.7}>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-8 shadow-sm">

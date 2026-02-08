@@ -77,7 +77,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   const step = (endAngle - startAngle) / (count - 1);
 
   return (
-    <section className={`relative h-[90vh] max-h-[1120px] flex items-center md:items-end ${className}`}>
+    <section className={`relative h-[90dvh] max-h-[1120px] flex items-center md:items-end ${className}`}>
       <div className="relative flex-1 flex items-center justify-center md:items-end px-6 h-full">
         <div
           className="absolute -translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center"

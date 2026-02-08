@@ -16,7 +16,7 @@ export default function UniShowcaseSection() {
   return (
     <section
       id="universities"
-      className="flex w-full items-center overflow-hidden bg-[--color-brand-primary] px-4 py-12 md:py-20 lg:h-[80vh] lg:max-h-[920px]"
+      className="flex w-full items-center overflow-hidden bg-[--color-brand-primary] px-4 py-12 md:py-20 lg:h-[80dvh] lg:max-h-[920px]"
     >
       <div className="mx-auto flex h-auto max-w-6xl flex-col gap-8 md:gap-12 lg:h-1/2 lg:flex-row lg:items-center lg:gap-6">
         {/* LEFT COLUMN - Header Content */}

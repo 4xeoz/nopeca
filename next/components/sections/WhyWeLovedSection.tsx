@@ -10,7 +10,7 @@ export default function WhyWeLovedSection() {
   return (
     <section
       id="why"
-      className="relative flex w-full items-center justify-center overflow-hidden px-4 py-12 md:py-20 lg:h-screen lg:max-h-[1120px]"
+      className="relative flex w-full items-center justify-center overflow-hidden px-4 py-12 md:py-20 lg:h-dvh lg:max-h-[1120px]"
     >
       <div className="relative mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <div className="grid h-full w-full grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3 lg:grid-rows-[0.9fr_1.5fr_0.9fr]">
