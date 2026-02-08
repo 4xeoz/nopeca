@@ -80,7 +80,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     <section className={`relative h-[90dvh] max-h-[1120px] flex items-center md:items-end ${className}`}>
       <div className="relative flex-1 flex items-center justify-center md:items-end px-6 h-full">
         <div
-          className="absolute -translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
+          className="absolute -translate-y-[10%] sm:-translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
           style={{
             width: '100%',
             height: dimensions.radius,
@@ -139,16 +139,16 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
         >
-          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
+          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
             Unlock Your{" "}
-            <span className="relative inline-block">
+            <span className="relative inline-block now">
               Future Education
               <span className="pointer-events-none absolute right-0 -bottom-5 w-[60%] lg:-bottom-10">
                 <AnimatedVectorline />
               </span>
             </span>
           </h1>
-          <p className="mt-8 text-lg text-muted-foreground">
+          <p className=" mt-4 leading-tight sm:leading-normal sm:mt-8 text-lg text-muted-foreground">
             Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">
