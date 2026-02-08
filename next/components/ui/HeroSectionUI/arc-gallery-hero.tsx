@@ -41,6 +41,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     radius: radiusXl,
     cardSize: cardSizeXl,
   });
+  const [canAnimate, setCanAnimate] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,6 +73,20 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [radiusXl, radiusLg, radiusMd, radiusSm, radiusXs, cardSizeXl, cardSizeLg, cardSizeMd, cardSizeSm, cardSizeXs]);
+
+  useEffect(() => {
+    const markReady = () => setCanAnimate(true);
+
+    if (typeof window !== 'undefined') {
+      if ((window as any).__appReady) {
+        markReady();
+      } else {
+        window.addEventListener('app:ready', markReady, { once: true });
+      }
+    }
+
+    return () => window.removeEventListener('app:ready', markReady);
+  }, []);
 
   const count = Math.max(images.length, 2);
   const step = (endAngle - startAngle) / (count - 1);
@@ -106,10 +121,10 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                     zIndex: count - i,
                   }}
                   initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  animate={canAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                   transition={{
                     duration: 0.5,
-                    delay: i * 0.1,
+                    delay: canAnimate ? i * 0.1 : 0,
                     ease: 'easeOut',
                   }}
                 >
@@ -136,8 +151,8 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
         <motion.div
           className="text-center max-w-3xl px-6"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
+          animate={canAnimate ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: canAnimate ? 0.8 : 0, ease: 'easeOut' }}
         >
           <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
             Unlock Your{" "}
