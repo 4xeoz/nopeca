@@ -41,6 +41,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     radius: radiusXl,
     cardSize: cardSizeXl,
   });
+  const [canAnimate, setCanAnimate] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,6 +74,20 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [radiusXl, radiusLg, radiusMd, radiusSm, radiusXs, cardSizeXl, cardSizeLg, cardSizeMd, cardSizeSm, cardSizeXs]);
 
+  useEffect(() => {
+    const markReady = () => setCanAnimate(true);
+
+    if (typeof window !== 'undefined') {
+      if ((window as any).__appReady) {
+        markReady();
+      } else {
+        window.addEventListener('app:ready', markReady, { once: true });
+      }
+    }
+
+    return () => window.removeEventListener('app:ready', markReady);
+  }, []);
+
   const count = Math.max(images.length, 2);
   const step = (endAngle - startAngle) / (count - 1);
 
@@ -80,7 +95,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     <section className={`relative h-[90dvh] max-h-[1120px] flex items-center md:items-end ${className}`}>
       <div className="relative flex-1 flex items-center justify-center md:items-end px-6 h-full">
         <div
-          className="absolute -translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
+          className="absolute -translate-y-[10%] sm:-translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%] opacity-50 flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
           style={{
             width: '100%',
             height: dimensions.radius,
@@ -106,10 +121,10 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                     zIndex: count - i,
                   }}
                   initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  animate={canAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                   transition={{
                     duration: 0.5,
-                    delay: i * 0.1,
+                    delay: canAnimate ? i * 0.1 : 0,
                     ease: 'easeOut',
                   }}
                 >
@@ -136,19 +151,19 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
         <motion.div
           className="text-center max-w-3xl px-6"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
+          animate={canAnimate ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: canAnimate ? 0.8 : 0, ease: 'easeOut' }}
         >
-          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
+          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6">
             Unlock Your{" "}
-            <span className="relative inline-block">
+            <span className="relative inline-block now">
               Future Education
               <span className="pointer-events-none absolute right-0 -bottom-5 w-[60%] lg:-bottom-10">
                 <AnimatedVectorline />
               </span>
             </span>
           </h1>
-          <p className="mt-8 text-lg text-muted-foreground">
+          <p className=" mt-4 leading-tight sm:leading-normal sm:mt-8 text-lg text-muted-foreground">
             Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">

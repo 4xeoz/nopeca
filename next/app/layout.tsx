@@ -3,6 +3,7 @@ import { i18n } from '@/i18n.config';
 import { Toaster } from '@/components/ui/sonner';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 import './globals.css';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body className=''>
+        <LoadingOverlay />
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
