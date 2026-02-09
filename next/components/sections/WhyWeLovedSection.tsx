@@ -5,8 +5,13 @@ import leftImg from "@/public/left.png";
 import middleImg from "@/public/middle.jpg";
 import rightImg from "@/public/right.png";
 import ScrollReveal from "../ui/ScrollReveal";
+import type { Dictionary } from "@/dictionaries";
 
-export default function WhyWeLovedSection() {
+interface WhyWeLovedSectionProps {
+  dict: Dictionary;
+}
+
+export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
   return (
     <section
       id="why"
@@ -23,11 +28,11 @@ export default function WhyWeLovedSection() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm mb-4 md:mb-6">
               <span className="h-2.5 w-2.5 rounded-full bg-[#d4a84b]" />
-              <span className="text-sm font-medium text-[#0a1628]">Why we are loved</span>
+              <span className="text-sm font-medium text-[#0a1628]">{dict.why.badge}</span>
             </div>
             {/* Main Heading */}
             <h2 className="text-balance text-3xl font-black leading-tight text-[--color-brand-primary] sm:text-4xl md:text-5xl lg:max-w-xl">
-              Built by students for students.
+              {dict.why.title}
             </h2>
           </ScrollReveal>
 
@@ -81,7 +86,7 @@ export default function WhyWeLovedSection() {
             className="flex items-center justify-center text-center lg:col-span-2 lg:my-auto lg:justify-start lg:text-left"
           >
             <h3 className="text-balance text-2xl font-black leading-tight text-[color:var(--color-ink-deep)] sm:text-3xl md:text-4xl lg:text-5xl">
-              We&apos;ve been there before and, We know how to get you there.
+              {dict.why.subtitle}
             </h3>
           </ScrollReveal>
         </div>

@@ -21,10 +21,10 @@ export default async function HomePage({
     <HomePageWrapper locale={locale} dict={dict}>
       <HeroSection />
       <AnimatedLogoBand />
-      <WhyWeLovedSection />
-      <DiscoverPathwaysSection />
-      <UniShowcaseSection />
-      <RegistrationStepsSection />
+      <WhyWeLovedSection dict={dict} />
+      <DiscoverPathwaysSection dict={dict} />
+      <UniShowcaseSection dict={dict} />
+      <RegistrationStepsSection dict={dict} />
     </HomePageWrapper>
   );
 }

@@ -3,8 +3,13 @@
 import Image from "next/image";
 import studentsImg from "@/public/students-university.png";
 import ScrollReveal from "../ui/ScrollReveal";
+import type { Dictionary } from "@/dictionaries";
 
-export default function DiscoverPathwaysSection() {
+interface DiscoverPathwaysSectionProps {
+  dict: Dictionary;
+}
+
+export default function DiscoverPathwaysSection({ dict }: DiscoverPathwaysSectionProps) {
   return (
     <section id="discover" className="relative flex w-full items-stretch justify-center overflow-hidden bg-[#f5f0e8] px-4 py-12 md:py-20 lg:h-dvh lg:max-h-[1120px]">
       {/* BACKGROUND DECORATIVE ELEMENTS */}
@@ -61,13 +66,13 @@ export default function DiscoverPathwaysSection() {
             <div className="mx-auto mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-[#f5f0e8] px-4 py-2 md:mb-8">
               <span className="h-2.5 w-2.5 rounded-full bg-[#0a1628]" />
               <span className="text-sm font-medium text-[#0a1628]">
-                Why we are loved
+                {dict.why.badge}
               </span>
             </div>
 
             {/* Heading */}
             <h2 className="text-balance text-center text-3xl font-black leading-tight text-[#0a1628] sm:text-4xl md:text-5xl">
-              Discover your pathways
+              {dict.discover.title}
             </h2>
 
             {/* Spacer */}
@@ -78,7 +83,7 @@ export default function DiscoverPathwaysSection() {
               type="button"
               className="mt-6 w-full rounded-full bg-[#d4a84b] px-8 py-3 text-base font-medium text-white transition-colors hover:bg-[#c49a3d] sm:py-4 sm:text-lg md:mt-8 lg:mt-0"
             >
-              Next Step
+              {dict.discover.cta}
             </button>
           </ScrollReveal>
 
