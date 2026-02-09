@@ -6,7 +6,7 @@ import ScrollReveal from "../ui/ScrollReveal";
 
 export default function DiscoverPathwaysSection() {
   return (
-    <section className="relative flex w-full items-stretch justify-center overflow-hidden bg-[#f5f0e8] px-4 py-12 md:py-20 lg:h-dvh lg:max-h-[1120px]">
+    <section id="discover" className="relative flex w-full items-stretch justify-center overflow-hidden bg-[#f5f0e8] px-4 py-12 md:py-20 lg:h-dvh lg:max-h-[1120px]">
       {/* BACKGROUND DECORATIVE ELEMENTS */}
       <div className="pointer-events-none absolute inset-0 hidden md:block">
         {/* Vertical stripes */}

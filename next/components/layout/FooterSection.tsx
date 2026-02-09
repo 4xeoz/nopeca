@@ -63,7 +63,7 @@ export default function FooterSection() {
   ];
 
   return (
-    <footer className="w-full bg-[#0a1628] text-white">
+    <footer id="contact" className="w-full bg-[#0a1628] text-white">
       {/* Main footer content */}
       <div className="max-w-6xl mx-auto px-4 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">

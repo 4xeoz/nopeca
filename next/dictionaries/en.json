@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "home": "Home",
+    "why": "Why Nopeca",
+    "discover": "Discover",
+    "universities": "Universities",
+    "howItWorks": "How it works",
+    "contact": "Contact",
+    "applyNow": "Apply now"
+  },
+  "hero": {
+    "title": "Your Gateway to World-Class Education",
+    "subtitle": "We guide you every step of the way"
+  },
+  "why": {
+    "badge": "Why we are loved",
+    "title": "Built by students for students",
+    "subtitle": "We've been there before and, We know how to get you there"
+  },
+  "discover": {
+    "title": "Discover your pathways",
+    "cta": "Next Step"
+  },
+  "universities": {
+    "badge": "Why we are loved",
+    "title": "World's Top Education"
+  },
+  "steps": {
+    "badge": "How it works",
+    "title": "Your Journey Starts Here",
+    "description": "From application to arrival, we handle everything so you can focus on your future.",
+    "step1Title": "Register & Apply",
+    "step1Desc": "Fill out our simple form and let our experts match you with the perfect university and program.",
+    "step2Title": "Visa & Flight",
+    "step2Desc": "We handle your visa application, book your flights, and prepare all travel documents.",
+    "step3Title": "Arrival & 1-to-1 Support",
+    "step3Desc": "From airport pickup to settling in, our local team provides personalized support every step of the way."
+  },
+  "footer": {
+    "getInTouch": "Get in Touch",
+    "weWouldLove": "We would love to hear from you",
+    "yourName": "Your Name",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "tellUs": "Tell us about your educational goals...",
+    "sendMessage": "Send Message",
+    "sending": "Sending...",
+    "connectWithUs": "Connect with us",
+    "ourLocation": "Our Location",
+    "visitUs": "Visit us at our office",
+    "email": "Email",
+    "mobile": "Mobile",
+    "copyright": "Nopeca. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "messageSent": "Message sent!",
+    "messageSentDesc": "Thank you for reaching out. We'll get back to you soon.",
+    "messageFailed": "Failed to send message"
+  },
+  "lang": {
+    "switchTo": "FR"
+  }
+}

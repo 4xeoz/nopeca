@@ -6,30 +6,25 @@ import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
 import RegistrationStepsSection from '@/components/sections/RegistrationStepsSection';
 import DiscoverPathwaysSection from '@/components/sections/DiscoverPathwaysSection';
+import { getDictionary } from '@/dictionaries';
+import type { Locale } from '@/i18n.config';
 
-const HomePage = () => {
-        {/* // AnimationLoaderComponent -- on its own needs full flexibity -- no layout constrains */}
-        {/* // HomePageWrapperComponent -- needs to have full flexibity 
-        //          HeaderNavBar -- inside each section parent div -- full width, child div constrained with max-width based on screen size
-        //          HeroSection -- 
-        //          AnimatedLogoBand -- 
-        //          WhyWeLovedSection
-        //          DiscoverSection
-        //          UniShowcaseSection
-        //          ResgistrationStepsSection
-        //          Footer 
-        // */}
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale as Locale);
+
   return (
-    <HomePageWrapper>
+    <HomePageWrapper locale={locale} dict={dict}>
       <HeroSection />
       <AnimatedLogoBand />
       <WhyWeLovedSection />
       <DiscoverPathwaysSection />
       <UniShowcaseSection />
       <RegistrationStepsSection />
-      
     </HomePageWrapper>
   );
-};
-
-export default HomePage;
+}
