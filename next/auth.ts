@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   pages: {
     signIn: "/admin/login",
   },
@@ -17,32 +18,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
+
+          const email = credentials.email as string;
+          const password = credentials.password as string;
+
+          // Lazy imports to avoid build-time DB connection
+          const { default: prisma } = await import("@/lib/prisma");
+          const bcrypt = await import("bcryptjs");
+
+          const admin = await prisma.admin.findUnique({
+            where: { email: email.toLowerCase() },
+          });
+
+          if (!admin) return null;
+
+          const passwordMatch = await bcrypt.compare(password, admin.password);
+          if (!passwordMatch) return null;
+
+          return {
+            id: admin.id,
+            email: admin.email,
+            name: admin.name,
+            role: admin.role,
+          };
+        } catch (error) {
+          console.error("[AUTH] authorize error:", error);
           return null;
         }
-
-        const email = credentials.email as string;
-        const password = credentials.password as string;
-
-        // Lazy imports to avoid build-time DB connection
-        const { default: prisma } = await import("@/lib/prisma");
-        const bcrypt = await import("bcryptjs");
-
-        const admin = await prisma.admin.findUnique({
-          where: { email: email.toLowerCase() },
-        });
-
-        if (!admin) return null;
-
-        const passwordMatch = await bcrypt.compare(password, admin.password);
-        if (!passwordMatch) return null;
-
-        return {
-          id: admin.id,
-          email: admin.email,
-          name: admin.name,
-          role: admin.role,
-        };
       },
     }),
   ],
