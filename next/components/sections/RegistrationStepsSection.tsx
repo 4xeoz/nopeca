@@ -7,33 +7,7 @@ import ScrollReveal from "../ui/ScrollReveal";
 import steps1Img from "@/public/steps-1.png";
 import steps2Img from "@/public/steps-2.png";
 import steps3Img from "@/public/steps-3.png";
-
-const registrationSteps = [
-  {
-    step: 1,
-    title: "Register & Apply",
-    description:
-      "Call us to Apply for the course that fits your goals. We help you select the right university and prepare everything correctly from day one.",
-    color: "#0a1628",
-    image: steps1Img,
-  },
-  {
-    step: 2,
-    title: "Visa & Flight",
-    description:
-      "From visa documents to flight booking, our team guides you through every requirement so nothing is missed and no time is wasted.",
-    color: "#d4a84b",
-    image: steps2Img,
-  },
-  {
-    step: 3,
-    title: "Arrival & 1-to-1 Support",
-    description:
-      "Land in your new country knowing you’re supported. You’ll receive full 1-to-1 guidance for settling in, studying, and building your future.",
-    color: "#0a1628",
-    image: steps3Img,
-  }
-];
+import type { Dictionary } from "@/dictionaries";
 
 interface StepCardProps {
   i: number;
@@ -114,12 +88,40 @@ function StepCard({
   );
 }
 
-export default function RegistrationStepsSection() {
+interface RegistrationStepsSectionProps {
+  dict: Dictionary;
+}
+
+export default function RegistrationStepsSection({ dict }: RegistrationStepsSectionProps) {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start start", "end end"],
   });
+
+  const registrationSteps = [
+    {
+      step: 1,
+      title: dict.steps.step1Title,
+      description: dict.steps.step1Desc,
+      color: "#0a1628",
+      image: steps1Img,
+    },
+    {
+      step: 2,
+      title: dict.steps.step2Title,
+      description: dict.steps.step2Desc,
+      color: "#d4a84b",
+      image: steps2Img,
+    },
+    {
+      step: 3,
+      title: dict.steps.step3Title,
+      description: dict.steps.step3Desc,
+      color: "#0a1628",
+      image: steps3Img,
+    }
+  ];
 
   return (
     <section
@@ -173,16 +175,15 @@ export default function RegistrationStepsSection() {
           <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 mb-8 shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-[#d4a84b]" />
             <span className="text-sm font-medium text-[#0a1628]">
-              How it works
+              {dict.steps.badge}
             </span>
           </div>
 
           <h2 className="text-4xl md:text-6xl font-bold text-[#0a1628] leading-tight text-balance mb-6">
-            Your journey starts here
+            {dict.steps.title}
           </h2>
           <p className="text-lg text-[#0a1628]/80 max-w-xl mx-auto">
-            Follow these simple steps to begin your path to studying abroad.
-            Scroll down to explore each step.
+            {dict.steps.description}
           </p>
         </ScrollReveal>
       </div>
@@ -208,8 +209,8 @@ export default function RegistrationStepsSection() {
         })}
       </div>
 
-      
-      
+
+
     </section>
   );
 }

@@ -1,59 +1,83 @@
-import { match as matchLocale } from '@formatjs/intl-localematcher';
-import Negotiator from 'negotiator';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
 import { i18n } from '@/i18n.config';
 
-function getLocale(request: NextRequest): string | undefined {
-  const negotiatorHeaders: Record<string, string> = {};
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
+// Lightweight JWT decode without importing the full auth library.
+// NextAuth v5 stores session in a JWE cookie. We only need to check
+// if the cookie exists and decode its payload to read the role.
+// The actual cryptographic verification happens in server components/actions.
+async function getTokenFromRequest(request: NextRequest) {
+  try {
+    const cookieName =
+      process.env.NODE_ENV === 'production'
+        ? '__Secure-authjs.session-token'
+        : 'authjs.session-token';
 
-  // console.log('Negotiator Headers:', negotiatorHeaders);
+    const token = request.cookies.get(cookieName)?.value;
+    if (!token) return null;
 
-  // @ts-ignore locales are readonly
-  const locales: string[] = i18n.locales;
-  const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  
-  // console.log('Detected Languages:', languages);
+    // Dynamically import only the lightweight decode function
+    const { decode } = await import('next-auth/jwt');
 
-  const locale = matchLocale(languages, locales, i18n.defaultLocale);
+    const secret = process.env.AUTH_SECRET;
+    if (!secret) return null;
 
-  // console.log('Matched Locale:', locale);
-  return locale;
+    const decoded = await decode({
+      token,
+      secret,
+      salt: cookieName,
+    });
+
+    return decoded;
+  } catch {
+    return null;
+  }
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-//   const pathnameIsMissingLocale = i18n.locales.every(
-//     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-//   );
 
-//   // Redirect if there is no locale
-//   if (pathnameIsMissingLocale) {
-//     const locale = getLocale(request);
-//     return NextResponse.redirect(
-//       new URL(
-//         `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
-//         request.url
-//       )
-//     );
-//   }
-// }
-  if(!pathname.startsWith('/en') ) {
-    return NextResponse.redirect(
-      new URL(
-        `/en`,
-        request.url
-      )
-    )
+  // --- Admin route protection ---
+  if (pathname.startsWith('/admin')) {
+    const token = await getTokenFromRequest(request);
+
+    // Allow the login page without auth
+    if (pathname === '/admin/login') {
+      // If already logged in, redirect to dashboard
+      if (token) {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+      return NextResponse.next();
+    }
+
+    // All other /admin/* pages require authentication
+    if (!token) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+
+    // /admin/admins requires SUPER_ADMIN role
+    if (pathname.startsWith('/admin/admins')) {
+      if (token.role !== 'SUPER_ADMIN') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+    }
+
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  // --- Locale routing for public pages ---
+  const pathnameHasLocale = i18n.locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
 
+  if (pathnameHasLocale) return NextResponse.next();
+
+  // Redirect to default locale if no locale found
+  return NextResponse.redirect(
+    new URL(`/${i18n.defaultLocale}${pathname}`, request.url)
+  );
 }
 
 export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|manifest\\.json|sitemap\\.xml|robots\\.txt|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)'],
 };

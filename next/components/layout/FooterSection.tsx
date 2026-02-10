@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { submitContactForm } from "@/actions/contact";
+import type { Dictionary } from "@/dictionaries";
 
 // WhatsApp icon component
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -26,7 +27,11 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-export default function FooterSection() {
+interface FooterSectionProps {
+  dict: Dictionary;
+}
+
+export default function FooterSection({ dict }: FooterSectionProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,18 +45,18 @@ export default function FooterSection() {
     setIsSubmitting(true);
 
     const result = await submitContactForm(formData);
-    
+
     if (result.success) {
-      toast.success("Message sent!", {
-        description: "Thank you for reaching out. We'll get back to you soon.",
+      toast.success(dict.footer.messageSent, {
+        description: dict.footer.messageSentDesc,
       });
       setFormData({ name: "", email: "", phone: "", message: "" });
     } else {
-      toast.error("Failed to send message", {
+      toast.error(dict.footer.messageFailed, {
         description: result.message,
       });
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -63,7 +68,7 @@ export default function FooterSection() {
   ];
 
   return (
-    <footer className="w-full bg-[#0a1628] text-white">
+    <footer id="contact" className="w-full bg-[#0a1628] text-white">
       {/* Main footer content */}
       <div className="max-w-6xl mx-auto px-4 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
@@ -79,8 +84,8 @@ export default function FooterSection() {
                 className="rounded-lg"
               />
               <div>
-                <h3 className="text-xl font-bold">Get in Touch</h3>
-                <p className="text-white/70 text-sm">We would love to hear from you</p>
+                <h3 className="text-xl font-bold">{dict.footer.getInTouch}</h3>
+                <p className="text-white/70 text-sm">{dict.footer.weWouldLove}</p>
               </div>
             </div>
 
@@ -89,7 +94,7 @@ export default function FooterSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
                   type="text"
-                  placeholder="Your Name"
+                  placeholder={dict.footer.yourName}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
@@ -97,7 +102,7 @@ export default function FooterSection() {
                 />
                 <Input
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={dict.footer.emailAddress}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -106,13 +111,13 @@ export default function FooterSection() {
               </div>
               <Input
                 type="tel"
-                placeholder="Phone Number"
+                placeholder={dict.footer.phoneNumber}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
               />
               <Textarea
-                placeholder="Tell us about your educational goals..."
+                placeholder={dict.footer.tellUs}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 required
@@ -123,13 +128,13 @@ export default function FooterSection() {
                 disabled={isSubmitting}
                 className="bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-semibold rounded-full h-12 w-full sm:w-auto sm:px-8"
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting ? dict.footer.sending : dict.footer.sendMessage}
               </Button>
             </form>
 
             {/* Social Links */}
             <div className="flex flex-col gap-4">
-              <p className="text-white/70 text-sm font-medium">Connect with us</p>
+              <p className="text-white/70 text-sm font-medium">{dict.footer.connectWithUs}</p>
               <div className="flex items-center gap-4">
                 {socialLinks.map((social) => (
                   <a
@@ -150,10 +155,10 @@ export default function FooterSection() {
           {/* Right column - Map */}
           <div className="flex flex-col gap-8 ">
             <div>
-              <h3 className="text-xl font-bold mb-2">Our Location</h3>
-              <p className="text-white/70 text-sm">Visit us at our office</p>
+              <h3 className="text-xl font-bold mb-2">{dict.footer.ourLocation}</h3>
+              <p className="text-white/70 text-sm">{dict.footer.visitUs}</p>
             </div>
-            
+
             {/* Map container */}
             <div className="relative w-full h-[30dvh] md:h-full rounded-2xl overflow-hidden border border-white/10">
               <iframe
@@ -176,7 +181,7 @@ export default function FooterSection() {
                   <Mail className="w-4 h-4 text-[#d4a84b]" />
                 </div>
                 <div>
-                  <p className="text-white/50 text-xs">Email</p>
+                  <p className="text-white/50 text-xs">{dict.footer.email}</p>
                   <p className="text-white text-sm">contact@nopeca.com</p>
                 </div>
               </div>
@@ -185,7 +190,7 @@ export default function FooterSection() {
                   <Phone className="w-4 h-4 text-[#d4a84b]" />
                 </div>
                 <div>
-                  <p className="text-white/50 text-xs">Mobile</p>
+                  <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
                   <p className="text-white text-sm">0560409193</p>
                 </div>
               </div>
@@ -194,7 +199,7 @@ export default function FooterSection() {
                   <Phone className="w-4 h-4 text-[#d4a84b]" />
                 </div>
                 <div>
-                  <p className="text-white/50 text-xs">Mobile</p>
+                  <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
                   <p className="text-white text-sm">0560409195</p>
                 </div>
               </div>
@@ -207,11 +212,11 @@ export default function FooterSection() {
       <div className="border-t border-white/10 ">
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/50 text-sm">
-            © {new Date().getFullYear()} Nopeca. All rights reserved.
+            &copy; {new Date().getFullYear()} {dict.footer.copyright}
           </p>
           <div className="flex items-center gap-6 text-sm">
-            <a href="#" className="text-white/50 hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="text-white/50 hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.privacy}</a>
+            <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.terms}</a>
           </div>
         </div>
       </div>
