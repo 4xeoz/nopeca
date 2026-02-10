@@ -1,12 +1,39 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
+import { auth } from '@/auth';
 import { i18n } from '@/i18n.config';
 
-export function middleware(request: NextRequest) {
+export default auth((request) => {
   const pathname = request.nextUrl.pathname;
 
-  // Check if the pathname already has a supported locale
+  // --- Admin route protection ---
+  if (pathname.startsWith('/admin')) {
+    // Allow the login page without auth
+    if (pathname === '/admin/login') {
+      // If already logged in, redirect to dashboard
+      if (request.auth) {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+      return NextResponse.next();
+    }
+
+    // All other /admin/* pages require authentication
+    if (!request.auth) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+
+    // /admin/admins requires SUPER_ADMIN role
+    if (pathname.startsWith('/admin/admins')) {
+      const role = (request.auth.user as { role?: string })?.role;
+      if (role !== 'SUPER_ADMIN') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+    }
+
+    return NextResponse.next();
+  }
+
+  // --- Locale routing for public pages ---
   const pathnameHasLocale = i18n.locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
@@ -17,9 +44,8 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(
     new URL(`/${i18n.defaultLocale}${pathname}`, request.url)
   );
-}
+});
 
 export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|manifest\\.json|sitemap\\.xml|robots\\.txt|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)'],
 };
