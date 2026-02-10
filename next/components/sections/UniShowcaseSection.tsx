@@ -8,8 +8,13 @@ import uni13 from "@/public/univeristy_showcase/image-gen (13).png";
 import uni14 from "@/public/univeristy_showcase/image-gen (14).png";
 import uni15 from "@/public/univeristy_showcase/image-gen (15).png";
 import uni16 from "@/public/univeristy_showcase/image-gen (16).png";
+import type { Dictionary } from "@/dictionaries";
 
-export default function UniShowcaseSection() {
+interface UniShowcaseSectionProps {
+  dict: Dictionary;
+}
+
+export default function UniShowcaseSection({ dict }: UniShowcaseSectionProps) {
   const universities = [
     { id: 1, name: "Oxford", image: uni12 },
     { id: 2, name: "Brookes", image: uni13 },
@@ -33,13 +38,13 @@ export default function UniShowcaseSection() {
           <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#f5f0e8] px-4 py-2">
             <span className="h-2.5 w-2.5 rounded-full bg-[#0a1628]" />
             <span className="text-sm font-medium text-[#0a1628]">
-              Why we are loved
+              {dict.universities.badge}
             </span>
           </div>
 
           {/* Heading */}
           <h2 className="text-balance text-3xl font-bold leading-tight text-[#f5f0e8] sm:text-4xl md:text-5xl">
-            World&apos;s Top Education
+            {dict.universities.title}
           </h2>
         </ScrollReveal>
 
