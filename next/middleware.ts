@@ -1,31 +1,63 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from '@/auth';
 import { i18n } from '@/i18n.config';
 
-export default auth((request) => {
+// Lightweight JWT decode without importing the full auth library.
+// NextAuth v5 stores session in a JWE cookie. We only need to check
+// if the cookie exists and decode its payload to read the role.
+// The actual cryptographic verification happens in server components/actions.
+async function getTokenFromRequest(request: NextRequest) {
+  try {
+    const cookieName =
+      process.env.NODE_ENV === 'production'
+        ? '__Secure-authjs.session-token'
+        : 'authjs.session-token';
+
+    const token = request.cookies.get(cookieName)?.value;
+    if (!token) return null;
+
+    // Dynamically import only the lightweight decode function
+    const { decode } = await import('next-auth/jwt');
+
+    const secret = process.env.AUTH_SECRET;
+    if (!secret) return null;
+
+    const decoded = await decode({
+      token,
+      secret,
+      salt: cookieName,
+    });
+
+    return decoded;
+  } catch {
+    return null;
+  }
+}
+
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // --- Admin route protection ---
   if (pathname.startsWith('/admin')) {
+    const token = await getTokenFromRequest(request);
+
     // Allow the login page without auth
     if (pathname === '/admin/login') {
       // If already logged in, redirect to dashboard
-      if (request.auth) {
+      if (token) {
         return NextResponse.redirect(new URL('/admin/dashboard', request.url));
       }
       return NextResponse.next();
     }
 
     // All other /admin/* pages require authentication
-    if (!request.auth) {
+    if (!token) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
     // /admin/admins requires SUPER_ADMIN role
     if (pathname.startsWith('/admin/admins')) {
-      const role = (request.auth.user as { role?: string })?.role;
-      if (role !== 'SUPER_ADMIN') {
+      if (token.role !== 'SUPER_ADMIN') {
         return NextResponse.redirect(new URL('/admin/dashboard', request.url));
       }
     }
@@ -44,7 +76,7 @@ export default auth((request) => {
   return NextResponse.redirect(
     new URL(`/${i18n.defaultLocale}${pathname}`, request.url)
   );
-});
+}
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|manifest\\.json|sitemap\\.xml|robots\\.txt|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)'],
