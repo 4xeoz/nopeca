@@ -12,28 +12,41 @@ datasource db {
 enum Role {
   SUPER_ADMIN
   ADMIN
+  OPERATOR
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  LOST
 }
 
 model Contact {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  message   String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id           String     @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  message      String
+  status       LeadStatus @default(NEW)
+  assignedToId String?    @map("assigned_to_id")
+  assignedTo   Admin?     @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
   @@map("contacts")
 }
 
 model Admin {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      Role     @default(ADMIN)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          Role      @default(ADMIN)
+  assignedLeads Contact[]
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
   @@map("admins")
 }
