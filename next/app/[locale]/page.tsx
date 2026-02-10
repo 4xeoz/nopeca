@@ -6,6 +6,7 @@ import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
 import RegistrationStepsSection from '@/components/sections/RegistrationStepsSection';
 import DiscoverPathwaysSection from '@/components/sections/DiscoverPathwaysSection';
+import JsonLd from '@/components/seo/JsonLd';
 import { getDictionary } from '@/dictionaries';
 import type { Locale } from '@/i18n.config';
 
@@ -18,13 +19,16 @@ export default async function HomePage({
   const dict = await getDictionary(locale as Locale);
 
   return (
-    <HomePageWrapper locale={locale} dict={dict}>
-      <HeroSection />
-      <AnimatedLogoBand />
-      <WhyWeLovedSection dict={dict} />
-      <DiscoverPathwaysSection dict={dict} />
-      <UniShowcaseSection dict={dict} />
-      <RegistrationStepsSection dict={dict} />
-    </HomePageWrapper>
+    <>
+      <JsonLd locale={locale} dict={dict} />
+      <HomePageWrapper locale={locale} dict={dict}>
+        <HeroSection />
+        <AnimatedLogoBand />
+        <WhyWeLovedSection dict={dict} />
+        <DiscoverPathwaysSection dict={dict} />
+        <UniShowcaseSection dict={dict} />
+        <RegistrationStepsSection dict={dict} />
+      </HomePageWrapper>
+    </>
   );
 }
