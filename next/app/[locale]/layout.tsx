@@ -24,13 +24,14 @@ export async function generateMetadata({
       title: dict.seo.ogTitle,
       description: dict.seo.ogDescription,
       url: `${SITE_URL}/${locale}`,
-      locale: locale === 'fr' ? 'fr_DZ' : 'en_DZ',
+      locale: locale === 'ar' ? 'ar_DZ' : locale === 'fr' ? 'fr_DZ' : 'en_DZ',
     },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
       languages: {
         'en': `${SITE_URL}/en`,
         'fr': `${SITE_URL}/fr`,
+        'ar': `${SITE_URL}/ar`,
       },
     },
   };
