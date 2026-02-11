@@ -57,6 +57,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
     { href: "#discover", label: dict.nav.discover },
     { href: "#universities", label: dict.nav.universities },
     { href: "#steps", label: dict.nav.howItWorks },
+    { href: `/${locale}/blog`, label: dict.nav.blog, isPage: true },
     { href: "#contact", label: dict.nav.contact },
   ];
 
@@ -120,16 +121,26 @@ export default function Navbar({ locale, dict }: NavbarProps) {
 
           {/* Desktop nav links */}
           <div className="hidden items-center gap-6 text-sm font-semibold text-[--color-text-primary] lg:flex xl:gap-8 xl:text-base">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleSmoothScroll(e, link.href)}
-                className="transition-colors hover:text-[--color-brand-primary]"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isPage ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="transition-colors hover:text-[--color-brand-primary]"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className="transition-colors hover:text-[--color-brand-primary]"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
           </div>
 
           {/* Right side: CTA + Lang + Hamburger */}
@@ -191,16 +202,27 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               className="mt-2 rounded-3xl border border-[--color-border-soft] bg-[--color-bg-primary] p-4 shadow-2xl shadow-black/10 md:mt-3 md:rounded-[3rem] md:p-5 lg:hidden"
             >
               <div className="flex flex-col gap-1 text-sm font-semibold text-[--color-text-primary] md:gap-3 md:text-base">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => handleSmoothScroll(e, link.href)}
-                    className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {navLinks.map((link) =>
+                  link.isPage ? (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={handleClose}
+                      className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={(e) => handleSmoothScroll(e, link.href)}
+                      className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
+                    >
+                      {link.label}
+                    </a>
+                  )
+                )}
                 <div className="mt-2 flex flex-col gap-2">
                   <a
                     href="#steps"

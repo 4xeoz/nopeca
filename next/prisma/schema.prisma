@@ -39,14 +39,55 @@ model Contact {
 }
 
 model Admin {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String     @id @default(cuid())
+  email         String     @unique
   password      String
   name          String
-  role          Role      @default(ADMIN)
+  role          Role       @default(ADMIN)
   assignedLeads Contact[]
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  blogPosts     BlogPost[]
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
 
   @@map("admins")
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  published Boolean  @default(false)
+
+  // English (primary)
+  titleEn       String  @map("title_en")
+  excerptEn     String  @map("excerpt_en")
+  contentEn     String  @map("content_en")
+  metaTitleEn   String? @map("meta_title_en")
+  metaDescEn    String? @map("meta_desc_en")
+  keywordsEn    String? @map("keywords_en")
+
+  // French
+  titleFr       String? @map("title_fr")
+  excerptFr     String? @map("excerpt_fr")
+  contentFr     String? @map("content_fr")
+  metaTitleFr   String? @map("meta_title_fr")
+  metaDescFr    String? @map("meta_desc_fr")
+  keywordsFr    String? @map("keywords_fr")
+
+  // Arabic
+  titleAr       String? @map("title_ar")
+  excerptAr     String? @map("excerpt_ar")
+  contentAr     String? @map("content_ar")
+  metaTitleAr   String? @map("meta_title_ar")
+  metaDescAr    String? @map("meta_desc_ar")
+  keywordsAr    String? @map("keywords_ar")
+
+  coverImage String? @map("cover_image")
+
+  authorId  String   @map("author_id")
+  author    Admin    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("blog_posts")
 }
