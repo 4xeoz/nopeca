@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       'From Boumerdes to the UK\'s top universities. Nopeca guides Algerian students through every step — applications, visas, flights, and 1-to-1 arrival support.',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://nopeca.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Nopeca — Study Abroad from Algeria',
@@ -101,7 +101,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/og-image.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
