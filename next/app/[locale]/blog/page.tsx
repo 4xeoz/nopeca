@@ -17,7 +17,6 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const dict = await getDictionary(locale as Locale);
 
   const titles: Record<string, string> = {
     en: "Blog — Study Abroad Tips & Guides | Nopeca",
@@ -59,28 +58,35 @@ export default async function BlogPage({
   const dict = await getDictionary(locale as Locale);
   const posts = await getPublishedPosts();
 
-  const blogLabels: Record<string, { title: string; subtitle: string; readMore: string; noPosts: string }> = {
+  const blogLabels: Record<string, { title: string; subtitle: string; readMore: string; noPosts: string; by: string }> = {
     en: {
       title: "Our Blog",
       subtitle: "Tips, guides, and stories about studying abroad",
       readMore: "Read more",
       noPosts: "No posts yet. Check back soon!",
+      by: "By",
     },
     fr: {
       title: "Notre Blog",
       subtitle: "Conseils, guides et récits sur les études à l'étranger",
       readMore: "Lire la suite",
       noPosts: "Pas encore d'articles. Revenez bientôt !",
+      by: "Par",
     },
     ar: {
       title: "مدونتنا",
       subtitle: "نصائح وأدلة وقصص حول الدراسة في الخارج",
       readMore: "اقرأ المزيد",
       noPosts: "لا توجد مقالات حتى الآن. عد قريبًا!",
+      by: "بواسطة",
     },
   };
 
   const labels = blogLabels[locale] || blogLabels.en;
+
+  // Split posts: first is featured, rest are grid
+  const featuredPost = posts[0] || null;
+  const gridPosts = posts.slice(1);
 
   return (
     <HomePageWrapper locale={locale} dict={dict}>
@@ -104,67 +110,144 @@ export default async function BlogPage({
       />
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold text-[--color-brand-primary] sm:text-4xl">
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <span className="inline-block rounded-full bg-[--color-brand-primary]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[--color-brand-primary]">
+            Blog
+          </span>
+          <h1 className="mt-4 text-3xl font-bold text-[--color-brand-primary] sm:text-4xl lg:text-5xl">
             {labels.title}
           </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-[--color-text-primary]/70">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-[--color-text-primary]/60 sm:text-lg">
             {labels.subtitle}
           </p>
         </div>
 
         {posts.length === 0 ? (
-          <p className="text-center text-[--color-text-primary]/60">
-            {labels.noPosts}
-          </p>
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[--color-border-soft] py-20">
+            <svg className="mb-4 h-12 w-12 text-[--color-text-primary]/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+            </svg>
+            <p className="text-base font-medium text-[--color-text-primary]/40">
+              {labels.noPosts}
+            </p>
+          </div>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => {
-              const localized = getLocalizedPost(post, locale);
+          <>
+            {/* Featured post (first post) */}
+            {featuredPost && (() => {
+              const localized = getLocalizedPost(featuredPost, locale);
               return (
                 <Link
-                  key={post.id}
-                  href={`/${locale}/blog/${post.slug}`}
-                  className="group overflow-hidden rounded-2xl border border-[--color-border-soft] bg-white transition hover:-translate-y-1 hover:shadow-xl"
+                  href={`/${locale}/blog/${featuredPost.slug}`}
+                  className="group mb-12 block overflow-hidden rounded-3xl border border-[--color-border-soft] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  {post.coverImage ? (
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <Image
-                        src={post.coverImage}
-                        alt={localized.title}
-                        fill
-                        className="object-cover transition group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex aspect-[16/9] items-center justify-center bg-[--color-brand-primary]/5">
-                      <svg className="h-12 w-12 text-[--color-brand-primary]/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      </svg>
-                    </div>
-                  )}
-                  <div className="p-5">
-                    <time className="text-xs text-[--color-text-primary]/50">
-                      {new Date(post.createdAt).toLocaleDateString(
-                        locale === "ar" ? "ar-DZ" : locale === "fr" ? "fr-DZ" : "en-GB",
-                        { year: "numeric", month: "long", day: "numeric" }
+                  <div className="grid md:grid-cols-2">
+                    <div className="relative aspect-[16/10] md:aspect-auto">
+                      {featuredPost.coverImage ? (
+                        <Image
+                          src={featuredPost.coverImage}
+                          alt={localized.title}
+                          fill
+                          className="object-cover transition group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority
+                        />
+                      ) : (
+                        <div className="flex h-full min-h-[240px] items-center justify-center bg-[--color-brand-primary]/5">
+                          <svg className="h-16 w-16 text-[--color-brand-primary]/15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={0.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                          </svg>
+                        </div>
                       )}
-                    </time>
-                    <h2 className="mt-2 text-lg font-bold text-[--color-brand-primary] line-clamp-2">
-                      {localized.title}
-                    </h2>
-                    <p className="mt-2 text-sm text-[--color-text-primary]/70 line-clamp-3">
-                      {localized.excerpt}
-                    </p>
-                    <span className="mt-4 inline-block text-sm font-semibold text-[--color-brand-secondary]">
-                      {labels.readMore} &rarr;
-                    </span>
+                    </div>
+                    <div className="flex flex-col justify-center p-6 sm:p-8 md:p-10">
+                      <div className="mb-3 flex items-center gap-3 text-sm text-[--color-text-primary]/50">
+                        <time dateTime={featuredPost.createdAt.toISOString()}>
+                          {new Date(featuredPost.createdAt).toLocaleDateString(
+                            locale === "ar" ? "ar-DZ" : locale === "fr" ? "fr-DZ" : "en-GB",
+                            { year: "numeric", month: "long", day: "numeric" }
+                          )}
+                        </time>
+                        <span>&middot;</span>
+                        <span>{labels.by} {featuredPost.author.name}</span>
+                      </div>
+                      <h2 className="text-2xl font-bold leading-tight text-[--color-brand-primary] sm:text-3xl">
+                        {localized.title}
+                      </h2>
+                      <p className="mt-3 text-base leading-relaxed text-[--color-text-primary]/60 line-clamp-3">
+                        {localized.excerpt}
+                      </p>
+                      <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[--color-brand-secondary] transition group-hover:gap-3">
+                        {labels.readMore}
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                 </Link>
               );
-            })}
-          </div>
+            })()}
+
+            {/* Grid posts */}
+            {gridPosts.length > 0 && (
+              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {gridPosts.map((post) => {
+                  const localized = getLocalizedPost(post, locale);
+                  return (
+                    <Link
+                      key={post.id}
+                      href={`/${locale}/blog/${post.slug}`}
+                      className="group flex flex-col overflow-hidden rounded-2xl border border-[--color-border-soft] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                    >
+                      {post.coverImage ? (
+                        <div className="relative aspect-[16/9] overflow-hidden">
+                          <Image
+                            src={post.coverImage}
+                            alt={localized.title}
+                            fill
+                            className="object-cover transition group-hover:scale-105"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex aspect-[16/9] items-center justify-center bg-[--color-brand-primary]/5">
+                          <svg className="h-12 w-12 text-[--color-brand-primary]/15" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={0.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                          </svg>
+                        </div>
+                      )}
+                      <div className="flex flex-1 flex-col p-5">
+                        <div className="mb-2 flex items-center gap-2 text-xs text-[--color-text-primary]/45">
+                          <time dateTime={post.createdAt.toISOString()}>
+                            {new Date(post.createdAt).toLocaleDateString(
+                              locale === "ar" ? "ar-DZ" : locale === "fr" ? "fr-DZ" : "en-GB",
+                              { year: "numeric", month: "long", day: "numeric" }
+                            )}
+                          </time>
+                          <span>&middot;</span>
+                          <span>{post.author.name}</span>
+                        </div>
+                        <h2 className="text-lg font-bold leading-snug text-[--color-brand-primary] line-clamp-2">
+                          {localized.title}
+                        </h2>
+                        <p className="mt-2 flex-1 text-sm leading-relaxed text-[--color-text-primary]/60 line-clamp-3">
+                          {localized.excerpt}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[--color-brand-secondary] transition group-hover:gap-3">
+                          {labels.readMore}
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                          </svg>
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
       </section>
     </HomePageWrapper>

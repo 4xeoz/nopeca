@@ -1,9 +1,27 @@
 "use client";
 
 import { useState, useMemo, useTransition, useCallback } from "react";
-import { assignLeads, unassignLeads, updateLeadStatus } from "@/actions/admin";
+import {
+  assignLeads,
+  unassignLeads,
+  updateLeadStatus,
+  deleteLeads,
+  addContactNote,
+  deleteContactNote,
+  clockIn,
+  clockOut,
+} from "@/actions/admin";
+import { logoutAction } from "@/actions/auth";
 
 // --------------- Types ---------------
+
+interface Note {
+  id: string;
+  content: string;
+  authorId: string;
+  author: { id: string; name: string };
+  createdAt: string;
+}
 
 interface Lead {
   id: string;
@@ -14,6 +32,7 @@ interface Lead {
   status: string;
   assignedToId: string | null;
   assignedTo: { id: string; name: string } | null;
+  notes: Note[];
   createdAt: Date;
 }
 
@@ -51,10 +70,16 @@ export default function DashboardClient({
   leads: initialLeads,
   operators,
   role,
+  userId,
+  clockedIn: initialClockedIn,
+  activeClockRecordId: _activeClockRecordId,
 }: {
   leads: Lead[];
   operators: Operator[];
   role: string;
+  userId: string;
+  clockedIn: boolean;
+  activeClockRecordId: string | null;
 }) {
   const [leads, setLeads] = useState(initialLeads);
   const [activeTab, setActiveTab] = useState("all");
@@ -63,7 +88,12 @@ export default function DashboardClient({
   const [assignOpen, setAssignOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
+  // Clock in/out state for operators
+  const [isClockedIn, setIsClockedIn] = useState(initialClockedIn);
+  const [clockLoading, setClockLoading] = useState(false);
+
   const isAdminView = role === "SUPER_ADMIN" || role === "ADMIN";
+  const isOperator = role === "OPERATOR";
 
   // Filter leads by active tab
   const filteredLeads = useMemo(() => {
@@ -135,6 +165,17 @@ export default function DashboardClient({
     });
   }
 
+  // Bulk delete
+  function handleBulkDelete() {
+    if (!confirm(`Delete ${selected.size} selected lead(s)? This cannot be undone.`)) return;
+    const ids = Array.from(selected);
+    startTransition(async () => {
+      await deleteLeads(ids);
+      setLeads((prev) => prev.filter((l) => !ids.includes(l.id)));
+      setSelected(new Set());
+    });
+  }
+
   // Single lead assign (from detail sidebar)
   function handleAssignLead(leadId: string, operatorId: string | null) {
     startTransition(async () => {
@@ -182,6 +223,131 @@ export default function DashboardClient({
     });
   }
 
+  // Delete single lead
+  function handleDeleteLead(leadId: string) {
+    if (!confirm("Delete this lead? This cannot be undone.")) return;
+    startTransition(async () => {
+      await deleteLeads([leadId]);
+      setLeads((prev) => prev.filter((l) => l.id !== leadId));
+      setOpenLead(null);
+    });
+  }
+
+  // Notes
+  function handleAddNote(leadId: string, note: Note) {
+    setLeads((prev) =>
+      prev.map((l) => (l.id === leadId ? { ...l, notes: [note, ...l.notes] } : l))
+    );
+    if (openLead?.id === leadId) {
+      setOpenLead((prev) => prev ? { ...prev, notes: [note, ...prev.notes] } : null);
+    }
+  }
+
+  function handleDeleteNote(leadId: string, noteId: string) {
+    setLeads((prev) =>
+      prev.map((l) => (l.id === leadId ? { ...l, notes: l.notes.filter((n) => n.id !== noteId) } : l))
+    );
+    if (openLead?.id === leadId) {
+      setOpenLead((prev) => prev ? { ...prev, notes: prev.notes.filter((n) => n.id !== noteId) } : null);
+    }
+  }
+
+  // Clock in handler
+  async function handleClockIn() {
+    setClockLoading(true);
+    try {
+      let lat: number | undefined;
+      let lng: number | undefined;
+      if (navigator.geolocation) {
+        try {
+          const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 })
+          );
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+        } catch {
+          // Location denied or unavailable — proceed without
+        }
+      }
+      const result = await clockIn(lat, lng);
+      if ("error" in result && result.error) {
+        alert(result.error);
+      } else {
+        setIsClockedIn(true);
+      }
+    } finally {
+      setClockLoading(false);
+    }
+  }
+
+  // Clock out handler — also signs out
+  async function handleClockOut() {
+    if (!confirm("Clock out? This will also sign you out.")) return;
+    setClockLoading(true);
+    try {
+      let lat: number | undefined;
+      let lng: number | undefined;
+      if (navigator.geolocation) {
+        try {
+          const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 })
+          );
+          lat = pos.coords.latitude;
+          lng = pos.coords.longitude;
+        } catch {
+          // proceed without location
+        }
+      }
+      await clockOut(lat, lng);
+      // Sign out
+      await logoutAction();
+    } catch {
+      setClockLoading(false);
+    }
+  }
+
+  // If operator is not clocked in, show clock-in gate
+  if (isOperator && !isClockedIn) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 py-20">
+        <div className="mx-auto max-w-sm text-center">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#012340]/10">
+            <svg className="h-10 w-10 text-[#012340]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-[#0a1628]">Clock In to Start</h2>
+          <p className="mt-2 text-sm text-[#0a1628]/50">
+            You need to clock in before you can access the dashboard. Your work hours and location will be recorded.
+          </p>
+          <button
+            type="button"
+            onClick={handleClockIn}
+            disabled={clockLoading}
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-emerald-600 px-8 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
+          >
+            {clockLoading ? (
+              <>
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                </svg>
+                Clocking in...
+              </>
+            ) : (
+              <>
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Clock In
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex h-full flex-col">
       {/* Header */}
@@ -194,6 +360,20 @@ export default function DashboardClient({
             </p>
           </div>
           <div className="flex items-center gap-3">
+            {/* Clock out button for operators */}
+            {isOperator && isClockedIn && (
+              <button
+                type="button"
+                onClick={handleClockOut}
+                disabled={clockLoading}
+                className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:opacity-50"
+              >
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {clockLoading ? "..." : "Clock Out"}
+              </button>
+            )}
             <div className="flex items-center gap-1.5 rounded-lg bg-[#0a1628]/5 px-3 py-1.5 text-xs font-medium text-[#0a1628]/70">
               <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
               {stats.new} new
@@ -422,6 +602,14 @@ export default function DashboardClient({
             </button>
             <button
               type="button"
+              onClick={handleBulkDelete}
+              disabled={isPending}
+              className="rounded-full border border-red-200 px-4 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+            >
+              Delete
+            </button>
+            <button
+              type="button"
               onClick={clearSelection}
               className="rounded-full px-3 py-1.5 text-xs font-medium text-[#0a1628]/40 transition hover:text-[#0a1628]"
             >
@@ -438,9 +626,14 @@ export default function DashboardClient({
           operators={operators}
           isAdmin={isAdminView}
           isPending={isPending}
+          userId={userId}
+          role={role}
           onClose={() => setOpenLead(null)}
           onStatusUpdate={handleStatusUpdate}
           onAssign={handleAssignLead}
+          onDelete={handleDeleteLead}
+          onAddNote={handleAddNote}
+          onDeleteNote={handleDeleteNote}
         />
       )}
     </div>
@@ -487,18 +680,51 @@ function LeadDetailSidebar({
   operators,
   isAdmin,
   isPending,
+  userId,
+  role,
   onClose,
   onStatusUpdate,
   onAssign,
+  onDelete,
+  onAddNote,
+  onDeleteNote,
 }: {
   lead: Lead;
   operators: Operator[];
   isAdmin: boolean;
   isPending: boolean;
+  userId: string;
+  role: string;
   onClose: () => void;
   onStatusUpdate: (leadId: string, status: string) => void;
   onAssign: (leadId: string, operatorId: string | null) => void;
+  onDelete: (leadId: string) => void;
+  onAddNote: (leadId: string, note: Note) => void;
+  onDeleteNote: (leadId: string, noteId: string) => void;
 }) {
+  const [noteText, setNoteText] = useState("");
+  const [noteLoading, setNoteLoading] = useState(false);
+
+  async function handleSubmitNote() {
+    if (!noteText.trim()) return;
+    setNoteLoading(true);
+    const result = await addContactNote(lead.id, noteText.trim());
+    if ("note" in result && result.note) {
+      onAddNote(lead.id, {
+        ...result.note,
+        createdAt: new Date(result.note.createdAt).toISOString(),
+      });
+      setNoteText("");
+    }
+    setNoteLoading(false);
+  }
+
+  async function handleRemoveNote(noteId: string) {
+    if (!confirm("Delete this note?")) return;
+    await deleteContactNote(noteId);
+    onDeleteNote(lead.id, noteId);
+  }
+
   return (
     <>
       {/* Overlay */}
@@ -512,15 +738,29 @@ function LeadDetailSidebar({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#e5e0d5] px-6 py-4">
           <h2 className="text-base font-bold text-[#0a1628]">Lead Details</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#0a1628]/40 transition hover:bg-[#0a1628]/5 hover:text-[#0a1628]"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={() => onDelete(lead.id)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-red-400 transition hover:bg-red-50 hover:text-red-600"
+                title="Delete lead"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#0a1628]/40 transition hover:bg-[#0a1628]/5 hover:text-[#0a1628]"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Content */}
@@ -616,6 +856,75 @@ function LeadDetailSidebar({
               </select>
             </div>
           )}
+
+          {/* Notes section */}
+          <div className="mt-6">
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#0a1628]/40">
+              Notes
+            </label>
+
+            {/* Add note form */}
+            <div className="mb-4 flex gap-2">
+              <input
+                type="text"
+                value={noteText}
+                onChange={(e) => setNoteText(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSubmitNote(); } }}
+                placeholder="Add a note..."
+                className="h-9 flex-1 rounded-lg border border-[#e5e0d5] bg-white px-3 text-sm text-[#0a1628] outline-none transition focus:border-[#012340] focus:ring-2 focus:ring-[#012340]/10"
+              />
+              <button
+                type="button"
+                onClick={handleSubmitNote}
+                disabled={noteLoading || !noteText.trim()}
+                className="rounded-lg bg-[#012340] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#012340]/90 disabled:opacity-50"
+              >
+                {noteLoading ? "..." : "Add"}
+              </button>
+            </div>
+
+            {/* Notes list */}
+            {lead.notes && lead.notes.length > 0 ? (
+              <div className="flex flex-col gap-2">
+                {lead.notes.map((note) => (
+                  <div
+                    key={note.id}
+                    className="group rounded-lg border border-[#e5e0d5]/60 bg-[#faf8f4] px-3 py-2.5"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-sm text-[#0a1628]/80">{note.content}</p>
+                      {(note.authorId === userId || role === "SUPER_ADMIN" || role === "ADMIN") && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveNote(note.id)}
+                          className="shrink-0 opacity-0 transition group-hover:opacity-100"
+                          title="Delete note"
+                        >
+                          <svg className="h-3.5 w-3.5 text-red-400 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    <div className="mt-1 flex items-center gap-2 text-[10px] text-[#0a1628]/40">
+                      <span>{note.author.name}</span>
+                      <span>&middot;</span>
+                      <span>
+                        {new Date(note.createdAt).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-[#0a1628]/30">No notes yet</p>
+            )}
+          </div>
         </div>
       </div>
     </>
