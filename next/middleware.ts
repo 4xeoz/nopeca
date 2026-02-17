@@ -55,9 +55,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
-    // /admin/admins requires SUPER_ADMIN role
+    // /admin/admins requires ADMIN or SUPER_ADMIN role
     if (pathname.startsWith('/admin/admins')) {
-      if (token.role !== 'SUPER_ADMIN') {
+      if (token.role !== 'SUPER_ADMIN' && token.role !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+    }
+
+    // /admin/clock-records requires ADMIN or SUPER_ADMIN role
+    if (pathname.startsWith('/admin/clock-records')) {
+      if (token.role !== 'SUPER_ADMIN' && token.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/admin/dashboard', request.url));
       }
     }

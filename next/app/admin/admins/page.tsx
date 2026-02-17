@@ -11,7 +11,7 @@ export default async function AdminsPage() {
   if (!session?.user) redirect("/admin/login");
 
   const role = (session.user as { role: string }).role;
-  if (role !== "SUPER_ADMIN") redirect("/admin/dashboard");
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN") redirect("/admin/dashboard");
 
   const admins = await getAdmins();
 
@@ -28,8 +28,9 @@ export default async function AdminsPage() {
         <UserList
           admins={JSON.parse(JSON.stringify(admins))}
           currentUserId={session.user.id!}
+          currentUserRole={role}
         />
-        <AddUserForm />
+        {role === "SUPER_ADMIN" && <AddUserForm />}
       </div>
     </div>
   );

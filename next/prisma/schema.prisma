@@ -24,30 +24,33 @@ enum LeadStatus {
 }
 
 model Contact {
-  id           String     @id @default(cuid())
+  id           String        @id @default(cuid())
   name         String
   email        String
   phone        String?
   message      String
-  status       LeadStatus @default(NEW)
-  assignedToId String?    @map("assigned_to_id")
-  assignedTo   Admin?     @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
-  createdAt    DateTime   @default(now()) @map("created_at")
-  updatedAt    DateTime   @updatedAt @map("updated_at")
+  status       LeadStatus    @default(NEW)
+  assignedToId String?       @map("assigned_to_id")
+  assignedTo   Admin?        @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+  notes        ContactNote[]
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
 
   @@map("contacts")
 }
 
 model Admin {
-  id            String     @id @default(cuid())
-  email         String     @unique
+  id            String         @id @default(cuid())
+  email         String         @unique
   password      String
   name          String
-  role          Role       @default(ADMIN)
+  role          Role           @default(ADMIN)
   assignedLeads Contact[]
   blogPosts     BlogPost[]
-  createdAt     DateTime   @default(now()) @map("created_at")
-  updatedAt     DateTime   @updatedAt @map("updated_at")
+  notes         ContactNote[]
+  clockRecords  ClockRecord[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
 
   @@map("admins")
 }
@@ -90,4 +93,32 @@ model BlogPost {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("blog_posts")
+}
+
+model ContactNote {
+  id        String   @id @default(cuid())
+  content   String
+  contactId String   @map("contact_id")
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  authorId  String   @map("author_id")
+  author    Admin    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_notes")
+}
+
+model ClockRecord {
+  id         String    @id @default(cuid())
+  adminId    String    @map("admin_id")
+  admin      Admin     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  clockIn    DateTime  @map("clock_in")
+  clockOut   DateTime? @map("clock_out")
+  durationMs Int?      @map("duration_ms")
+  latitudeIn  Float?   @map("latitude_in")
+  longitudeIn Float?   @map("longitude_in")
+  latitudeOut  Float?  @map("latitude_out")
+  longitudeOut Float?  @map("longitude_out")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  @@map("clock_records")
 }

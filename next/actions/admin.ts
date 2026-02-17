@@ -37,14 +37,26 @@ export async function getLeads() {
   if (role === "OPERATOR") {
     return prisma.contact.findMany({
       where: { assignedToId: session.user.id },
-      include: { assignedTo: { select: { id: true, name: true } } },
+      include: {
+        assignedTo: { select: { id: true, name: true } },
+        notes: {
+          include: { author: { select: { id: true, name: true } } },
+          orderBy: { createdAt: "desc" },
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
   }
 
   // Admin / Super Admin see all leads
   return prisma.contact.findMany({
-    include: { assignedTo: { select: { id: true, name: true } } },
+    include: {
+      assignedTo: { select: { id: true, name: true } },
+      notes: {
+        include: { author: { select: { id: true, name: true } } },
+        orderBy: { createdAt: "desc" },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 }
@@ -85,6 +97,57 @@ export async function updateLeadStatus(leadId: string, status: string) {
   return { success: true };
 }
 
+export async function deleteLeads(leadIds: string[]) {
+  await requireAdminOrAbove();
+
+  await prisma.contact.deleteMany({
+    where: { id: { in: leadIds } },
+  });
+
+  revalidatePath("/admin/dashboard");
+  return { success: true };
+}
+
+// --------------- Contact Notes ---------------
+
+export async function addContactNote(contactId: string, content: string) {
+  const session = await requireAuth();
+
+  if (!content.trim()) {
+    return { error: "Note content is required." };
+  }
+
+  const note = await prisma.contactNote.create({
+    data: {
+      content: content.trim(),
+      contactId,
+      authorId: session.user.id!,
+    },
+    include: { author: { select: { id: true, name: true } } },
+  });
+
+  revalidatePath("/admin/dashboard");
+  return { success: true, note };
+}
+
+export async function deleteContactNote(noteId: string) {
+  const session = await requireAuth();
+  const role = (session.user as { role: string }).role;
+
+  const note = await prisma.contactNote.findUnique({ where: { id: noteId } });
+  if (!note) return { error: "Note not found." };
+
+  // Only the author or admin/super admin can delete notes
+  if (note.authorId !== session.user.id && role === "OPERATOR") {
+    return { error: "You can only delete your own notes." };
+  }
+
+  await prisma.contactNote.delete({ where: { id: noteId } });
+
+  revalidatePath("/admin/dashboard");
+  return { success: true };
+}
+
 // --------------- Operators ---------------
 
 export async function getOperators() {
@@ -101,10 +164,10 @@ export async function getOperators() {
   });
 }
 
-// --------------- User management (SUPER_ADMIN only) ---------------
+// --------------- User management ---------------
 
 export async function getAdmins() {
-  await requireSuperAdmin();
+  await requireAdminOrAbove();
   return prisma.admin.findMany({
     select: {
       id: true,
@@ -165,10 +228,6 @@ export async function deleteAdmin(adminId: string) {
     return { error: "User not found." };
   }
 
-  if (admin.role === "SUPER_ADMIN") {
-    return { error: "Cannot delete a super admin." };
-  }
-
   // Unassign any leads before deleting
   await prisma.contact.updateMany({
     where: { assignedToId: adminId },
@@ -180,4 +239,76 @@ export async function deleteAdmin(adminId: string) {
   revalidatePath("/admin/admins");
   revalidatePath("/admin/dashboard");
   return { success: true };
+}
+
+// --------------- Clock Records ---------------
+
+export async function clockIn(latitude?: number, longitude?: number) {
+  const session = await requireAuth();
+
+  // Check if already clocked in
+  const existing = await prisma.clockRecord.findFirst({
+    where: { adminId: session.user.id!, clockOut: null },
+  });
+
+  if (existing) {
+    return { error: "Already clocked in." };
+  }
+
+  const record = await prisma.clockRecord.create({
+    data: {
+      adminId: session.user.id!,
+      clockIn: new Date(),
+      latitudeIn: latitude ?? null,
+      longitudeIn: longitude ?? null,
+    },
+  });
+
+  revalidatePath("/admin/dashboard");
+  return { success: true, recordId: record.id };
+}
+
+export async function clockOut(latitude?: number, longitude?: number) {
+  const session = await requireAuth();
+
+  const record = await prisma.clockRecord.findFirst({
+    where: { adminId: session.user.id!, clockOut: null },
+  });
+
+  if (!record) {
+    return { error: "Not clocked in." };
+  }
+
+  const now = new Date();
+  const durationMs = now.getTime() - record.clockIn.getTime();
+
+  await prisma.clockRecord.update({
+    where: { id: record.id },
+    data: {
+      clockOut: now,
+      durationMs,
+      latitudeOut: latitude ?? null,
+      longitudeOut: longitude ?? null,
+    },
+  });
+
+  revalidatePath("/admin/dashboard");
+  return { success: true };
+}
+
+export async function getActiveClockRecord() {
+  const session = await requireAuth();
+
+  return prisma.clockRecord.findFirst({
+    where: { adminId: session.user.id!, clockOut: null },
+  });
+}
+
+export async function getAllClockRecords() {
+  await requireAdminOrAbove();
+
+  return prisma.clockRecord.findMany({
+    include: { admin: { select: { id: true, name: true, email: true, role: true } } },
+    orderBy: { clockIn: "desc" },
+  });
 }

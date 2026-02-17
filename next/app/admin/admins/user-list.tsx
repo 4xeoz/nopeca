@@ -26,9 +26,11 @@ interface AdminUser {
 export default function UserList({
   admins,
   currentUserId,
+  currentUserRole,
 }: {
   admins: AdminUser[];
   currentUserId: string;
+  currentUserRole: string;
 }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +43,14 @@ export default function UserList({
     const result = await deleteAdmin(adminId);
     if (result?.error) setError(result.error);
     setDeletingId(null);
+  }
+
+  // Super admin can delete anyone except themselves
+  // Admin can only view the team, not delete
+  function canDelete(admin: AdminUser) {
+    if (admin.id === currentUserId) return false;
+    if (currentUserRole === "SUPER_ADMIN") return true;
+    return false;
   }
 
   return (
@@ -82,7 +92,7 @@ export default function UserList({
               </div>
             </div>
 
-            {admin.role !== "SUPER_ADMIN" && admin.id !== currentUserId && (
+            {canDelete(admin) && (
               <button
                 type="button"
                 onClick={() => handleDelete(admin.id)}

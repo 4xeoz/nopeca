@@ -143,7 +143,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             )}
           </div>
 
-          {/* Right side: CTA + Lang + Hamburger */}
+          {/* Right side: CTA + Lang + Admin + Hamburger */}
           <div className="flex items-center gap-2 md:gap-4">
             {/* Language switcher */}
             <Link
@@ -151,6 +151,17 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[--color-brand-primary] text-xs font-bold text-[--color-brand-primary] transition-colors hover:bg-[--color-brand-primary] hover:text-white md:h-10 md:w-10 md:text-sm"
             >
               {switchLabel}
+            </Link>
+
+            {/* Admin login - desktop */}
+            <Link
+              href="/admin/login"
+              className="hidden items-center gap-1.5 rounded-full border border-[--color-brand-primary] px-4 py-2 text-xs font-semibold text-[--color-brand-primary] transition-colors hover:bg-[--color-brand-primary] hover:text-white md:inline-flex md:px-5 md:py-2.5 md:text-sm"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+              Admin
             </Link>
 
             {/* Apply now - desktop */}
@@ -224,6 +235,17 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                   )
                 )}
                 <div className="mt-2 flex flex-col gap-2">
+                  {/* Admin login - mobile */}
+                  <Link
+                    href="/admin/login"
+                    onClick={handleClose}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[--color-brand-primary] px-5 py-2.5 text-sm font-semibold text-[--color-brand-primary] transition hover:bg-[--color-brand-primary] hover:text-white"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    Admin Login
+                  </Link>
                   <a
                     href="#steps"
                     onClick={(e) => handleSmoothScroll(e, "#steps")}
