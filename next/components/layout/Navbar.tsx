@@ -8,7 +8,6 @@ import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "motion/
 import logoMark from "@/public/singl_logo_colord_white_background@4x.png";
 import type { Dictionary } from "@/dictionaries";
 import {
-  trackWhatsAppClick,
   trackGetStartedClick,
   trackLanguageSwitch,
   trackBlogClick,
@@ -52,20 +51,6 @@ function IconClose() {
       strokeLinecap="round"
     >
       <path d="M6 6l12 12M18 6l-12 12" />
-    </svg>
-  );
-}
-
-function WhatsAppIcon() {
-  return (
-    <svg
-      aria-hidden
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="white"
-    >
-      <path d="M12 2a10 10 0 0 0-8.66 15.06L2 22l5.11-1.31A10 10 0 1 0 12 2Zm5.24 14.31c-.22.62-1.3 1.19-1.85 1.27s-.44.41-2.91-.6-4.75-3.39-4.88-3.55-.73-1-.73-1.91.46-1.38.62-1.57.36-.24.49-.24.24 0 .35.01.26-.04.41.31.52 1.26.57 1.35.09.21 0 .34c-.09.13-.13.21-.26.33s-.27.28-.12.55.67 1.1 1.44 1.78 1.48.97 1.7 1.08.33.09.45-.05.52-.61.66-.82.27-.18.45-.11 1.17.55 1.37.65.32.15.37.23-.01.68-.23 1.3Z" />
     </svg>
   );
 }
@@ -167,7 +152,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             </a>
           </div>
 
-          {/* Right: Lang toggle + WhatsApp + Get Started */}
+          {/* Right: Lang toggle + Get Started */}
           <div className="flex items-center justify-end gap-2 md:gap-3">
             {/* Language pill toggle with flags */}
             <div className="hidden items-center rounded-full border border-[--color-border-soft] bg-[--color-bg-primary]/60 p-0.5 sm:flex">
@@ -196,18 +181,6 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                 <span>FR</span>
               </Link>
             </div>
-
-            {/* WhatsApp CTA */}
-            <Link
-              href="https://wa.me/213561799531"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackWhatsAppClick("navbar")}
-              className="hidden items-center justify-center rounded-full bg-[#25D366] p-2.5 transition hover:-translate-y-0.5 hover:shadow-lg md:inline-flex md:p-3"
-              aria-label="Contact on WhatsApp"
-            >
-              <WhatsAppIcon />
-            </Link>
 
             {/* Get Started → scrolls to contact/footer */}
             <a
@@ -280,18 +253,6 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                       <span>Français</span>
                     </Link>
                   </div>
-
-                  {/* WhatsApp */}
-                  <Link
-                    href="https://wa.me/213561799531"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => { handleClose(); trackWhatsAppClick("navbar"); }}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5"
-                  >
-                    <WhatsAppIcon />
-                    WhatsApp
-                  </Link>
 
                   {/* Get Started */}
                   <a
