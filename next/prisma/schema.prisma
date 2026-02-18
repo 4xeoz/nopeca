@@ -27,7 +27,7 @@ enum LeadStatus {
 model Contact {
   id           String        @id @default(cuid())
   name         String
-  email        String
+  email        String?
   phone        String?
   message      String
   status       LeadStatus    @default(NEW)

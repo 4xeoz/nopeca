@@ -4,6 +4,7 @@ import React from "react";
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
 import footerLogo from "@/public/NopecaFooterLogo.png";
@@ -13,6 +14,58 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { submitContactForm } from "@/actions/contact";
 import type { Dictionary } from "@/dictionaries";
+import {
+  trackContactFormSubmit,
+  trackPhoneCall,
+  trackEmailClick,
+  trackWhatsAppClick,
+} from "@/lib/gtag";
+
+const STUDY_FIELDS = [
+  "Computer Science & IT",
+  "Business Administration",
+  "Engineering (General)",
+  "Medicine & Healthcare",
+  "Law & Legal Studies",
+  "Finance & Accounting",
+  "Architecture & Urban Planning",
+  "Psychology",
+  "Nursing & Midwifery",
+  "Data Science & Artificial Intelligence",
+  "Mechanical Engineering",
+  "Electrical Engineering",
+  "Civil Engineering",
+  "Economics",
+  "Marketing & Communications",
+  "Pharmacy & Pharmaceutical Sciences",
+  "Biology & Life Sciences",
+  "Mathematics & Statistics",
+  "Education & Teaching",
+  "International Relations & Political Science",
+];
+
+const COUNTRIES = [
+  "United Kingdom",
+  "France",
+  "Canada",
+  "Germany",
+  "United States",
+  "Australia",
+  "Turkey",
+  "Malaysia",
+  "Spain",
+  "Italy",
+  "Poland",
+  "Czech Republic",
+  "China",
+  "Japan",
+  "United Arab Emirates",
+  "Saudi Arabia",
+  "Qatar",
+  "Hungary",
+  "Romania",
+  "Other",
+];
 
 // WhatsApp icon component
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -34,8 +87,10 @@ interface FooterSectionProps {
 export default function FooterSection({ dict }: FooterSectionProps) {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
+    studyField: "",
+    country: "",
+    email: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,10 +102,11 @@ export default function FooterSection({ dict }: FooterSectionProps) {
     const result = await submitContactForm(formData);
 
     if (result.success) {
+      trackContactFormSubmit(formData.studyField, formData.country);
       toast.success(dict.footer.messageSent, {
         description: dict.footer.messageSentDesc,
       });
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({ name: "", phone: "", studyField: "", country: "", email: "", message: "" });
     } else {
       toast.error(dict.footer.messageFailed, {
         description: result.message,
@@ -60,12 +116,33 @@ export default function FooterSection({ dict }: FooterSectionProps) {
     setIsSubmitting(false);
   };
 
-  const socialLinks = [
+  const socialLinks: {
+    icon: React.ComponentType<{ className?: string }>;
+    href: string;
+    label: string;
+    onClick?: () => void;
+  }[] = [
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: WhatsAppIcon, href: "https://wa.me/213561799531", label: "WhatsApp" },
-    { icon: Mail, href: "mailto:contact@nopeca.com", label: "Email" },
+    {
+      icon: WhatsAppIcon,
+      href: "https://wa.me/213561799531",
+      label: "WhatsApp",
+      onClick: () => trackWhatsAppClick("footer"),
+    },
+    {
+      icon: Mail,
+      href: "mailto:contact@nopeca.com",
+      label: "Email",
+      onClick: () => trackEmailClick(),
+    },
     { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   ];
+
+  const inputClass =
+    "bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl h-12 focus:bg-white/[0.16] focus:border-white/40 transition-colors";
+
+  const selectClass =
+    "w-full h-12 rounded-xl border border-white/25 bg-white/[0.12] px-4 text-sm text-white placeholder:text-white/45 focus:bg-white/[0.16] focus:border-white/40 focus:outline-none transition-colors appearance-none cursor-pointer";
 
   return (
     <footer id="contact" className="w-full bg-[#0a1628] text-white">
@@ -90,39 +167,92 @@ export default function FooterSection({ dict }: FooterSectionProps) {
             </div>
 
             {/* Contact Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              {/* Row 1: Name + Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Input
                   type="text"
                   placeholder={dict.footer.yourName}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+                  className={inputClass}
                 />
                 <Input
-                  type="email"
-                  placeholder={dict.footer.emailAddress}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  type="tel"
+                  placeholder={dict.footer.phoneNumber}
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+                  className={inputClass}
                 />
               </div>
+
+              {/* Row 2: Study field */}
+              <div className="relative">
+                <select
+                  value={formData.studyField}
+                  onChange={(e) => setFormData({ ...formData, studyField: e.target.value })}
+                  required
+                  className={`${selectClass} ${!formData.studyField ? "text-white/45" : "text-white"}`}
+                >
+                  <option value="" disabled className="bg-[#0a1628] text-white/60">
+                    {dict.footer.studyFieldPlaceholder}
+                  </option>
+                  {STUDY_FIELDS.map((field) => (
+                    <option key={field} value={field} className="bg-[#0a1628] text-white">
+                      {field}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                  <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Row 3: Country */}
+              <div className="relative">
+                <select
+                  value={formData.country}
+                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  required
+                  className={`${selectClass} ${!formData.country ? "text-white/45" : "text-white"}`}
+                >
+                  <option value="" disabled className="bg-[#0a1628] text-white/60">
+                    {dict.footer.countryPlaceholder}
+                  </option>
+                  {COUNTRIES.map((country) => (
+                    <option key={country} value={country} className="bg-[#0a1628] text-white">
+                      {country}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                  <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Row 4: Email (optional) */}
               <Input
-                type="tel"
-                placeholder={dict.footer.phoneNumber}
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl h-12"
+                type="email"
+                placeholder={dict.footer.emailAddress}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className={inputClass}
               />
+
+              {/* Row 5: Message (optional) */}
               <Textarea
                 placeholder={dict.footer.tellUs}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-xl min-h-[120px] resize-none"
+                className="bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl min-h-[100px] resize-none focus:bg-white/[0.16] focus:border-white/40 transition-colors"
               />
+
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -143,6 +273,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
+                    onClick={social.onClick}
                     className="w-12 h-12 rounded-full bg-white/10 hover:bg-[#d4a84b] flex items-center justify-center transition-colors duration-300 group"
                   >
                     <social.icon className="w-5 h-5 text-white group-hover:text-[#0a1628] transition-colors duration-300" />
@@ -153,14 +284,14 @@ export default function FooterSection({ dict }: FooterSectionProps) {
           </div>
 
           {/* Right column - Map */}
-          <div className="flex flex-col gap-8 ">
+          <div className="flex flex-col gap-8">
             <div>
               <h3 className="text-xl font-bold mb-2">{dict.footer.ourLocation}</h3>
               <p className="text-white/70 text-sm">{dict.footer.visitUs}</p>
             </div>
 
             {/* Map container */}
-            <div className="relative w-full h-[30dvh] md:h-full rounded-2xl overflow-hidden border border-white/10">
+            <div className="relative w-full h-[30dvh] md:h-72 rounded-2xl overflow-hidden border border-white/10">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d427.66889595582217!2d3.4671492643391923!3d36.75950375007293!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e690441301233%3A0xff44c2ce1a7779a!2sAdvanced%20Pathways%20Global%20Boumerdes!5e1!3m2!1sen!2suk!4v1770573585913!5m2!1sen!2suk"
                 width="100%"
@@ -182,7 +313,13 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                 </div>
                 <div>
                   <p className="text-white/50 text-xs">{dict.footer.email}</p>
-                  <p className="text-white text-sm">contact@nopeca.com</p>
+                  <a
+                    href="mailto:contact@nopeca.com"
+                    onClick={() => trackEmailClick()}
+                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
+                  >
+                    contact@nopeca.com
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -191,7 +328,13 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                 </div>
                 <div>
                   <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
-                  <p className="text-white text-sm">0560409193</p>
+                  <a
+                    href="tel:+213560409193"
+                    onClick={() => trackPhoneCall("0560409193")}
+                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
+                  >
+                    0560409193
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -200,7 +343,13 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                 </div>
                 <div>
                   <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
-                  <p className="text-white text-sm">0560409195</p>
+                  <a
+                    href="tel:+213560409195"
+                    onClick={() => trackPhoneCall("0560409195")}
+                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
+                  >
+                    0560409195
+                  </a>
                 </div>
               </div>
             </div>
@@ -208,8 +357,8 @@ export default function FooterSection({ dict }: FooterSectionProps) {
         </div>
       </div>
 
-      {/* Bottom section with copyright */}
-      <div className="border-t border-white/10 ">
+      {/* Bottom section with copyright + admin */}
+      <div className="border-t border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/50 text-sm">
             &copy; {new Date().getFullYear()} {dict.footer.copyright}
@@ -217,6 +366,12 @@ export default function FooterSection({ dict }: FooterSectionProps) {
           <div className="flex items-center gap-6 text-sm">
             <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.privacy}</a>
             <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.terms}</a>
+            <Link
+              href="/admin/login"
+              className="text-white/25 hover:text-white/50 transition-colors text-xs"
+            >
+              {dict.footer.adminLogin}
+            </Link>
           </div>
         </div>
       </div>

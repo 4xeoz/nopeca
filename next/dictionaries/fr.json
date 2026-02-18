@@ -14,7 +14,7 @@
     "howItWorks": "Comment ça marche",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Postuler"
+    "applyNow": "Commencer"
   },
   "hero": {
     "title": "Votre passerelle vers une éducation de classe mondiale",
@@ -47,9 +47,14 @@
   "footer": {
     "getInTouch": "Contactez-nous",
     "weWouldLove": "Nous serions ravis de vous entendre",
-    "yourName": "Votre nom",
-    "emailAddress": "Adresse e-mail",
+    "yourName": "Nom complet",
+    "emailAddress": "Adresse e-mail (optionnel)",
     "phoneNumber": "Numéro de téléphone",
+    "studyField": "Que voulez-vous étudier ?",
+    "studyFieldPlaceholder": "Sélectionnez votre domaine d'études",
+    "country": "Quel pays ?",
+    "countryPlaceholder": "Sélectionnez le pays de destination",
+    "messageOptional": "Message (optionnel)",
     "tellUs": "Parlez-nous de vos objectifs éducatifs...",
     "sendMessage": "Envoyer le message",
     "sending": "Envoi en cours...",
@@ -61,11 +66,14 @@
     "copyright": "Nopeca. Tous droits réservés.",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
+    "adminLogin": "Connexion Admin",
     "messageSent": "Message envoyé !",
     "messageSentDesc": "Merci de nous avoir contactés. Nous vous répondrons bientôt.",
     "messageFailed": "Échec de l'envoi du message"
   },
   "lang": {
-    "switchTo": "EN"
+    "switchTo": "EN",
+    "en": "EN",
+    "fr": "FR"
   }
 }

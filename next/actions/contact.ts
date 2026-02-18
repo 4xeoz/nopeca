@@ -4,9 +4,11 @@ import prisma from "@/lib/prisma";
 
 export interface ContactFormData {
   name: string;
-  email: string;
-  phone?: string;
-  message: string;
+  phone: string;
+  studyField: string;
+  country: string;
+  email?: string;
+  message?: string;
 }
 
 export interface ContactFormResponse {
@@ -20,7 +22,7 @@ export async function submitContactForm(
 ): Promise<ContactFormResponse> {
   try {
     // Validate required fields
-    if (!data.name || !data.email || !data.message) {
+    if (!data.name || !data.phone || !data.studyField || !data.country) {
       return {
         success: false,
         message: "Please fill in all required fields.",
@@ -28,23 +30,35 @@ export async function submitContactForm(
       };
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      return {
-        success: false,
-        message: "Please enter a valid email address.",
-        error: "INVALID_EMAIL",
-      };
+    // Validate email format if provided
+    if (data.email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        return {
+          success: false,
+          message: "Please enter a valid email address.",
+          error: "INVALID_EMAIL",
+        };
+      }
     }
+
+    // Compose a structured message to store field of study and country
+    const parts: string[] = [
+      `📚 Field of Study: ${data.studyField}`,
+      `🌍 Country: ${data.country}`,
+    ];
+    if (data.message?.trim()) {
+      parts.push(`\n💬 Message:\n${data.message.trim()}`);
+    }
+    const composedMessage = parts.join("\n");
 
     // Create contact in database
     await prisma.contact.create({
       data: {
         name: data.name.trim(),
-        email: data.email.trim().toLowerCase(),
-        phone: data.phone?.trim() || null,
-        message: data.message.trim(),
+        email: data.email?.trim().toLowerCase() ?? null,
+        phone: data.phone.trim() || null,
+        message: composedMessage,
       },
     });
 

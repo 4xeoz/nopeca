@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { i18n } from '@/i18n.config';
 import { Toaster } from '@/components/ui/sonner';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import './globals.css';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
@@ -105,6 +106,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
+        <GoogleAnalytics />
         <LoadingOverlay />
         <SmoothScrollProvider>
           {children}
