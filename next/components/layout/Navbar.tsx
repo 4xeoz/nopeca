@@ -7,6 +7,12 @@ import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "motion/react";
 import logoMark from "@/public/singl_logo_colord_white_background@4x.png";
 import type { Dictionary } from "@/dictionaries";
+import {
+  trackWhatsAppClick,
+  trackGetStartedClick,
+  trackLanguageSwitch,
+  trackBlogClick,
+} from "@/lib/gtag";
 
 interface NavbarProps {
   locale: string;
@@ -125,6 +131,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               </a>
               <Link
                 href={`/${locale}/blog`}
+                onClick={() => trackBlogClick()}
                 className="transition-colors hover:text-[--color-brand-primary]"
               >
                 {dict.nav.blog}
@@ -166,6 +173,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             <div className="hidden items-center rounded-full border border-[--color-border-soft] bg-[--color-bg-primary]/60 p-0.5 sm:flex">
               <Link
                 href={enHref}
+                onClick={() => trackLanguageSwitch("en")}
                 className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-all md:px-3 md:text-sm ${
                   locale === "en"
                     ? "bg-[--color-brand-primary] text-white shadow-sm"
@@ -177,6 +185,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               </Link>
               <Link
                 href={frHref}
+                onClick={() => trackLanguageSwitch("fr")}
                 className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-all md:px-3 md:text-sm ${
                   locale === "fr"
                     ? "bg-[--color-brand-primary] text-white shadow-sm"
@@ -193,6 +202,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               href="https://wa.me/213561799531"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick("navbar")}
               className="hidden items-center justify-center rounded-full bg-[#25D366] p-2.5 transition hover:-translate-y-0.5 hover:shadow-lg md:inline-flex md:p-3"
               aria-label="Contact on WhatsApp"
             >
@@ -202,7 +212,10 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             {/* Get Started → scrolls to contact/footer */}
             <a
               href="#contact"
-              onClick={(e) => handleSmoothScroll(e, "#contact")}
+              onClick={(e) => {
+                handleSmoothScroll(e, "#contact");
+                trackGetStartedClick("navbar");
+              }}
               className="hidden rounded-full bg-[--color-brand-secondary] px-4 py-2 text-xs font-semibold tracking-wide text-white transition hover:-translate-y-0.5 hover:shadow-lg md:inline-flex md:px-5 md:py-2.5 md:text-sm"
             >
               {dict.nav.applyNow}
@@ -233,7 +246,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                 {/* Blog */}
                 <Link
                   href={`/${locale}/blog`}
-                  onClick={handleClose}
+                  onClick={() => { handleClose(); trackBlogClick(); }}
                   className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
                 >
                   {dict.nav.blog}
@@ -244,7 +257,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                   <div className="flex items-center gap-2 rounded-xl border border-[--color-border-soft] p-1">
                     <Link
                       href={enHref}
-                      onClick={handleClose}
+                      onClick={() => { handleClose(); trackLanguageSwitch("en"); }}
                       className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold transition-all ${
                         locale === "en"
                           ? "bg-[--color-brand-primary] text-white"
@@ -256,7 +269,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                     </Link>
                     <Link
                       href={frHref}
-                      onClick={handleClose}
+                      onClick={() => { handleClose(); trackLanguageSwitch("fr"); }}
                       className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold transition-all ${
                         locale === "fr"
                           ? "bg-[--color-brand-primary] text-white"
@@ -273,7 +286,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                     href="https://wa.me/213561799531"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={handleClose}
+                    onClick={() => { handleClose(); trackWhatsAppClick("navbar"); }}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5"
                   >
                     <WhatsAppIcon />
@@ -283,7 +296,10 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                   {/* Get Started */}
                   <a
                     href="#contact"
-                    onClick={(e) => handleSmoothScroll(e, "#contact")}
+                    onClick={(e) => {
+                      handleSmoothScroll(e, "#contact");
+                      trackGetStartedClick("navbar");
+                    }}
                     className="inline-flex items-center justify-center rounded-full bg-[--color-brand-secondary] px-5 py-2.5 text-sm font-semibold tracking-wide text-white shadow-md transition hover:-translate-y-0.5 md:py-3 md:text-base"
                   >
                     {dict.nav.applyNow}

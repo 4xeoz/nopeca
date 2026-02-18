@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image, { type StaticImageData } from 'next/image';
 import { motion } from 'motion/react';
 import AnimatedVectorline from './animated-vector-line';
+import { trackGetStartedClick } from '@/lib/gtag';
 
 type ArcGalleryHeroProps = {
   images: Array<string | StaticImageData>;
@@ -167,7 +168,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
             Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">
-            <a href="#contact" className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">Get Started</a>
+            <a href="#contact" onClick={() => trackGetStartedClick("hero")} className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">Get Started</a>
           </div>
         </motion.div>
       </div>

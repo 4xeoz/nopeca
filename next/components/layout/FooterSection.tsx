@@ -14,6 +14,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { submitContactForm } from "@/actions/contact";
 import type { Dictionary } from "@/dictionaries";
+import {
+  trackContactFormSubmit,
+  trackPhoneCall,
+  trackEmailClick,
+  trackWhatsAppClick,
+} from "@/lib/gtag";
 
 const STUDY_FIELDS = [
   "Computer Science & IT",
@@ -96,6 +102,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
     const result = await submitContactForm(formData);
 
     if (result.success) {
+      trackContactFormSubmit(formData.studyField, formData.country);
       toast.success(dict.footer.messageSent, {
         description: dict.footer.messageSentDesc,
       });
@@ -109,10 +116,25 @@ export default function FooterSection({ dict }: FooterSectionProps) {
     setIsSubmitting(false);
   };
 
-  const socialLinks = [
+  const socialLinks: {
+    icon: React.ComponentType<{ className?: string }>;
+    href: string;
+    label: string;
+    onClick?: () => void;
+  }[] = [
     { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-    { icon: WhatsAppIcon, href: "https://wa.me/213561799531", label: "WhatsApp" },
-    { icon: Mail, href: "mailto:contact@nopeca.com", label: "Email" },
+    {
+      icon: WhatsAppIcon,
+      href: "https://wa.me/213561799531",
+      label: "WhatsApp",
+      onClick: () => trackWhatsAppClick("footer"),
+    },
+    {
+      icon: Mail,
+      href: "mailto:contact@nopeca.com",
+      label: "Email",
+      onClick: () => trackEmailClick(),
+    },
     { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   ];
 
@@ -251,6 +273,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
+                    onClick={social.onClick}
                     className="w-12 h-12 rounded-full bg-white/10 hover:bg-[#d4a84b] flex items-center justify-center transition-colors duration-300 group"
                   >
                     <social.icon className="w-5 h-5 text-white group-hover:text-[#0a1628] transition-colors duration-300" />
@@ -292,6 +315,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                   <p className="text-white/50 text-xs">{dict.footer.email}</p>
                   <a
                     href="mailto:contact@nopeca.com"
+                    onClick={() => trackEmailClick()}
                     className="text-white text-sm hover:text-[#d4a84b] transition-colors"
                   >
                     contact@nopeca.com
@@ -306,6 +330,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                   <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
                   <a
                     href="tel:+213560409193"
+                    onClick={() => trackPhoneCall("0560409193")}
                     className="text-white text-sm hover:text-[#d4a84b] transition-colors"
                   >
                     0560409193
@@ -320,6 +345,7 @@ export default function FooterSection({ dict }: FooterSectionProps) {
                   <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
                   <a
                     href="tel:+213560409195"
+                    onClick={() => trackPhoneCall("0560409195")}
                     className="text-white text-sm hover:text-[#d4a84b] transition-colors"
                   >
                     0560409195
