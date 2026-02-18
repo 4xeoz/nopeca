@@ -170,7 +170,7 @@ export default function FloatingContactWidget() {
 
         <motion.button
           animate={wiggleControls}
-          onClick={() => setIsOpen((o) => !o)}
+          onClick={() => setIsOpen((o: boolean) => !o)}
           aria-label="Contact us"
           className="relative flex h-14 w-14 items-center justify-center rounded-full shadow-2xl shadow-black/40 transition-shadow hover:shadow-[#25D366]/30 focus:outline-none md:h-16 md:w-16"
           style={{ backgroundColor: isOpen ? "#1a1a2e" : "#25D366" }}
