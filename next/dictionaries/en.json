@@ -14,7 +14,7 @@
     "howItWorks": "How it works",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Apply now"
+    "applyNow": "Get Started"
   },
   "hero": {
     "title": "Your Gateway to World-Class Education",
@@ -47,9 +47,14 @@
   "footer": {
     "getInTouch": "Get in Touch",
     "weWouldLove": "We would love to hear from you",
-    "yourName": "Your Name",
-    "emailAddress": "Email Address",
+    "yourName": "Full Name",
+    "emailAddress": "Email Address (optional)",
     "phoneNumber": "Phone Number",
+    "studyField": "What do you want to study?",
+    "studyFieldPlaceholder": "Select your field of study",
+    "country": "Which country?",
+    "countryPlaceholder": "Select destination country",
+    "messageOptional": "Message (optional)",
     "tellUs": "Tell us about your educational goals...",
     "sendMessage": "Send Message",
     "sending": "Sending...",
@@ -61,11 +66,14 @@
     "copyright": "Nopeca. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
+    "adminLogin": "Admin Login",
     "messageSent": "Message sent!",
     "messageSentDesc": "Thank you for reaching out. We'll get back to you soon.",
     "messageFailed": "Failed to send message"
   },
   "lang": {
-    "switchTo": "FR"
+    "switchTo": "FR",
+    "en": "EN",
+    "fr": "FR"
   }
 }
