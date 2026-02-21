@@ -182,17 +182,14 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               </Link>
             </div>
 
-            {/* Get Started → scrolls to contact/footer */}
-            <a
-              href="#contact"
-              onClick={(e) => {
-                handleSmoothScroll(e, "#contact");
-                trackGetStartedClick("navbar");
-              }}
+            {/* Get Started → dedicated contact page */}
+            <Link
+              href={`/${locale}/contact`}
+              onClick={() => trackGetStartedClick("navbar")}
               className="hidden rounded-full bg-[--color-brand-secondary] px-4 py-2 text-xs font-semibold tracking-wide text-white transition hover:-translate-y-0.5 hover:shadow-lg md:inline-flex md:px-5 md:py-2.5 md:text-sm"
             >
               {dict.nav.applyNow}
-            </a>
+            </Link>
           </div>
         </nav>
 
@@ -255,16 +252,13 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                   </div>
 
                   {/* Get Started */}
-                  <a
-                    href="#contact"
-                    onClick={(e) => {
-                      handleSmoothScroll(e, "#contact");
-                      trackGetStartedClick("navbar");
-                    }}
+                  <Link
+                    href={`/${locale}/contact`}
+                    onClick={() => { handleClose(); trackGetStartedClick("navbar"); }}
                     className="inline-flex items-center justify-center rounded-full bg-[--color-brand-secondary] px-5 py-2.5 text-sm font-semibold tracking-wide text-white shadow-md transition hover:-translate-y-0.5 md:py-3 md:text-base"
                   >
                     {dict.nav.applyNow}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>
