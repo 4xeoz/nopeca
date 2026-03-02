@@ -27,11 +27,31 @@
   },
   "discover": {
     "title": "Discover your pathways",
-    "cta": "Next Step"
+    "cta": "Next Step",
+    "statCardTitle": "Our Results",
+    "stat1Value": "500+",
+    "stat1Label": "Students Placed",
+    "stat2Value": "98%",
+    "stat2Label": "Visa Approved",
+    "quoteText": "Dream big. We'll get you there.",
+    "quoteCta": "Explore Universities"
   },
   "universities": {
     "badge": "Why we are loved",
-    "title": "World's Top Education"
+    "title": "World's Top Education",
+    "searchBadge": "200+ Partner Universities",
+    "searchTitle": "Find Your Perfect University",
+    "searchSubtitle": "Search through our global network and let our experts handle the rest.",
+    "searchPlaceholder": "Search by university, country, or field of study...",
+    "filterAll": "All Countries",
+    "applyNow": "Apply Now",
+    "resultsCount": "universities found",
+    "noResults": "No universities match your search.",
+    "noResultsHelp": "We work with 200+ partner universities. Let us find the right one for you.",
+    "ctaHeading": "Don't see your university?",
+    "ctaText": "We partner with 200+ universities worldwide. Talk to our advisors and get matched.",
+    "ctaWhatsApp": "WhatsApp Now",
+    "ctaCall": "0560 409 193"
   },
   "steps": {
     "badge": "How it works",

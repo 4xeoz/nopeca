@@ -27,11 +27,31 @@
   },
   "discover": {
     "title": "Découvrez vos parcours",
-    "cta": "Prochaine étape"
+    "cta": "Prochaine étape",
+    "statCardTitle": "Nos Résultats",
+    "stat1Value": "500+",
+    "stat1Label": "Étudiants placés",
+    "stat2Value": "98%",
+    "stat2Label": "Visa approuvé",
+    "quoteText": "Voyez grand. Nous vous y emmènerons.",
+    "quoteCta": "Explorer les universités"
   },
   "universities": {
     "badge": "Pourquoi on nous aime",
-    "title": "Les meilleures universités du monde"
+    "title": "Les meilleures universités du monde",
+    "searchBadge": "200+ universités partenaires",
+    "searchTitle": "Trouvez votre université idéale",
+    "searchSubtitle": "Recherchez dans notre réseau mondial et laissez nos experts s'occuper du reste.",
+    "searchPlaceholder": "Rechercher par université, pays ou domaine d'études...",
+    "filterAll": "Tous les pays",
+    "applyNow": "Postuler",
+    "resultsCount": "universités trouvées",
+    "noResults": "Aucune université ne correspond à votre recherche.",
+    "noResultsHelp": "Nous travaillons avec 200+ universités partenaires. Laissez-nous trouver la bonne pour vous.",
+    "ctaHeading": "Vous ne voyez pas votre université ?",
+    "ctaText": "Nous sommes partenaires de 200+ universités dans le monde. Parlez à nos conseillers.",
+    "ctaWhatsApp": "WhatsApp maintenant",
+    "ctaCall": "0560 409 193"
   },
   "steps": {
     "badge": "Comment ça marche",
