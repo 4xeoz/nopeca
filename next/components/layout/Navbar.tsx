@@ -94,6 +94,9 @@ export default function Navbar({ locale, dict }: NavbarProps) {
   const enHref = pathname.replace(`/${locale}`, `/en`);
   const frHref = pathname.replace(`/${locale}`, `/fr`);
 
+  // On pages other than home, the #home anchor doesn't exist, so link directly
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+
   return (
     <motion.header
       className="sticky top-3 z-50 md:top-6"
@@ -107,13 +110,22 @@ export default function Navbar({ locale, dict }: NavbarProps) {
           <div className="flex items-center gap-1 md:gap-2">
             {/* Desktop nav links — Home + Blog only */}
             <div className="hidden items-center gap-5 text-sm font-semibold text-[--color-text-primary] lg:flex xl:gap-7 xl:text-base">
-              <a
-                href="#home"
-                onClick={(e) => handleSmoothScroll(e, "#home")}
-                className="transition-colors hover:text-[--color-brand-primary]"
-              >
-                {dict.nav.home}
-              </a>
+              {isHomePage ? (
+                <a
+                  href="#home"
+                  onClick={(e) => handleSmoothScroll(e, "#home")}
+                  className="transition-colors hover:text-[--color-brand-primary]"
+                >
+                  {dict.nav.home}
+                </a>
+              ) : (
+                <Link
+                  href={`/${locale}`}
+                  className="transition-colors hover:text-[--color-brand-primary]"
+                >
+                  {dict.nav.home}
+                </Link>
+              )}
               <Link
                 href={`/${locale}/blog`}
                 onClick={() => trackBlogClick()}
@@ -136,20 +148,33 @@ export default function Navbar({ locale, dict }: NavbarProps) {
 
           {/* Center: Logo */}
           <div className="flex justify-center">
-            <a
-              href="#home"
-              onClick={(e) => handleSmoothScroll(e, "#home")}
-              className="flex items-center"
-            >
-              <Image
-                src={logoMark}
-                alt="Nopeca logo"
-                width={140}
-                height={140}
-                className="h-9 w-auto object-contain md:h-13"
-                priority
-              />
-            </a>
+            {isHomePage ? (
+              <a
+                href="#home"
+                onClick={(e) => handleSmoothScroll(e, "#home")}
+                className="flex items-center"
+              >
+                <Image
+                  src={logoMark}
+                  alt="Nopeca logo"
+                  width={140}
+                  height={140}
+                  className="h-9 w-auto object-contain md:h-13"
+                  priority
+                />
+              </a>
+            ) : (
+              <Link href={`/${locale}`} className="flex items-center">
+                <Image
+                  src={logoMark}
+                  alt="Nopeca logo"
+                  width={140}
+                  height={140}
+                  className="h-9 w-auto object-contain md:h-13"
+                  priority
+                />
+              </Link>
+            )}
           </div>
 
           {/* Right: Lang toggle + Get Started */}
@@ -205,13 +230,23 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             >
               <div className="flex flex-col gap-1 text-sm font-semibold text-[--color-text-primary] md:gap-2 md:text-base">
                 {/* Home */}
-                <a
-                  href="#home"
-                  onClick={(e) => handleSmoothScroll(e, "#home")}
-                  className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
-                >
-                  {dict.nav.home}
-                </a>
+                {isHomePage ? (
+                  <a
+                    href="#home"
+                    onClick={(e) => handleSmoothScroll(e, "#home")}
+                    className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
+                  >
+                    {dict.nav.home}
+                  </a>
+                ) : (
+                  <Link
+                    href={`/${locale}`}
+                    onClick={handleClose}
+                    className="rounded-xl px-3 py-2.5 transition-colors hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary] md:py-3"
+                  >
+                    {dict.nav.home}
+                  </Link>
+                )}
 
                 {/* Blog */}
                 <Link
