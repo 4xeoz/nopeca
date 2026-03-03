@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import studentsImg from "@/public/students-university.png";
 import ScrollReveal from "../ui/ScrollReveal";
 import type { Dictionary } from "@/dictionaries";
@@ -10,6 +12,9 @@ interface DiscoverPathwaysSectionProps {
 }
 
 export default function DiscoverPathwaysSection({ dict }: DiscoverPathwaysSectionProps) {
+  const params = useParams();
+  const locale = (params?.locale as string) ?? "en";
+
   return (
     <section id="discover" className="relative flex w-full items-stretch justify-center overflow-hidden bg-[#f5f0e8] px-4 py-12 md:py-20 lg:h-dvh lg:max-h-[1120px]">
       {/* BACKGROUND DECORATIVE ELEMENTS */}
@@ -78,13 +83,13 @@ export default function DiscoverPathwaysSection({ dict }: DiscoverPathwaysSectio
             {/* Spacer */}
             <div className="hidden flex-1 lg:block" />
 
-            {/* CTA Button — scrolls to the university finder */}
-            <a
-              href="#universities"
+            {/* CTA — navigates to the full UK universities page */}
+            <Link
+              href={`/${locale}/universities`}
               className="mt-6 block w-full rounded-full bg-[#d4a84b] px-8 py-3 text-center text-base font-medium text-white transition-colors hover:bg-[#c49a3d] sm:py-4 sm:text-lg md:mt-8 lg:mt-0"
             >
               {dict.discover.cta}
-            </a>
+            </Link>
           </ScrollReveal>
 
           {/* RIGHT COLUMN - Image with Overlapping Cards (slides from right) */}
@@ -139,12 +144,12 @@ export default function DiscoverPathwaysSection({ dict }: DiscoverPathwaysSectio
                 <p className="text-[10px] font-semibold leading-snug text-white sm:text-xs lg:text-sm lg:leading-relaxed">
                   {dict.discover.quoteText}
                 </p>
-                <a
-                  href="#universities"
+                <Link
+                  href={`/${locale}/universities`}
                   className="flex items-center gap-1 text-[10px] font-bold text-white/80 transition-colors hover:text-white sm:text-xs lg:text-sm"
                 >
                   {dict.discover.quoteCta} →
-                </a>
+                </Link>
               </div>
 
             </div>
