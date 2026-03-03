@@ -27,11 +27,37 @@
   },
   "discover": {
     "title": "Découvrez vos parcours",
-    "cta": "Prochaine étape"
+    "cta": "Prochaine étape",
+    "statCardTitle": "Nos Résultats",
+    "stat1Value": "500+",
+    "stat1Label": "Étudiants placés",
+    "stat2Value": "98%",
+    "stat2Label": "Visa approuvé",
+    "quoteText": "Voyez grand. Nous vous y emmènerons.",
+    "quoteCta": "Explorer les universités"
   },
   "universities": {
     "badge": "Pourquoi on nous aime",
-    "title": "Les meilleures universités du monde"
+    "title": "Les meilleures universités du monde",
+    "pageTitle": "Étudiez dans les meilleures universités britanniques",
+    "pageSubtitle": "Explorez les programmes, comparez les frais de scolarité et laissez nos experts vous guider — entièrement gratuit.",
+    "searchPlaceholder": "Rechercher par université, ville ou domaine d'études...",
+    "programsTitle": "Programmes populaires",
+    "feesNote": "Les frais indiqués sont des estimations pour les étudiants internationaux. Vos coûts exacts dépendent de votre programme — nos conseillers vous donnent un bilan précis gratuitement.",
+    "getGuidance": "Obtenir des conseils gratuits",
+    "stickyTitle": "Nos conseillers sont disponibles maintenant — gratuitement.",
+    "ctaWhatsApp": "Discuter sur WhatsApp",
+    "ctaCall": "Appeler : 0560 409 193",
+    "nudgeTitle": "Le saviez-vous ?",
+    "nudgeText": "De nombreux étudiants algériens bénéficient de bourses partielles ou de réductions conditionnelles. Nos conseillers vérifient votre éligibilité — totalement gratuit, sans engagement.",
+    "nudgeCta": "Vérifier mon éligibilité",
+    "fromPrice": "à partir de",
+    "perYear": "/an",
+    "resultsCount": "universités",
+    "noResults": "Aucune université ne correspond à votre recherche. Essayez un autre mot-clé ou parlez-nous — nous avons 200+ partenaires mondiaux.",
+    "advisorBlock": "Vous ne savez pas quelle université correspond à vos objectifs ?",
+    "advisorBlockSub": "Nos conseillers ont aidé plus de 500 étudiants algériens à trouver et à être admis dans la bonne université. La consultation est gratuite, sans obligation.",
+    "advisorBlockCta": "Réserver un appel gratuit"
   },
   "steps": {
     "badge": "Comment ça marche",

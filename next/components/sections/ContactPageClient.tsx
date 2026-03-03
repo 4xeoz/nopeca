@@ -135,7 +135,7 @@ export default function ContactPageClient({ dict, locale }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-16 items-start">
 
           {/* ── LEFT: Form ───────────────────────────────────────────── */}
-          <div className="order-2 lg:order-1">
+          <div className="order-1">
 
             {/* Mobile-only heading */}
             <div className="lg:hidden mb-6">
@@ -312,7 +312,7 @@ export default function ContactPageClient({ dict, locale }: Props) {
           </div>
 
           {/* ── RIGHT: Contact details ────────────────────────────────── */}
-          <div className="order-1 lg:order-2 flex flex-col gap-8">
+          <div className="order-2 flex flex-col gap-8">
 
             {/* Desktop-only heading */}
             <div className="hidden lg:block">

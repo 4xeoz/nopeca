@@ -27,11 +27,37 @@
   },
   "discover": {
     "title": "Discover your pathways",
-    "cta": "Next Step"
+    "cta": "Next Step",
+    "statCardTitle": "Our Results",
+    "stat1Value": "500+",
+    "stat1Label": "Students Placed",
+    "stat2Value": "98%",
+    "stat2Label": "Visa Approved",
+    "quoteText": "Dream big. We'll get you there.",
+    "quoteCta": "Explore Universities"
   },
   "universities": {
     "badge": "Why we are loved",
-    "title": "World's Top Education"
+    "title": "World's Top Education",
+    "pageTitle": "Study at Britain's Finest Universities",
+    "pageSubtitle": "Explore programs, compare tuition fees, and let our experts guide you through every step — completely free.",
+    "searchPlaceholder": "Search by university, city, or field of study...",
+    "programsTitle": "Popular Programs",
+    "feesNote": "Fees shown are estimates for international students. Your exact costs depend on your program — our advisors give you a precise breakdown for free.",
+    "getGuidance": "Get Free Guidance",
+    "stickyTitle": "Our advisors are available now — free of charge.",
+    "ctaWhatsApp": "Chat on WhatsApp",
+    "ctaCall": "Call: 0560 409 193",
+    "nudgeTitle": "Did you know?",
+    "nudgeText": "Many Algerian students qualify for partial scholarships or conditional fee reductions. Our advisors check your eligibility — completely free, no commitment.",
+    "nudgeCta": "Check My Eligibility",
+    "fromPrice": "from",
+    "perYear": "/yr",
+    "resultsCount": "universities",
+    "noResults": "No universities match your search. Try a different keyword, or talk to us — we have 200+ partners worldwide.",
+    "advisorBlock": "Not sure which university fits your goals?",
+    "advisorBlockSub": "Our advisors have helped 500+ students from Algeria find and get accepted to the right university. The consultation is free, and there is no obligation.",
+    "advisorBlockCta": "Book a Free Call"
   },
   "steps": {
     "badge": "How it works",
