@@ -50,6 +50,7 @@ model Admin {
   blogPosts     BlogPost[]
   notes         ContactNote[]
   clockRecords  ClockRecord[]
+  events        Event[]
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
 
@@ -122,4 +123,35 @@ model ClockRecord {
   createdAt  DateTime  @default(now()) @map("created_at")
 
   @@map("clock_records")
+}
+
+model Event {
+  id            String              @id @default(cuid())
+  name          String
+  description   String
+  location      String
+  date          DateTime
+  slug          String              @unique
+  isActive      Boolean             @default(true) @map("is_active")
+  createdById   String              @map("created_by_id")
+  createdBy     Admin               @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  registrations EventRegistration[]
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+
+  @@map("events")
+}
+
+model EventRegistration {
+  id        String   @id @default(cuid())
+  eventId   String   @map("event_id")
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name      String
+  email     String?
+  phone     String
+  message   String?
+  attended  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("event_registrations")
 }
