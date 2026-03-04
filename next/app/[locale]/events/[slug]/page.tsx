@@ -66,14 +66,19 @@ export default async function EventPage({ params }: Props) {
 
             <span className="text-white/20">·</span>
 
-            {/* Location */}
-            <span className="flex items-center gap-1.5">
+            {/* Location — links to Google Maps */}
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 underline-offset-2 hover:underline"
+            >
               <svg className="h-4 w-4 text-[#d4a84b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
               </svg>
               {event.location}
-            </span>
+            </a>
           </div>
         </div>
       </section>
@@ -89,6 +94,29 @@ export default async function EventPage({ params }: Props) {
               <p className="whitespace-pre-wrap leading-relaxed text-[#0a1628]/70">
                 {event.description}
               </p>
+
+              {/* Location + Google Maps button */}
+              <div className="mt-6 flex items-start justify-between gap-4 rounded-xl border border-[#e5e0d5] bg-[#f5f0e8]/60 px-4 py-3">
+                <div className="flex items-start gap-2.5">
+                  <svg className="mt-0.5 h-4 w-4 shrink-0 text-[#d4a84b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  <p className="text-sm font-medium text-[#0a1628]">{event.location}</p>
+                </div>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#0a1628] px-3 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-80"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  View on Google Maps
+                </a>
+              </div>
             </div>
 
             {/* Registration count social proof */}
