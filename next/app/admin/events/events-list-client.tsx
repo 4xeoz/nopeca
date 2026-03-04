@@ -17,7 +17,6 @@ interface EventRow {
   _count: { registrations: number };
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nopeca.com";
 
 export default function EventsListClient({ events }: { events: EventRow[] }) {
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -39,7 +38,7 @@ export default function EventsListClient({ events }: { events: EventRow[] }) {
   }
 
   function copyLink(slug: string) {
-    const url = `${SITE_URL}/en/events/${slug}`;
+    const url = `${window.location.origin}/en/events/${slug}`;
     navigator.clipboard.writeText(url);
     toast.success("Registration link copied!");
   }

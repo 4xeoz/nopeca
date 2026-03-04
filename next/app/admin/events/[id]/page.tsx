@@ -2,11 +2,10 @@ export const dynamic = "force-dynamic";
 
 import { auth } from "@/auth";
 import { redirect, notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { getEventById } from "@/actions/events";
 import EventDetailClient from "./event-detail-client";
 import QRCode from "qrcode";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nopeca.com";
 
 export default async function EventDetailPage({
   params,
@@ -23,7 +22,14 @@ export default async function EventDetailPage({
   const event = await getEventById(id);
   if (!event) notFound();
 
-  const registrationUrl = `${SITE_URL}/en/events/${event.slug}`;
+  // Build the URL from the actual request host so it works in any environment
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "nopeca.com";
+  const proto =
+    headersList.get("x-forwarded-proto") ??
+    (process.env.NODE_ENV === "production" ? "https" : "http");
+  const origin = `${proto}://${host}`;
+  const registrationUrl = `${origin}/en/events/${event.slug}`;
 
   // Generate QR code as a PNG data URL server-side
   const qrDataUrl = await QRCode.toDataURL(registrationUrl, {
