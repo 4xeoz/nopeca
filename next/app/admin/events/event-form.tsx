@@ -10,6 +10,7 @@ interface EventData {
   name?: string;
   description?: string;
   location?: string;
+  locationUrl?: string | null;
   date?: Date | string;
 }
 
@@ -100,6 +101,23 @@ export default function EventForm({ event }: { event?: EventData }) {
           required
           className={inputCls}
         />
+      </div>
+
+      {/* Location URL */}
+      <div>
+        <label className={labelCls}>
+          Google Maps Link <span className="text-[#0a1628]/35 font-normal">(optional)</span>
+        </label>
+        <input
+          name="locationUrl"
+          type="url"
+          defaultValue={event?.locationUrl ?? ""}
+          placeholder="https://maps.app.goo.gl/..."
+          className={inputCls}
+        />
+        <p className="mt-1.5 text-xs text-[#0a1628]/40">
+          Paste the Google Maps link for the venue. Attendees will see a &ldquo;View on Google Maps&rdquo; button.
+        </p>
       </div>
 
       {/* Date & Time */}

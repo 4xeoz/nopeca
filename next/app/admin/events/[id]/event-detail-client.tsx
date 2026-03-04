@@ -22,6 +22,7 @@ interface EventDetailProps {
     name: string;
     description: string;
     location: string;
+    locationUrl: string | null;
     date: Date | string;
     isActive: boolean;
     slug: string;
@@ -152,7 +153,19 @@ export default function EventDetailClient({ event, qrDataUrl, registrationUrl }:
             <h2 className="mb-4 font-semibold text-[#0a1628]">Event Details</h2>
             <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
               <dt className="font-medium text-[#0a1628]/50">Location</dt>
-              <dd className="text-[#0a1628]">{event.location}</dd>
+              <dd className="text-[#0a1628]">
+                {event.location}
+                {event.locationUrl && (
+                  <a
+                    href={event.locationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-2 text-xs font-medium text-[#d4a84b] hover:underline"
+                  >
+                    View on Maps ↗
+                  </a>
+                )}
+              </dd>
               <dt className="font-medium text-[#0a1628]/50">Date &amp; Time</dt>
               <dd className="text-[#0a1628]">
                 {format(new Date(event.date), "EEEE, MMMM d, yyyy 'at' HH:mm")}

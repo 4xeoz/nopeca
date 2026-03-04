@@ -130,6 +130,7 @@ model Event {
   name          String
   description   String
   location      String
+  locationUrl   String?             @map("location_url")
   date          DateTime
   slug          String              @unique
   isActive      Boolean             @default(true) @map("is_active")

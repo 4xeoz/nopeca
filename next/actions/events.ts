@@ -35,6 +35,7 @@ export async function createEvent(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const location = (formData.get("location") as string)?.trim();
+  const locationUrl = (formData.get("locationUrl") as string)?.trim() || null;
   const dateStr = formData.get("date") as string;
 
   if (!name || !description || !location || !dateStr) {
@@ -49,6 +50,7 @@ export async function createEvent(formData: FormData) {
         name,
         description,
         location,
+        locationUrl,
         date: new Date(dateStr),
         slug,
         createdById: session.user.id!,
@@ -98,6 +100,7 @@ export async function updateEvent(id: string, formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const location = (formData.get("location") as string)?.trim();
+  const locationUrl = (formData.get("locationUrl") as string)?.trim() || null;
   const dateStr = formData.get("date") as string;
 
   if (!name || !description || !location || !dateStr) {
@@ -107,7 +110,7 @@ export async function updateEvent(id: string, formData: FormData) {
   try {
     await prisma.event.update({
       where: { id },
-      data: { name, description, location, date: new Date(dateStr) },
+      data: { name, description, location, locationUrl, date: new Date(dateStr) },
     });
 
     revalidatePath("/admin/events");
@@ -150,6 +153,7 @@ export async function getEventBySlug(slug: string) {
       name: true,
       description: true,
       location: true,
+      locationUrl: true,
       date: true,
       isActive: true,
       slug: true,
