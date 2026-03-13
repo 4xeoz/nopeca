@@ -11,7 +11,6 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 
 const AUTHOR_EMAIL = "iyad@nopeca.com";
 
@@ -585,8 +584,7 @@ async function main() {
     throw new Error("DATABASE_URL environment variable is not set");
   }
 
-  const pool = new Pool({ connectionString });
-  const adapter = new PrismaPg(pool);
+  const adapter = new PrismaPg({ connectionString });
   const prisma = new PrismaClient({ adapter });
 
   // Find the author (super admin)
@@ -626,7 +624,6 @@ async function main() {
   console.log(`\nBlog seed complete. ${BLOG_POSTS.length} posts processed.`);
 
   await prisma.$disconnect();
-  await pool.end();
 }
 
 main().catch((e) => {

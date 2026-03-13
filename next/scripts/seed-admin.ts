@@ -12,7 +12,6 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 
 const SUPER_ADMIN_EMAIL = "iyad@nopeca.com";
 const SUPER_ADMIN_PASSWORD = "nopeca@ceo";
@@ -24,8 +23,7 @@ async function main() {
     throw new Error("DATABASE_URL environment variable is not set");
   }
 
-  const pool = new Pool({ connectionString });
-  const adapter = new PrismaPg(pool);
+  const adapter = new PrismaPg({ connectionString });
   const prisma = new PrismaClient({ adapter });
 
   const hashedPassword = await bcrypt.hash(SUPER_ADMIN_PASSWORD, 12);
@@ -44,7 +42,6 @@ async function main() {
   console.log(`Super admin seeded: ${admin.email} (${admin.role})`);
 
   await prisma.$disconnect();
-  await pool.end();
 }
 
 main().catch((e) => {
