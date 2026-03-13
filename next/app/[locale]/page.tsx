@@ -5,8 +5,9 @@ import AnimatedLogoBand from '@/components/sections/AnimatedLogoBand';
 import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
 import RegistrationStepsSection from '@/components/sections/RegistrationStepsSection';
-import DiscoverPathwaysSection from '@/components/sections/DiscoverPathwaysSection';
+import TeamSection from '@/components/sections/TeamSection';
 import BlogSection from '@/components/sections/BlogSection';
+import UpcomingEventsSection from '@/components/sections/UpcomingEventsSection';
 import JsonLd from '@/components/seo/JsonLd';
 import { getDictionary } from '@/dictionaries';
 import type { Locale } from '@/i18n.config';
@@ -28,8 +29,9 @@ export default async function HomePage({
         <HeroSection dict={dict} />
         <AnimatedLogoBand />
         <WhyWeLovedSection dict={dict} />
-        <DiscoverPathwaysSection dict={dict} />
         <UniShowcaseSection dict={dict} />
+        <TeamSection />
+        <UpcomingEventsSection locale={locale} />
         <BlogSection locale={locale} />
         <RegistrationStepsSection dict={dict} />
       </HomePageWrapper>

@@ -14,23 +14,23 @@
     "howItWorks": "How it works",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Free Consultation"
+    "applyNow": "Get Started"
   },
   "hero": {
     "title": "Your Gateway to",
-    "titleHighlight": "UK Universities",
-    "subtitle": "Nopeca guides Algerian students through every step — university selection, visa, flights, and 1-to-1 arrival support. From Boumerdes to Britain's finest campuses.",
-    "cta": "Get Free Consultation"
+    "titleHighlight": "World-Class Education",
+    "subtitle": "We guide you every step of the way",
+    "cta": "Get Started"
   },
   "why": {
-    "badge": "Why students love Nopeca",
-    "title": "Built by students, for students",
-    "subtitle": "We've navigated the UK university journey ourselves — we know exactly how to get you there"
+    "badge": "Why we are loved",
+    "title": "Built by students for students",
+    "subtitle": "We've been there before and, We know how to get you there"
   },
   "discover": {
     "title": "Discover your pathways",
     "badge": "Explore your options",
-    "cta": "Explore Universities",
+    "cta": "Next Step",
     "statCardTitle": "Our Results",
     "stat1Value": "500+",
     "stat1Label": "Students Placed",
@@ -40,8 +40,8 @@
     "quoteCta": "Explore Universities"
   },
   "universities": {
-    "badge": "Partner Universities",
-    "title": "Britain's Finest Universities",
+    "badge": "Why we are loved",
+    "title": "World's Top Education",
     "pageTitle": "Study at Britain's Finest Universities",
     "pageSubtitle": "Explore programs, compare tuition fees, and let our experts guide you through every step — completely free.",
     "searchPlaceholder": "Search by university, city, or field of study...",
@@ -96,7 +96,7 @@
   },
   "footer": {
     "getInTouch": "Get in Touch",
-    "weWouldLove": "Start your UK study journey today — free consultation",
+    "weWouldLove": "We would love to hear from you",
     "yourName": "Full Name",
     "emailAddress": "Email Address (optional)",
     "phoneNumber": "Phone Number",

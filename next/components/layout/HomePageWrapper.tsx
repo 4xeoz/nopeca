@@ -3,7 +3,6 @@
 import React from "react";
 import Navbar from "./Navbar";
 import FooterSection from "./FooterSection";
-import FloatingContactWidget from "./FloatingContactWidget";
 import type { Dictionary } from "@/dictionaries";
 
 interface HomePageWrapperProps {
@@ -18,7 +17,6 @@ export default function HomePageWrapper({ children, locale, dict }: HomePageWrap
       <Navbar locale={locale} dict={dict} />
       {children}
       <FooterSection dict={dict} locale={locale} />
-      <FloatingContactWidget />
     </div>
   );
 }

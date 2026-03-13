@@ -14,23 +14,23 @@
     "howItWorks": "Comment ça marche",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Consultation gratuite"
+    "applyNow": "Commencer"
   },
   "hero": {
-    "title": "Votre passerelle vers les",
-    "titleHighlight": "Universités Britanniques",
-    "subtitle": "Nopeca guide les étudiants algériens à chaque étape — choix de l'université, visa, vols et accompagnement personnalisé à l'arrivée. De Boumerdès aux meilleurs campus britanniques.",
-    "cta": "Consultation gratuite"
+    "title": "Votre passerelle vers une",
+    "titleHighlight": "éducation de classe mondiale",
+    "subtitle": "Nous vous guidons à chaque étape",
+    "cta": "Commencer"
   },
   "why": {
-    "badge": "Pourquoi les étudiants nous font confiance",
-    "title": "Créé par des étudiants, pour des étudiants",
-    "subtitle": "Nous avons vécu ce parcours nous-mêmes — nous savons exactement comment vous y amener"
+    "badge": "Pourquoi on nous aime",
+    "title": "Créé par des étudiants pour des étudiants",
+    "subtitle": "Nous sommes passés par là et nous savons comment vous y amener"
   },
   "discover": {
     "title": "Découvrez vos parcours",
     "badge": "Explorez vos options",
-    "cta": "Explorer les universités",
+    "cta": "Prochaine étape",
     "statCardTitle": "Nos Résultats",
     "stat1Value": "500+",
     "stat1Label": "Étudiants placés",
@@ -40,8 +40,8 @@
     "quoteCta": "Explorer les universités"
   },
   "universities": {
-    "badge": "Universités partenaires",
-    "title": "Les meilleures universités britanniques",
+    "badge": "Pourquoi on nous aime",
+    "title": "Les meilleures universités du monde",
     "pageTitle": "Étudiez dans les meilleures universités britanniques",
     "pageSubtitle": "Explorez les programmes, comparez les frais de scolarité et laissez nos experts vous guider — entièrement gratuit.",
     "searchPlaceholder": "Rechercher par université, ville ou domaine d'études...",
@@ -96,7 +96,7 @@
   },
   "footer": {
     "getInTouch": "Contactez-nous",
-    "weWouldLove": "Commencez votre parcours d'études au Royaume-Uni — consultation gratuite",
+    "weWouldLove": "Nous serions ravis de vous entendre",
     "yourName": "Nom complet",
     "emailAddress": "Adresse e-mail (optionnel)",
     "phoneNumber": "Numéro de téléphone",

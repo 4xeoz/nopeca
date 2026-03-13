@@ -6,6 +6,7 @@ import { getEventBySlug } from "@/actions/events";
 import Navbar from "@/components/layout/Navbar";
 import RegisterClient from "./register-client";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -35,8 +36,20 @@ export default async function EventPage({ params }: Props) {
       <Navbar locale={locale} dict={dict} />
 
       {/* ── Event hero ──────────────────────────────────────────── */}
-      <section className="bg-[#0a1628] px-4 pb-16 pt-28 md:pt-36">
-        <div className="mx-auto max-w-3xl text-center">
+      <section className="relative bg-[#0a1628] px-4 pb-16 pt-28 md:pt-36">
+        {event.imageUrl && (
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src={event.imageUrl}
+              alt={event.name}
+              fill
+              className="object-cover opacity-20"
+              sizes="100vw"
+              priority
+            />
+          </div>
+        )}
+        <div className="relative mx-auto max-w-3xl text-center">
           <p className="mb-4 text-sm font-medium uppercase tracking-widest text-[#d4a84b]">
             Nopeca Event
           </p>
