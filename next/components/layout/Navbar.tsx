@@ -77,7 +77,7 @@ function ContactDropdown() {
   }, [open]);
 
   return (
-    <div ref={ref} className="relative hidden md:block">
+    <div ref={ref} className="relative">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
