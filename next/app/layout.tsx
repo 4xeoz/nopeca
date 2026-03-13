@@ -11,24 +11,26 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://nopeca.com';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Nopeca — Study Abroad from Algeria | UK Universities',
+    default: 'Study in UK from Algeria | University Admissions & Visa Support | Nopeca',
     template: '%s | Nopeca',
   },
   description:
-    'Nopeca helps Algerian students study abroad at top UK universities. Applications, visas, flights and arrival support. Based in Boumerdes, Algeria.',
+    'Nopeca helps Algerian students study in top UK universities. Expert guidance on admissions, UK student visa, scholarships & arrival support. 500+ students placed. Based in Boumerdes.',
   keywords: [
-    'study abroad Algeria',
-    'étudier à l\'étranger Algérie',
-    'UK universities for Algerians',
-    'Nopeca',
     'study in UK from Algeria',
+    'UK student visa Algeria',
+    'UK universities for Algerian students',
+    'scholarships for Algerian students',
+    'étudier au Royaume-Uni depuis l\'Algérie',
+    'visa étudiant UK Algérie',
+    'study abroad Algeria',
+    'Nopeca',
     'Boumerdes',
-    'visa UK Algérie',
     'Oxford',
     'Cambridge',
     'UCL',
-    'student support Algeria',
-    'الدراسة في الخارج الجزائر',
+    'الدراسة في المملكة المتحدة من الجزائر',
+    'تأشيرة طالب UK الجزائر',
   ],
   authors: [{ name: 'Nopeca', url: SITE_URL }],
   creator: 'Nopeca',
@@ -42,25 +44,25 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Nopeca',
     locale: 'en_DZ',
-    alternateLocale: ['fr_DZ'],
+    alternateLocale: ['fr_DZ', 'ar_DZ'],
     url: SITE_URL,
-    title: 'Nopeca — Your Gateway to Studying Abroad from Algeria',
+    title: 'Study in the UK from Algeria | Nopeca — Your Gateway to British Universities',
     description:
-      'From Boumerdes to the UK\'s top universities. Nopeca guides Algerian students through every step — applications, visas, flights, and 1-to-1 arrival support.',
+      '500+ Algerian students placed at top UK universities. Expert support for admissions, UK student visa, flights & arrival. Based in Boumerdes. Free consultation.',
     images: [
       {
         url: 'https://nopeca.com/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Nopeca — Study Abroad from Algeria',
+        alt: 'Nopeca — Study in the UK from Algeria',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nopeca — Study Abroad from Algeria',
+    title: 'Study in UK from Algeria | Nopeca',
     description:
-      'We help Algerian students get into top UK universities. Applications, visas, flights, and arrival support.',
+      '500+ Algerian students placed at top UK universities. Free expert guidance on admissions, visa, flights & arrival support.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -79,6 +81,8 @@ export const metadata: Metadata = {
     languages: {
       'en': `${SITE_URL}/en`,
       'fr': `${SITE_URL}/fr`,
+      'ar': `${SITE_URL}/ar`,
+      'x-default': `${SITE_URL}/en`,
     },
   },
   verification: {

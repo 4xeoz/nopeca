@@ -20,6 +20,11 @@ type ArcGalleryHeroProps = {
   cardSizeSm?: number;
   cardSizeXs?: number;
   className?: string;
+  title?: string;
+  titleHighlight?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
 };
 
 const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
@@ -37,6 +42,11 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   cardSizeSm = 100,
   cardSizeXs = 90,
   className = '',
+  title = 'Your Gateway to',
+  titleHighlight = 'UK Universities',
+  subtitle = 'Nopeca guides Algerian students through every step — university selection, visa, flights, and 1-to-1 arrival support. From Boumerdes to Britain\'s finest campuses.',
+  ctaText = 'Get Free Consultation',
+  ctaHref = '#contact',
 }) => {
   const [dimensions, setDimensions] = useState({
     radius: radiusXl,
@@ -156,19 +166,19 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           transition={{ duration: 0.6, delay: canAnimate ? 0.8 : 0, ease: 'easeOut' }}
         >
           <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6 ">
-            Unlock Your{" "}
+            {title}{" "}
             <span className="relative inline-block text-nowrap ">
-              Future Education
+              {titleHighlight}
               <span className="pointer-events-none absolute right-0 -bottom-5 w-[60%] lg:-bottom-10">
                 <AnimatedVectorline />
               </span>
             </span>
           </h1>
           <p className=" mt-4 leading-tight sm:leading-normal sm:mt-8 text-lg text-muted-foreground">
-            Our templates eliminate the need for custom design, long feedback loops, and endless dev cycles — helping you go live in days, not weeks.
+            {subtitle}
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-8 sm:flex-row">
-            <a href="#contact" onClick={() => trackGetStartedClick("hero")} className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">Get Started</a>
+            <a href={ctaHref} onClick={() => trackGetStartedClick("hero")} className="rounded-full bg-[--color-brand-secondary] px-10 py-3 text-base font-bold text-white sm:px-14 sm:py-4 sm:text-lg md:px-20 md:py-5 md:text-xl">{ctaText}</a>
           </div>
         </motion.div>
       </div>

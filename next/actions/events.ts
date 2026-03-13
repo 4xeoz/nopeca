@@ -36,6 +36,7 @@ export async function createEvent(formData: FormData) {
   const description = (formData.get("description") as string)?.trim();
   const location = (formData.get("location") as string)?.trim();
   const dateStr = formData.get("date") as string;
+  const imageUrl = (formData.get("imageUrl") as string)?.trim() || null;
 
   if (!name || !description || !location || !dateStr) {
     return { error: "All fields are required" };
@@ -51,6 +52,7 @@ export async function createEvent(formData: FormData) {
         location,
         date: new Date(dateStr),
         slug,
+        imageUrl,
         createdById: session.user.id!,
       },
     });
@@ -99,6 +101,7 @@ export async function updateEvent(id: string, formData: FormData) {
   const description = (formData.get("description") as string)?.trim();
   const location = (formData.get("location") as string)?.trim();
   const dateStr = formData.get("date") as string;
+  const imageUrl = (formData.get("imageUrl") as string)?.trim() || null;
 
   if (!name || !description || !location || !dateStr) {
     return { error: "All fields are required" };
@@ -107,7 +110,7 @@ export async function updateEvent(id: string, formData: FormData) {
   try {
     await prisma.event.update({
       where: { id },
-      data: { name, description, location, date: new Date(dateStr) },
+      data: { name, description, location, date: new Date(dateStr), imageUrl },
     });
 
     revalidatePath("/admin/events");
@@ -153,8 +156,32 @@ export async function getEventBySlug(slug: string) {
       date: true,
       isActive: true,
       slug: true,
+      imageUrl: true,
       _count: { select: { registrations: true } },
     },
+  });
+}
+
+// ─── Public: Get upcoming events ───────────────────────────────────────────
+
+export async function getUpcomingEvents(limit = 6) {
+  return prisma.event.findMany({
+    where: {
+      isActive: true,
+      date: { gte: new Date() },
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      location: true,
+      date: true,
+      slug: true,
+      imageUrl: true,
+      _count: { select: { registrations: true } },
+    },
+    orderBy: { date: "asc" },
+    take: limit,
   });
 }
 

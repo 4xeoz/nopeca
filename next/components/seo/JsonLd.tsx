@@ -8,23 +8,36 @@ interface JsonLdProps {
 }
 
 export default function JsonLd({ locale, dict }: JsonLdProps) {
+  const isAr = locale === "ar";
+  const isFr = locale === "fr";
+
   const organization = {
     "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
+    "@type": ["EducationalOrganization", "LocalBusiness"],
     name: "Nopeca",
+    alternateName: ["Advanced Pathways Global", "نوبيكا"],
     url: SITE_URL,
     logo: `${SITE_URL}/singl_logo_colord_white_background@4x.png`,
+    image: `${SITE_URL}/og-image.png`,
     description: dict.seo.description,
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Boumerdes",
       addressLocality: "Boumerdes",
+      addressRegion: "Boumerdes Province",
       addressCountry: "DZ",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "36.7595",
+      longitude: "3.4671",
     },
     contactPoint: [
       {
         "@type": "ContactPoint",
         telephone: "+213-560-409-193",
         contactType: "customer service",
+        areaServed: "DZ",
         availableLanguage: ["English", "French", "Arabic"],
       },
       {
@@ -32,18 +45,30 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
         telephone: "+213-561-799-531",
         contactType: "customer service",
         contactOption: "https://wa.me/213561799531",
+        areaServed: "DZ",
         availableLanguage: ["English", "French", "Arabic"],
       },
     ],
+    email: "contact@nopeca.com",
     sameAs: [
       "https://instagram.com/nopeca",
       "https://linkedin.com/company/nopeca",
     ],
-    areaServed: {
-      "@type": "Country",
-      name: "Algeria",
-    },
-    serviceType: "Study Abroad Consulting",
+    areaServed: [
+      {
+        "@type": "Country",
+        name: "Algeria",
+      },
+    ],
+    serviceType: [
+      "Study Abroad Consulting",
+      "University Admissions",
+      "UK Student Visa Assistance",
+      "Scholarship Guidance",
+    ],
+    priceRange: "Free Consultation",
+    openingHours: "Mo-Sa 09:00-18:00",
+    hasMap: "https://maps.google.com/?q=Advanced+Pathways+Global+Boumerdes",
   };
 
   const website = {
@@ -51,10 +76,10 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
     "@type": "WebSite",
     name: "Nopeca",
     url: SITE_URL,
-    inLanguage: [locale === "fr" ? "fr-DZ" : "en"],
+    inLanguage: isAr ? "ar-DZ" : isFr ? "fr-DZ" : "en",
     potentialAction: {
       "@type": "SearchAction",
-      target: `${SITE_URL}/${locale}#contact`,
+      target: `${SITE_URL}/${locale}/universities`,
       "query-input": "required name=search_term_string",
     },
   };
@@ -63,61 +88,33 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
-      {
-        "@type": "Question",
-        name:
-          locale === "fr"
-            ? "Comment Nopeca aide les étudiants algériens à étudier à l'étranger ?"
-            : "How does Nopeca help Algerian students study abroad?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "fr"
-              ? "Nopeca accompagne les étudiants algériens de A à Z : sélection de l'université, candidature, visa, vol et accompagnement à l'arrivée au Royaume-Uni."
-              : "Nopeca provides end-to-end support for Algerian students: university selection, application, visa processing, flight booking, and 1-to-1 arrival support in the UK.",
-        },
+      { q: dict.faq.q1, a: dict.faq.a1 },
+      { q: dict.faq.q2, a: dict.faq.a2 },
+      { q: dict.faq.q3, a: dict.faq.a3 },
+      { q: dict.faq.q4, a: dict.faq.a4 },
+      { q: dict.faq.q5, a: dict.faq.a5 },
+      { q: dict.faq.q6, a: dict.faq.a6 },
+      { q: dict.faq.q7, a: dict.faq.a7 },
+      { q: dict.faq.q8, a: dict.faq.a8 },
+    ].map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: a,
       },
+    })),
+  };
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        "@type": "Question",
-        name:
-          locale === "fr"
-            ? "Quelles universités britanniques sont accessibles via Nopeca ?"
-            : "Which UK universities can I access through Nopeca?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "fr"
-              ? "Nopeca travaille avec les meilleures universités du Royaume-Uni, notamment Oxford, Cambridge, UCL, Oxford Brookes et Royal Holloway."
-              : "Nopeca works with top UK universities including Oxford, Cambridge, UCL, Oxford Brookes, and Royal Holloway.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "fr"
-            ? "Nopeca aide-t-il avec le visa UK depuis l'Algérie ?"
-            : "Does Nopeca help with UK visa applications from Algeria?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "fr"
-              ? "Oui, Nopeca gère l'intégralité du processus de visa UK : préparation des documents, réservation de vol et tous les détails de voyage."
-              : "Yes, Nopeca handles the entire UK visa process: document preparation, flight booking, and all travel logistics.",
-        },
-      },
-      {
-        "@type": "Question",
-        name:
-          locale === "fr"
-            ? "Où se trouve Nopeca en Algérie ?"
-            : "Where is Nopeca located in Algeria?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text:
-            locale === "fr"
-              ? "Nopeca est basé à Boumerdès, Algérie. Vous pouvez nous contacter par téléphone, WhatsApp ou via notre formulaire en ligne."
-              : "Nopeca is based in Boumerdes, Algeria. You can reach us by phone, WhatsApp, or through our online contact form.",
-        },
+        "@type": "ListItem",
+        position: 1,
+        name: isAr ? "الرئيسية" : isFr ? "Accueil" : "Home",
+        item: `${SITE_URL}/${locale}`,
       },
     ],
   };
@@ -135,6 +132,10 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
     </>
   );

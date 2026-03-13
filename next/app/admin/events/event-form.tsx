@@ -11,6 +11,7 @@ interface EventData {
   description?: string;
   location?: string;
   date?: Date | string;
+  imageUrl?: string | null;
 }
 
 function toDatetimeLocal(date: Date | string | undefined): string {
@@ -114,6 +115,23 @@ export default function EventForm({ event }: { event?: EventData }) {
           required
           className={inputCls}
         />
+      </div>
+
+      {/* Image URL */}
+      <div>
+        <label className={labelCls}>
+          Image URL <span className="text-[#0a1628]/35 font-normal">(optional)</span>
+        </label>
+        <input
+          name="imageUrl"
+          type="url"
+          defaultValue={event?.imageUrl ?? ""}
+          placeholder="https://example.com/event-image.jpg"
+          className={inputCls}
+        />
+        <p className="mt-1 text-xs text-[#0a1628]/40">
+          Link to an image that will be shown on the event page and upcoming events section.
+        </p>
       </div>
 
       {/* Actions */}

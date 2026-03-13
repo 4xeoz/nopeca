@@ -5,21 +5,65 @@ import { getAllPublishedSlugs } from '@/actions/blog';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://nopeca.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const locales = i18n.locales.filter((l) => l !== 'ar');
   const allLocales = i18n.locales;
 
-  // Home pages
-  const routes: MetadataRoute.Sitemap = locales.map((locale) => ({
+  // Home pages — include all locales (en, fr, ar)
+  const routes: MetadataRoute.Sitemap = allLocales.map((locale) => ({
     url: `${SITE_URL}/${locale}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 1,
     alternates: {
       languages: Object.fromEntries(
-        locales.map((l) => [l, `${SITE_URL}/${l}`])
+        allLocales.map((l) => [l, `${SITE_URL}/${l}`])
       ),
     },
   }));
+
+  // Universities pages
+  allLocales.forEach((locale) => {
+    routes.push({
+      url: `${SITE_URL}/${locale}/universities`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+      alternates: {
+        languages: Object.fromEntries(
+          allLocales.map((l) => [l, `${SITE_URL}/${l}/universities`])
+        ),
+      },
+    });
+  });
+
+  // FAQ pages
+  allLocales.forEach((locale) => {
+    routes.push({
+      url: `${SITE_URL}/${locale}/faq`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+      alternates: {
+        languages: Object.fromEntries(
+          allLocales.map((l) => [l, `${SITE_URL}/${l}/faq`])
+        ),
+      },
+    });
+  });
+
+  // Contact pages
+  allLocales.forEach((locale) => {
+    routes.push({
+      url: `${SITE_URL}/${locale}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+      alternates: {
+        languages: Object.fromEntries(
+          allLocales.map((l) => [l, `${SITE_URL}/${l}/contact`])
+        ),
+      },
+    });
+  });
 
   // Blog listing pages
   allLocales.forEach((locale) => {

@@ -3,6 +3,8 @@
 import { motion } from "motion/react";
 import ScrollReveal from "../ui/ScrollReveal";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import uni12 from "@/public/univeristy_showcase/image-gen (12).png";
 import uni13 from "@/public/univeristy_showcase/image-gen (13).png";
 import uni14 from "@/public/univeristy_showcase/image-gen (14).png";
@@ -15,6 +17,9 @@ interface UniShowcaseSectionProps {
 }
 
 export default function UniShowcaseSection({ dict }: UniShowcaseSectionProps) {
+  const params = useParams();
+  const locale = (params?.locale as string) ?? "en";
+
   const universities = [
     { id: 1, name: "Oxford", image: uni12 },
     { id: 2, name: "Brookes", image: uni13 },
@@ -32,7 +37,7 @@ export default function UniShowcaseSection({ dict }: UniShowcaseSectionProps) {
         {/* LEFT COLUMN - Header Content */}
         <ScrollReveal
           direction="left"
-          className="flex w-full shrink-0 flex-col gap-6 md:gap-8 lg:w-[30%] lg:gap-12"
+          className="flex w-full shrink-0 flex-col gap-6 md:gap-8 lg:w-[30%] lg:gap-10"
         >
           {/* Badge */}
           <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#f5f0e8] px-4 py-2">
@@ -46,6 +51,14 @@ export default function UniShowcaseSection({ dict }: UniShowcaseSectionProps) {
           <h2 className="text-balance text-3xl font-bold leading-tight text-[#f5f0e8] sm:text-4xl md:text-5xl">
             {dict.universities.title}
           </h2>
+
+          {/* Next Step CTA (moved from DiscoverPathways) */}
+          <Link
+            href={`/${locale}/universities`}
+            className="inline-block w-fit rounded-full bg-[#d4a84b] px-8 py-3 text-center text-base font-medium text-white transition-colors hover:bg-[#c49a3d] sm:py-4 sm:text-lg"
+          >
+            {dict.discover.cta}
+          </Link>
         </ScrollReveal>
 
         {/* RIGHT COLUMN - University Cards Grid */}
