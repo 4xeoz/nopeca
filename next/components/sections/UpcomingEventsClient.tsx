@@ -185,7 +185,7 @@ export default function UpcomingEventsClient({ events, locale }: Props) {
         <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           {/* Left */}
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-[--color-brand-secondary]/15 px-4 py-1.5 text-sm font-semibold text-[--color-brand-secondary]">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-3 text-sm font-semibold text-[--color-brand-primary]">
               <span className="h-2 w-2 rounded-full bg-[--color-brand-secondary]" />
               {l.badge}
             </span>
