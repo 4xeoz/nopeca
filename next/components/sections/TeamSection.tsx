@@ -21,11 +21,11 @@ interface TeamMember {
 const TEAM: TeamMember[] = [
   {
     id: 1,
-    name: "Amir Benali",
-    role: "Co-Founder & Director",
+    name: "Eyad Cherifi",
+    role: "Uk Representative & Co-Founder",
     department: "Leadership",
     bio: "Former Oxford Brookes student who founded Nopeca to make UK education accessible for every Algerian student. 7+ years guiding students through admissions and visas.",
-    image: "",
+    image: "/team/eyad-cherifi.png",
     initials: "AB",
     color: "#0a1628",
     linkedin: "#",
@@ -33,8 +33,8 @@ const TEAM: TeamMember[] = [
   },
   {
     id: 2,
-    name: "Sara Meziane",
-    role: "Head of Admissions",
+    name: "Mellisa zouzou",
+    role: "Co-Founder & Head of Admissions",
     department: "Admissions",
     bio: "Expert in UCAS applications and university matching. Has personally guided 300+ students to UK universities including UCL, Manchester, and Royal Holloway.",
     image: "",
@@ -203,18 +203,12 @@ function BioModal({
 }
 
 export default function TeamSection() {
-  const [activeFilter, setActiveFilter] = useState("All");
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
-
-  const filtered =
-    activeFilter === "All"
-      ? TEAM
-      : TEAM.filter((m) => m.department === activeFilter);
 
   const scrollTo = useCallback((idx: number) => {
     const el = scrollRef.current;
@@ -243,7 +237,7 @@ export default function TeamSection() {
     }
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
-  }, [filtered]);
+  }, []);
 
   // Drag-to-scroll
   function onMouseDown(e: React.MouseEvent) {
@@ -299,122 +293,87 @@ export default function TeamSection() {
             </div>
           </div>
 
-          {/* ── Partner Logo Bar ──────────────────────────────────── */}
-          <div className="mb-12 flex flex-wrap items-center gap-4">
-            {PARTNER_LOGOS.map((p) => (
-              <div
-                key={p.text}
-                className="flex items-center gap-2 rounded-xl px-4 py-2.5"
-                style={{ backgroundColor: p.bg }}
-              >
-                <div
-                  className="flex h-7 w-7 items-center justify-center rounded-md text-sm font-bold text-white"
-                  style={{ backgroundColor: p.color }}
-                >
-                  {p.text[0]}
-                </div>
-                <span className="text-sm font-semibold" style={{ color: p.color }}>
-                  {p.text}
-                </span>
-              </div>
-            ))}
-          </div>
 
-          {/* ── Department Filter ────────────────────────────────── */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            {DEPARTMENTS.map((dept) => (
-              <button
-                key={dept}
-                onClick={() => { setActiveFilter(dept); setActiveIndex(0); }}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                  activeFilter === dept
-                    ? "bg-[--color-brand-primary] text-white"
-                    : "bg-[--color-brand-primary]/5 text-[--color-brand-primary]/70 hover:bg-[--color-brand-primary]/10"
-                }`}
-              >
-                {dept}
-              </button>
-            ))}
-          </div>
 
           {/* ── Carousel ─────────────────────────────────────────── */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide cursor-grab active:cursor-grabbing select-none"
+            className="flex gap-4 overflow-x-auto pb-4 cursor-grab active:cursor-grabbing select-none"
             style={{ scrollSnapType: "x mandatory" }}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
           >
-            {filtered.map((member, i) => (
-              <motion.div
-                key={member.id}
-                data-card
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: i * 0.07, ease: "easeOut" }}
-                style={{ scrollSnapAlign: "start" }}
-                className="group relative flex w-52 shrink-0 flex-col rounded-2xl border border-[--color-border-soft] bg-white p-4 shadow-sm transition hover:shadow-md sm:w-60"
-              >
-                {/* Photo */}
-                <div
-                  className="relative mb-4 aspect-square w-full overflow-hidden rounded-xl"
-                  style={{ backgroundColor: member.color + "18" }}
+            {TEAM.map((member, i) => (
+              <div key={member.id} data-card className="flex flex-col w-52 shrink-0 sm:w-60 md:w-72 lg:w-80">
+                {/* Image Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.45, delay: i * 0.07, ease: "easeOut" }}
+                  style={{ scrollSnapAlign: "start" }}
+                  className="group relative w-full h-64 md:h-96 rounded-2xl border border-[--color-border-soft] bg-white shadow-sm transition hover:shadow-md overflow-hidden"
                 >
-                  {member.image ? (
-                    <Image src={member.image} alt={member.name} fill className="object-cover transition group-hover:scale-105" />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-4xl font-bold" style={{ color: member.color }}>
-                      {member.initials}
-                    </div>
-                  )}
+                  {/* Photo - takes full height */}
+                  <div
+                    className="relative h-full w-full overflow-hidden"
+                    style={{ backgroundColor: member.color + "18" }}
+                  >
+                    {member.image ? (
+                      <Image src={member.image} alt={member.name} fill className="object-cover transition group-hover:scale-105" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-4xl font-bold" style={{ color: member.color }}>
+                        {member.initials}
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Social icons on hover */}
-                  <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-black/60 to-transparent px-3 py-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                  {/* Social icons - inside card, top right in column */}
+                  <div className="absolute top-3 right-3 flex flex-col gap-2">
                     {member.linkedin && (
                       <a href={member.linkedin} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white hover:text-[#0a1628]">
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-[--color-brand-primary] transition hover:bg-white hover:text-[--color-brand-primary]">
                         <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
                       </a>
                     )}
                     {member.twitter && (
                       <a href={member.twitter} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white hover:text-[#0a1628]">
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-[--color-brand-primary] transition hover:bg-white hover:text-[--color-brand-primary]">
                         <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                       </a>
                     )}
                     {member.instagram && (
                       <a href={member.instagram} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white hover:text-[#0a1628]">
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-[--color-brand-primary] transition hover:bg-white hover:text-[--color-brand-primary]">
                         <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
                       </a>
                     )}
                   </div>
-                </div>
+                </motion.div>
 
-                {/* Info */}
+                {/* Info - outside card, below image */}
                 <button
-                  className="text-left"
+                  className="text-left mt-4"
                   onClick={() => setSelectedMember(member)}
                 >
                   <p className="font-bold text-[--color-brand-primary]">{member.name}</p>
                   <p className="mt-0.5 text-sm text-[--color-text-primary]/55">{member.role}</p>
                   <span
-                    className="mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
+                    className="mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium w-fit"
                     style={{ backgroundColor: member.color + "15", color: member.color }}
                   >
                     {member.department}
                   </span>
                 </button>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* ── Pagination dots ──────────────────────────────────── */}
           <div className="mt-4 flex items-center justify-center gap-2">
-            {filtered.map((_, i) => (
+            {TEAM.map((_, i) => (
               <button
                 key={i}
                 onClick={() => scrollTo(i)}

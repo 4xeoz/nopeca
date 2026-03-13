@@ -5,8 +5,8 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      { hostname: process.env.IMAGE_HOSTNAME || 'localhost' },
-      { hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
     ],
   },
   pageExtensions: ['ts', 'tsx'],

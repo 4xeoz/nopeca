@@ -145,7 +145,7 @@ export default function Navbar({ locale, dict }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-3 pt-3 sm:px-6 sm:pt-4 lg:px-8">
-        <nav className="flex items-center justify-between gap-3 rounded-2xl border border-[--color-border-soft] bg-[--color-bg-secondary] px-3 py-2 shadow-xl shadow-black/10 backdrop-blur md:px-5 md:py-2.5">
+        <nav className="flex items-center justify-between gap-3 rounded-full border border-[--color-border-soft] bg-[--color-bg-secondary] px-3 py-2 shadow-xl shadow-black/10 backdrop-blur md:px-5 md:py-2.5">
 
           {/* LEFT: Logo */}
           <div className="flex shrink-0 items-center">
