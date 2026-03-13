@@ -25,7 +25,7 @@ const TEAM: TeamMember[] = [
     role: "Uk Representative & Co-Founder",
     department: "Leadership",
     bio: "Former Oxford Brookes student who founded Nopeca to make UK education accessible for every Algerian student. 7+ years guiding students through admissions and visas.",
-    image: "/team/eyad-cherifi.png",
+    image: "/team/Eyad-cherifi.png",
     initials: "AB",
     color: "#0a1628",
     linkedin: "#",
