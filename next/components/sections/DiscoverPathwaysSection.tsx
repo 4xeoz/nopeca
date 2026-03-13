@@ -71,7 +71,7 @@ export default function DiscoverPathwaysSection({ dict }: DiscoverPathwaysSectio
             <div className="mx-auto mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-[#f5f0e8] px-4 py-2 md:mb-8">
               <span className="h-2.5 w-2.5 rounded-full bg-[#0a1628]" />
               <span className="text-sm font-medium text-[#0a1628]">
-                {dict.why.badge}
+                {dict.discover.badge}
               </span>
             </div>
 

@@ -25,7 +25,7 @@ export default async function HomePage({
     <>
       <JsonLd locale={locale} dict={dict} />
       <HomePageWrapper locale={locale} dict={dict}>
-        <HeroSection />
+        <HeroSection dict={dict} />
         <AnimatedLogoBand />
         <WhyWeLovedSection dict={dict} />
         <DiscoverPathwaysSection dict={dict} />

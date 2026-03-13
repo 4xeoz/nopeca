@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "Nopeca — Study Abroad from Algeria | UK Universities",
-    "description": "Nopeca helps Algerian students study abroad at top UK universities. We handle applications, visas, flights, and arrival support. Based in Boumerdes, Algeria.",
-    "keywords": "study abroad Algeria, étudier à l'étranger Algérie, UK universities for Algerians, Nopeca, study in UK from Algeria, Boumerdes, visa UK Algérie, Oxford, Cambridge, UCL, student support Algeria, الدراسة في الخارج الجزائر",
-    "ogTitle": "Nopeca — Your Gateway to Studying Abroad from Algeria",
-    "ogDescription": "From Boumerdes to the UK's top universities. Nopeca guides Algerian students through every step — applications, visas, flights, and 1-to-1 arrival support."
+    "title": "Study in UK from Algeria | University Admissions & Visa Support | Nopeca",
+    "description": "Nopeca helps Algerian students study in top UK universities. Expert guidance on admissions, UK student visa, scholarships & arrival support. 500+ students placed. Based in Boumerdes.",
+    "keywords": "study in UK from Algeria, UK student visa Algeria, UK universities for Algerian students, scholarships for Algerian students, study abroad Algeria, Nopeca, university admissions Algeria, Boumerdes, visa UK Algérie, Oxford, Cambridge, UCL, الدراسة في الخارج الجزائر",
+    "ogTitle": "Study in the UK from Algeria | Nopeca — Your Gateway to British Universities",
+    "ogDescription": "500+ Algerian students placed at top UK universities. Expert support for admissions, UK student visa, flights & arrival. Based in Boumerdes. Free consultation."
   },
   "nav": {
     "home": "Home",
@@ -14,20 +14,23 @@
     "howItWorks": "How it works",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Get Started"
+    "applyNow": "Free Consultation"
   },
   "hero": {
-    "title": "Your Gateway to World-Class Education",
-    "subtitle": "We guide you every step of the way"
+    "title": "Your Gateway to",
+    "titleHighlight": "UK Universities",
+    "subtitle": "Nopeca guides Algerian students through every step — university selection, visa, flights, and 1-to-1 arrival support. From Boumerdes to Britain's finest campuses.",
+    "cta": "Get Free Consultation"
   },
   "why": {
-    "badge": "Why we are loved",
-    "title": "Built by students for students",
-    "subtitle": "We've been there before and, We know how to get you there"
+    "badge": "Why students love Nopeca",
+    "title": "Built by students, for students",
+    "subtitle": "We've navigated the UK university journey ourselves — we know exactly how to get you there"
   },
   "discover": {
     "title": "Discover your pathways",
-    "cta": "Next Step",
+    "badge": "Explore your options",
+    "cta": "Explore Universities",
     "statCardTitle": "Our Results",
     "stat1Value": "500+",
     "stat1Label": "Students Placed",
@@ -37,8 +40,8 @@
     "quoteCta": "Explore Universities"
   },
   "universities": {
-    "badge": "Why we are loved",
-    "title": "World's Top Education",
+    "badge": "Partner Universities",
+    "title": "Britain's Finest Universities",
     "pageTitle": "Study at Britain's Finest Universities",
     "pageSubtitle": "Explore programs, compare tuition fees, and let our experts guide you through every step — completely free.",
     "searchPlaceholder": "Search by university, city, or field of study...",
@@ -64,15 +67,36 @@
     "title": "Your Journey Starts Here",
     "description": "From application to arrival, we handle everything so you can focus on your future.",
     "step1Title": "Register & Apply",
-    "step1Desc": "Fill out our simple form and let our experts match you with the perfect university and program.",
+    "step1Desc": "Fill out our simple form and let our experts match you with the perfect UK university and program for your goals and budget.",
     "step2Title": "Visa & Flight",
-    "step2Desc": "We handle your visa application, book your flights, and prepare all travel documents.",
+    "step2Desc": "We handle your UK student visa application end-to-end, book your flights, and prepare all travel documents.",
     "step3Title": "Arrival & 1-to-1 Support",
-    "step3Desc": "From airport pickup to settling in, our local team provides personalized support every step of the way."
+    "step3Desc": "From airport pickup to settling in, our local team provides personalised support every step of the way."
+  },
+  "faq": {
+    "pageTitle": "Frequently Asked Questions",
+    "pageSubtitle": "Everything Algerian students need to know about studying in the UK",
+    "badge": "FAQ",
+    "q1": "How does Nopeca help Algerian students study in the UK?",
+    "a1": "Nopeca provides complete end-to-end support: we assess your academic profile, match you to the right UK university and program, handle your UCAS or direct application, manage your UK student visa process, book your flights, and provide 1-to-1 arrival support when you land in the UK. Our team has helped 500+ Algerian students successfully.",
+    "q2": "Which UK universities can I access through Nopeca?",
+    "a2": "Nopeca works with 200+ UK universities including Oxford, Cambridge, UCL, Imperial College London, University of Manchester, Oxford Brookes, Royal Holloway, and many more. We match you to the university that fits your academic profile, budget, and career goals.",
+    "q3": "Does Nopeca help with UK student visa applications from Algeria?",
+    "a3": "Yes. Our visa team handles your entire UK Student visa application: CAS letter guidance, biometrics appointment preparation, financial documentation, and language test requirements. Our visa success rate is 98%.",
+    "q4": "Are there scholarships available for Algerian students studying in the UK?",
+    "a4": "Yes. Many UK universities offer international scholarships and partial fee reductions for Algerian students. Nopeca advisors check your eligibility for merit-based awards, country-specific bursaries, and foundation year discounts — completely free.",
+    "q5": "How much does it cost to study in the UK from Algeria?",
+    "a5": "UK university tuition for international students typically ranges from £10,000–£26,000 per year depending on the university and program. Living costs average £12,000–£15,000 per year. Nopeca advisors provide a personalised cost breakdown and help identify scholarships to reduce your expenses.",
+    "q6": "Where is Nopeca located and how can I contact you?",
+    "a6": "Nopeca is based in Boumerdes, Algeria. You can reach us by calling 0560 409 193, via WhatsApp at +213 561 799 531, by email at contact@nopeca.com, or by filling out our contact form. Consultations are free.",
+    "q7": "What are the English language requirements for UK universities?",
+    "a7": "Most UK universities require an IELTS score of 6.0–7.0 (depending on the course). Some universities accept alternatives like TOEFL or Duolingo English Test. Nopeca advisors guide you on the exact requirements for your target university and help you prepare.",
+    "q8": "How long does the UK university application process take for Algerian students?",
+    "a8": "Typically 3–6 months from initial consultation to receiving your university offer letter. The UK student visa process takes an additional 3–8 weeks. We recommend starting at least 9–12 months before your intended study start date."
   },
   "footer": {
     "getInTouch": "Get in Touch",
-    "weWouldLove": "We would love to hear from you",
+    "weWouldLove": "Start your UK study journey today — free consultation",
     "yourName": "Full Name",
     "emailAddress": "Email Address (optional)",
     "phoneNumber": "Phone Number",
@@ -86,7 +110,7 @@
     "sending": "Sending...",
     "connectWithUs": "Connect with us",
     "ourLocation": "Our Location",
-    "visitUs": "Visit us at our office",
+    "visitUs": "Visit us at our office in Boumerdes, Algeria",
     "email": "Email",
     "mobile": "Mobile",
     "copyright": "Nopeca. All rights reserved.",

@@ -17,7 +17,7 @@ export default function HomePageWrapper({ children, locale, dict }: HomePageWrap
     <div className="w-full bg-[--color-bg-primary] text-[--color-text-primary]">
       <Navbar locale={locale} dict={dict} />
       {children}
-      <FooterSection dict={dict} />
+      <FooterSection dict={dict} locale={locale} />
       <FloatingContactWidget />
     </div>
   );

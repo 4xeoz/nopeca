@@ -82,9 +82,10 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 interface FooterSectionProps {
   dict: Dictionary;
+  locale?: string;
 }
 
-export default function FooterSection({ dict }: FooterSectionProps) {
+export default function FooterSection({ dict, locale = "en" }: FooterSectionProps) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -364,8 +365,9 @@ export default function FooterSection({ dict }: FooterSectionProps) {
             &copy; {new Date().getFullYear()} {dict.footer.copyright}
           </p>
           <div className="flex items-center gap-6 text-sm">
-            <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.privacy}</a>
-            <a href="#" className="text-white/50 hover:text-white transition-colors">{dict.footer.terms}</a>
+            <Link href={`/${locale}/faq`} className="text-white/50 hover:text-white transition-colors">FAQ</Link>
+            <Link href={`/${locale}/blog`} className="text-white/50 hover:text-white transition-colors">{dict.nav.blog}</Link>
+            <Link href={`/${locale}/universities`} className="text-white/50 hover:text-white transition-colors">{dict.nav.universities}</Link>
             <Link
               href="/admin/login"
               className="text-white/25 hover:text-white/50 transition-colors text-xs"

@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "Nopeca — Étudier à l'étranger depuis l'Algérie | Universités UK",
-    "description": "Nopeca accompagne les étudiants algériens pour étudier dans les meilleures universités britanniques. Candidature, visa, vol et accompagnement à l'arrivée. Basé à Boumerdès, Algérie.",
-    "keywords": "étudier à l'étranger Algérie, study abroad Algeria, universités UK pour algériens, Nopeca, étudier au Royaume-Uni depuis l'Algérie, Boumerdès, visa UK Algérie, Oxford, Cambridge, UCL, accompagnement étudiant Algérie",
-    "ogTitle": "Nopeca — Votre passerelle pour étudier à l'étranger depuis l'Algérie",
-    "ogDescription": "De Boumerdès aux meilleures universités du Royaume-Uni. Nopeca guide les étudiants algériens à chaque étape — candidature, visa, vol et accompagnement personnalisé."
+    "title": "Étudier au Royaume-Uni depuis l'Algérie | Admissions & Visa | Nopeca",
+    "description": "Nopeca accompagne les étudiants algériens dans les meilleures universités britanniques. Candidature, visa étudiant UK, bourses et accompagnement à l'arrivée. 500+ étudiants placés. Basé à Boumerdès.",
+    "keywords": "étudier au Royaume-Uni depuis l'Algérie, visa étudiant UK Algérie, universités UK pour algériens, bourses étudiants algériens, étudier à l'étranger Algérie, Nopeca, admissions université Algérie, Boumerdès, Oxford, Cambridge, UCL",
+    "ogTitle": "Étudier au Royaume-Uni depuis l'Algérie | Nopeca — Votre passerelle vers les universités britanniques",
+    "ogDescription": "500+ étudiants algériens placés dans les meilleures universités britanniques. Accompagnement expert pour admissions, visa étudiant UK, vols et arrivée. Consultation gratuite."
   },
   "nav": {
     "home": "Accueil",
@@ -14,20 +14,23 @@
     "howItWorks": "Comment ça marche",
     "blog": "Blog",
     "contact": "Contact",
-    "applyNow": "Commencer"
+    "applyNow": "Consultation gratuite"
   },
   "hero": {
-    "title": "Votre passerelle vers une éducation de classe mondiale",
-    "subtitle": "Nous vous guidons à chaque étape"
+    "title": "Votre passerelle vers les",
+    "titleHighlight": "Universités Britanniques",
+    "subtitle": "Nopeca guide les étudiants algériens à chaque étape — choix de l'université, visa, vols et accompagnement personnalisé à l'arrivée. De Boumerdès aux meilleurs campus britanniques.",
+    "cta": "Consultation gratuite"
   },
   "why": {
-    "badge": "Pourquoi on nous aime",
-    "title": "Créé par des étudiants pour des étudiants",
-    "subtitle": "Nous sommes passés par là et nous savons comment vous y amener"
+    "badge": "Pourquoi les étudiants nous font confiance",
+    "title": "Créé par des étudiants, pour des étudiants",
+    "subtitle": "Nous avons vécu ce parcours nous-mêmes — nous savons exactement comment vous y amener"
   },
   "discover": {
     "title": "Découvrez vos parcours",
-    "cta": "Prochaine étape",
+    "badge": "Explorez vos options",
+    "cta": "Explorer les universités",
     "statCardTitle": "Nos Résultats",
     "stat1Value": "500+",
     "stat1Label": "Étudiants placés",
@@ -37,8 +40,8 @@
     "quoteCta": "Explorer les universités"
   },
   "universities": {
-    "badge": "Pourquoi on nous aime",
-    "title": "Les meilleures universités du monde",
+    "badge": "Universités partenaires",
+    "title": "Les meilleures universités britanniques",
     "pageTitle": "Étudiez dans les meilleures universités britanniques",
     "pageSubtitle": "Explorez les programmes, comparez les frais de scolarité et laissez nos experts vous guider — entièrement gratuit.",
     "searchPlaceholder": "Rechercher par université, ville ou domaine d'études...",
@@ -64,15 +67,36 @@
     "title": "Votre parcours commence ici",
     "description": "De la candidature à l'arrivée, nous gérons tout pour que vous puissiez vous concentrer sur votre avenir.",
     "step1Title": "Inscription & Candidature",
-    "step1Desc": "Remplissez notre formulaire simple et laissez nos experts vous associer à l'université et au programme parfaits.",
+    "step1Desc": "Remplissez notre formulaire simple et laissez nos experts vous associer à l'université britannique et au programme parfaits pour vos objectifs et votre budget.",
     "step2Title": "Visa & Vol",
-    "step2Desc": "Nous gérons votre demande de visa, réservons vos vols et préparons tous vos documents de voyage.",
+    "step2Desc": "Nous gérons intégralement votre demande de visa étudiant UK, réservons vos vols et préparons tous vos documents de voyage.",
     "step3Title": "Arrivée & Accompagnement personnalisé",
     "step3Desc": "De la prise en charge à l'aéroport à l'installation, notre équipe locale vous offre un soutien personnalisé à chaque étape."
   },
+  "faq": {
+    "pageTitle": "Questions fréquemment posées",
+    "pageSubtitle": "Tout ce que les étudiants algériens doivent savoir pour étudier au Royaume-Uni",
+    "badge": "FAQ",
+    "q1": "Comment Nopeca aide les étudiants algériens à étudier au Royaume-Uni ?",
+    "a1": "Nopeca offre un accompagnement complet de bout en bout : évaluation de votre profil académique, mise en relation avec la bonne université et le bon programme, gestion de votre candidature UCAS ou directe, processus de visa étudiant UK, réservation de vols et accompagnement 1-to-1 à votre arrivée au Royaume-Uni. Notre équipe a accompagné 500+ étudiants algériens avec succès.",
+    "q2": "Quelles universités britanniques sont accessibles via Nopeca ?",
+    "a2": "Nopeca travaille avec 200+ universités britanniques dont Oxford, Cambridge, UCL, Imperial College London, Université de Manchester, Oxford Brookes, Royal Holloway et bien d'autres. Nous vous mettons en relation avec l'université qui correspond à votre profil académique, votre budget et vos objectifs de carrière.",
+    "q3": "Nopeca aide-t-il avec le visa étudiant UK depuis l'Algérie ?",
+    "a3": "Oui. Notre équipe visa gère l'intégralité de votre demande de visa étudiant UK : guide CAS, préparation au rendez-vous biométrique, documentation financière et exigences de test de langue. Notre taux de réussite visa est de 98%.",
+    "q4": "Existe-t-il des bourses pour les étudiants algériens au Royaume-Uni ?",
+    "a4": "Oui. De nombreuses universités britanniques offrent des bourses internationales et des réductions partielles pour les étudiants algériens. Les conseillers Nopeca vérifient votre éligibilité aux prix au mérite, aux bourses spécifiques aux pays et aux remises en année préparatoire — entièrement gratuit.",
+    "q5": "Combien coûte les études au Royaume-Uni depuis l'Algérie ?",
+    "a5": "Les frais de scolarité universitaires britanniques pour les étudiants internationaux varient généralement de 10 000 à 26 000 £ par an selon l'université et le programme. Les frais de subsistance sont en moyenne de 12 000 à 15 000 £ par an. Les conseillers Nopeca vous fournissent un bilan personnalisé et vous aident à identifier des bourses pour réduire vos dépenses.",
+    "q6": "Où se trouve Nopeca et comment vous contacter ?",
+    "a6": "Nopeca est basé à Boumerdès, Algérie. Vous pouvez nous joindre en appelant le 0560 409 193, via WhatsApp au +213 561 799 531, par email à contact@nopeca.com, ou en remplissant notre formulaire de contact. Les consultations sont gratuites.",
+    "q7": "Quelles sont les exigences en anglais pour les universités britanniques ?",
+    "a7": "La plupart des universités britanniques exigent un score IELTS de 6.0–7.0 (selon le cours). Certaines universités acceptent des alternatives comme le TOEFL ou le Duolingo English Test. Les conseillers Nopeca vous guident sur les exigences exactes de votre université cible.",
+    "q8": "Combien de temps dure le processus de candidature universitaire britannique pour les étudiants algériens ?",
+    "a8": "Généralement 3 à 6 mois de la consultation initiale à la réception de votre lettre d'offre universitaire. Le processus de visa étudiant UK prend 3 à 8 semaines supplémentaires. Nous recommandons de commencer au moins 9 à 12 mois avant votre date de début d'études souhaitée."
+  },
   "footer": {
     "getInTouch": "Contactez-nous",
-    "weWouldLove": "Nous serions ravis de vous entendre",
+    "weWouldLove": "Commencez votre parcours d'études au Royaume-Uni — consultation gratuite",
     "yourName": "Nom complet",
     "emailAddress": "Adresse e-mail (optionnel)",
     "phoneNumber": "Numéro de téléphone",
@@ -86,7 +110,7 @@
     "sending": "Envoi en cours...",
     "connectWithUs": "Suivez-nous",
     "ourLocation": "Notre emplacement",
-    "visitUs": "Visitez-nous à notre bureau",
+    "visitUs": "Visitez-nous à notre bureau à Boumerdès, Algérie",
     "email": "E-mail",
     "mobile": "Mobile",
     "copyright": "Nopeca. Tous droits réservés.",
