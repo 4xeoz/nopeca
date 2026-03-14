@@ -5,8 +5,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import ScrollReveal from "../ui/ScrollReveal";
 import type { Dictionary } from "@/dictionaries";
 
-const VIDEO_ID = "1KTJoHLk3qBpgjPfqRHz3d52Mme4WSxGG";
-const VIDEO_EMBED_URL = `https://drive.google.com/file/d/${VIDEO_ID}/preview`;
+const VIDEO_URL =
+  "https://ugmzfzkyvnajamtfmzpk.supabase.co/storage/v1/object/public/public%20assets/school.mp4";
 const MAPS_URL = "https://maps.google.com/?q=Boumerdes+Algeria";
 
 const TRUST_ICONS = [
@@ -55,7 +55,7 @@ export default function VisitInstituteSection({ dict }: VisitInstituteSectionPro
         className="pointer-events-none absolute -bottom-32 -left-32 h-[400px] w-[400px] rounded-full bg-[#012340]/6 blur-3xl"
       />
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_300px] lg:gap-16">
 
         {/* ─── LEFT: Text content ─── */}
         <div className="flex flex-col gap-6">
@@ -169,20 +169,21 @@ export default function VisitInstituteSection({ dict }: VisitInstituteSectionPro
           {/* Main video card */}
           <div
             ref={thumbRef}
-            className="relative aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-3xl shadow-2xl"
+            className="relative mx-auto aspect-[9/16] w-full max-w-[300px] cursor-pointer overflow-hidden rounded-3xl shadow-2xl lg:mx-0 lg:max-w-none"
             onClick={() => setVideoOpen(true)}
           >
-            {/* Parallax background — rich navy gradient as video stand-in */}
+            {/* Parallax video preview */}
             <motion.div
               style={{ y: thumbY }}
-              className="absolute inset-[-12%] bg-gradient-to-br from-[#012340] via-[#023a60] to-[#01162b]"
+              className="absolute inset-[-12%]"
             >
-              {/* Decorative pattern overlay */}
-              <div className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage: "radial-gradient(circle at 25% 35%, #d4a84b 1px, transparent 1px), radial-gradient(circle at 75% 65%, #d4a84b 1px, transparent 1px)",
-                  backgroundSize: "40px 40px",
-                }}
+              <video
+                src={VIDEO_URL}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-cover"
               />
             </motion.div>
 
@@ -272,7 +273,8 @@ export default function VisitInstituteSection({ dict }: VisitInstituteSectionPro
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="relative w-full max-w-4xl"
+              className="relative"
+              style={{ maxHeight: "85vh", aspectRatio: "9/16" }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
@@ -286,16 +288,16 @@ export default function VisitInstituteSection({ dict }: VisitInstituteSectionPro
                 </svg>
               </button>
 
-              {/* iframe wrapper with aspect ratio */}
-              <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-2xl">
-                <iframe
-                  src={`${VIDEO_EMBED_URL}?autoplay=1`}
-                  className="h-full w-full"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                  title="Nopeca Institute Video"
-                />
-              </div>
+              {/* Vertical video player */}
+              <video
+                key={videoOpen ? "open" : "closed"}
+                src={VIDEO_URL}
+                controls
+                autoPlay
+                playsInline
+                className="h-full w-full rounded-2xl bg-black shadow-2xl"
+                style={{ maxHeight: "85vh" }}
+              />
             </motion.div>
           </motion.div>
         )}
