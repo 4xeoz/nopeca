@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import leftImg from "@/public/left.png";
 import middleImg from "@/public/middle.jpg";
 import rightImg from "@/public/right.png";
@@ -9,6 +11,23 @@ import type { Dictionary } from "@/dictionaries";
 
 interface WhyWeLovedSectionProps {
   dict: Dictionary;
+}
+
+function ParallaxImage({ src, alt }: { src: Parameters<typeof Image>[0]["src"]; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
+  return (
+    <div ref={ref} className="absolute inset-0 overflow-hidden">
+      <motion.div style={{ y }} className="absolute inset-[-15%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  );
 }
 
 export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
@@ -42,13 +61,7 @@ export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
             delay={0.15}
             className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:h-auto"
           >
-            <Image
-              src={rightImg}
-              alt="Student experience"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-[#012340]/60" />
+            <ParallaxImage src={rightImg} alt="Student experience" />
           </ScrollReveal>
 
           {/* IMAGE CARD - LEFT */}
@@ -57,27 +70,15 @@ export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
             delay={0.25}
             className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-1 lg:row-span-2 lg:row-start-2 lg:h-auto"
           >
-            <Image
-              src={leftImg}
-              alt="Student journey"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-[#012340]/60" />
+            <ParallaxImage src={leftImg} alt="Student journey" />
           </ScrollReveal>
 
-          {/* IMAGE CARD - MIDDLE (Golden) */}
+          {/* IMAGE CARD - MIDDLE */}
           <ScrollReveal
             delay={0.35}
             className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-2 lg:row-start-2 lg:h-auto"
           >
-            <Image
-              src={middleImg}
-              alt="University life"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-[#d9b573]/60" />
+            <ParallaxImage src={middleImg} alt="University life" />
           </ScrollReveal>
 
           {/* FOOTER SECTION - Secondary Heading */}
