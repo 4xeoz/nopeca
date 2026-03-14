@@ -178,7 +178,7 @@ export default function UpcomingEventsClient({ events, locale }: Props) {
   function onMouseUp() { isDragging.current = false; }
 
   return (
-    <section id="events" className="bg-[--color-bg-primary] py-20 overflow-hidden">
+    <section id="events" className="bg-[#F3F4F6] py-20 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ─────────────────────────────────────────────── */}

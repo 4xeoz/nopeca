@@ -255,7 +255,7 @@ export default function TeamSection() {
 
   return (
     <>
-      <section id="team" className="bg-[--color-bg-primary] py-20 overflow-hidden">
+      <section id="team" className="bg-white py-20 overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
           {/* ── Header ─────────────────────────────────────────────── */}
