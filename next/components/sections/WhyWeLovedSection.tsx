@@ -55,11 +55,12 @@ export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
             </h2>
           </ScrollReveal>
 
+          <div className=" md:hidden grid grid-cols-2 gap-4 md:gap-6">
           {/* IMAGE CARD - RIGHT */}
           <ScrollReveal
             direction="right"
             delay={0.15}
-            className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:h-auto"
+            className="relative h-96 overflow-hidden rounded-xl  lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:h-auto"
           >
             <ParallaxImage src={rightImg} alt="Student experience" />
           </ScrollReveal>
@@ -68,7 +69,7 @@ export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
           <ScrollReveal
             direction="left"
             delay={0.25}
-            className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-1 lg:row-span-2 lg:row-start-2 lg:h-auto"
+            className="relative h-96 overflow-hidden rounded-xl  lg:col-start-1 lg:row-span-2 lg:row-start-2 lg:h-auto"
           >
             <ParallaxImage src={leftImg} alt="Student journey" />
           </ScrollReveal>
@@ -76,7 +77,34 @@ export default function WhyWeLovedSection({ dict }: WhyWeLovedSectionProps) {
           {/* IMAGE CARD - MIDDLE */}
           <ScrollReveal
             delay={0.35}
-            className="relative h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-2 lg:row-start-2 lg:h-auto"
+            className="relative hidden md:visible h-96 overflow-hidden rounded-xl lg:col-start-2 lg:row-start-2 lg:h-auto"
+          >
+            <ParallaxImage src={middleImg} alt="University life" />
+          </ScrollReveal>
+          </div>
+
+          {/* IMAGE CARD - RIGHT */}
+          <ScrollReveal
+            direction="right"
+            delay={0.15}
+            className="relative hidden md:block h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:h-auto"
+          >
+            <ParallaxImage src={rightImg} alt="Student experience" />
+          </ScrollReveal>
+
+          {/* IMAGE CARD - LEFT */}
+          <ScrollReveal
+            direction="left"
+            delay={0.25}
+            className="relative  hidden md:block h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-1 lg:row-span-2 lg:row-start-2 lg:h-auto"
+          >
+            <ParallaxImage src={leftImg} alt="Student journey" />
+          </ScrollReveal>
+
+          {/* IMAGE CARD - MIDDLE */}
+          <ScrollReveal
+            delay={0.35}
+            className="relative hidden md:block h-48 overflow-hidden rounded-xl sm:h-56 md:h-64 lg:col-start-2 lg:row-start-2 lg:h-auto"
           >
             <ParallaxImage src={middleImg} alt="University life" />
           </ScrollReveal>

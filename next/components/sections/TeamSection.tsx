@@ -262,8 +262,8 @@ export default function TeamSection() {
           <div className="mb-12 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             {/* Left */}
             <div className="max-w-lg">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#25D366]/15 px-4 py-1.5 text-sm font-semibold text-[#1a9f4b]">
-                <span className="h-2 w-2 rounded-full bg-[#25D366]" />
+              <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-3 text-sm font-semibold text-[--color-brand-primary]">
+                <span className="h-2 w-2 rounded-full bg-[--color-brand-secondary]" />
                 Pure talent
               </span>
               <h2 className="mt-4 text-4xl font-bold leading-tight text-[--color-brand-primary] sm:text-5xl">
