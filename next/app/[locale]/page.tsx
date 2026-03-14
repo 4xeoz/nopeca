@@ -4,6 +4,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import AnimatedLogoBand from '@/components/sections/AnimatedLogoBand';
 import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
+import VisitInstituteSection from '@/components/sections/VisitInstituteSection';
 import RegistrationStepsSection from '@/components/sections/RegistrationStepsSection';
 import TeamSection from '@/components/sections/TeamSection';
 import BlogSection from '@/components/sections/BlogSection';
@@ -29,6 +30,7 @@ export default async function HomePage({
         <HeroSection dict={dict} />
         <AnimatedLogoBand />
         <WhyWeLovedSection dict={dict} />
+        <VisitInstituteSection dict={dict} />
         <UniShowcaseSection dict={dict} />
         <TeamSection />
         <UpcomingEventsSection locale={locale} />

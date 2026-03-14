@@ -121,6 +121,20 @@
     "messageSentDesc": "Merci de nous avoir contactés. Nous vous répondrons bientôt.",
     "messageFailed": "Échec de l'envoi du message"
   },
+  "visit": {
+    "badge": "Notre Institut",
+    "title": "Venez nous rencontrer",
+    "titleHighlight": "à Alger",
+    "subtitle": "Conseillers disponibles du lundi au samedi pour vous accompagner à chaque étape de votre parcours.",
+    "trust1": "500+ Étudiants",
+    "trust2": "Depuis 2020",
+    "trust3": "Bureau Physique",
+    "hours": "Ouvert Lun–Sam, 9h–18h",
+    "primaryCta": "Voir la vidéo",
+    "secondaryCta": "Obtenir l'itinéraire",
+    "locationLabel": "Boumerdès, Algérie",
+    "locationSub": "Comment nous retrouver"
+  },
   "lang": {
     "switchTo": "EN",
     "en": "EN",

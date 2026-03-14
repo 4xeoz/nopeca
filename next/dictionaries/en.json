@@ -121,6 +121,20 @@
     "messageSentDesc": "Thank you for reaching out. We'll get back to you soon.",
     "messageFailed": "Failed to send message"
   },
+  "visit": {
+    "badge": "Our Institute",
+    "title": "Come Meet Us",
+    "titleHighlight": "in Algiers",
+    "subtitle": "Our advisors are available Monday to Saturday to guide you through every step of your journey.",
+    "trust1": "500+ Students",
+    "trust2": "Since 2020",
+    "trust3": "Physical Office",
+    "hours": "Open Mon–Sat, 9AM–6PM",
+    "primaryCta": "Watch the Video",
+    "secondaryCta": "Get Directions",
+    "locationLabel": "Boumerdes, Algeria",
+    "locationSub": "How to find us"
+  },
   "lang": {
     "switchTo": "FR",
     "en": "EN",
