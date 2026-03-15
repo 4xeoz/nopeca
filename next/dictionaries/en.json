@@ -160,6 +160,13 @@
     "locationLabel": "Boumerdes, Algeria",
     "locationSub": "How to find us"
   },
+  "partnership": {
+    "label": "Official representative of",
+    "benefit1": "Direct admissions",
+    "benefit2": "Priority support",
+    "benefit3": "Exclusive scholarships",
+    "learnMore": "Learn more"
+  },
   "lang": {
     "switchTo": "FR",
     "en": "EN",

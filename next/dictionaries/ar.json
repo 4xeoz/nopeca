@@ -160,6 +160,13 @@
     "locationLabel": "بومرداس، الجزائر",
     "locationSub": "كيف تجدنا"
   },
+  "partnership": {
+    "label": "الممثل الرسمي لـ",
+    "benefit1": "قبول مباشر",
+    "benefit2": "دعم ذو أولوية",
+    "benefit3": "منح حصرية",
+    "learnMore": "اعرف أكثر"
+  },
   "lang": {
     "switchTo": "EN",
     "en": "EN",

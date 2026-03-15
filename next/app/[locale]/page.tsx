@@ -2,6 +2,7 @@ import React from 'react';
 import HomePageWrapper from '@/components/layout/HomePageWrapper';
 import HeroSection from '@/components/sections/HeroSection';
 import AnimatedLogoBand from '@/components/sections/AnimatedLogoBand';
+import PartnershipBar from '@/components/sections/PartnershipBar';
 import WhyWeLovedSection from '@/components/sections/WhyWeLovedSection';
 import UniShowcaseSection from '@/components/sections/UniShowcaseSection';
 import VisitInstituteSection from '@/components/sections/VisitInstituteSection';
@@ -28,6 +29,7 @@ export default async function HomePage({
       <JsonLd locale={locale} dict={dict} />
       <HomePageWrapper locale={locale} dict={dict}>
         <HeroSection dict={dict} />
+        <PartnershipBar dict={dict} />
         <AnimatedLogoBand />
         <WhyWeLovedSection dict={dict} />
         <VisitInstituteSection dict={dict} />

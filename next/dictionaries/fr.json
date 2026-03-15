@@ -160,6 +160,13 @@
     "locationLabel": "Boumerdès, Algérie",
     "locationSub": "Comment nous retrouver"
   },
+  "partnership": {
+    "label": "Représentant officiel de",
+    "benefit1": "Admissions directes",
+    "benefit2": "Accompagnement prioritaire",
+    "benefit3": "Bourses exclusives",
+    "learnMore": "En savoir plus"
+  },
   "lang": {
     "switchTo": "EN",
     "en": "EN",
