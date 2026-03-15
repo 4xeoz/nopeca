@@ -314,7 +314,7 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
                       <div>
                         <h3 className="text-xl font-black text-[#0a1628]">Almost there! 🚀</h3>
                         <p className="text-gray-500 text-sm mt-0.5">
-                          Two quick questions, then we're done.
+                          Two quick questions, then we&apos;re done.
                         </p>
                       </div>
 

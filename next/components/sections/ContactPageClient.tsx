@@ -307,7 +307,7 @@ export default function ContactPageClient({ dict, locale }: Props) {
                           <div>
                             <h2 className="text-2xl font-black text-[#0a1628]">Almost there! 🚀</h2>
                             <p className="text-gray-500 text-sm mt-1">
-                              Two quick questions and we'll match you with the right advisor.
+                              Two quick questions and we&apos;ll match you with the right advisor.
                             </p>
                           </div>
 
