@@ -1,17 +1,13 @@
 "use client";
 
-import React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { Instagram, Linkedin, Mail, Phone, MapPin, Clock, CheckCircle, Lock } from "lucide-react";
 import { toast } from "sonner";
 import footerLogo from "@/public/NopecaFooterLogo.png";
 import footerLogoText from "@/public/NopecaFooterLogoText.png";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { submitContactForm } from "@/actions/contact";
 import type { Dictionary } from "@/dictionaries";
 import {
@@ -21,28 +17,15 @@ import {
   trackWhatsAppClick,
 } from "@/lib/gtag";
 
-const STUDY_FIELDS = [
-  "Computer Science & IT",
-  "Business Administration",
-  "Engineering (General)",
-  "Medicine & Healthcare",
-  "Law & Legal Studies",
-  "Finance & Accounting",
-  "Architecture & Urban Planning",
-  "Psychology",
-  "Nursing & Midwifery",
-  "Data Science & Artificial Intelligence",
-  "Mechanical Engineering",
-  "Electrical Engineering",
-  "Civil Engineering",
-  "Economics",
-  "Marketing & Communications",
-  "Pharmacy & Pharmaceutical Sciences",
-  "Biology & Life Sciences",
-  "Mathematics & Statistics",
-  "Education & Teaching",
-  "International Relations & Political Science",
-];
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const WHATSAPP_URL = "https://wa.me/213561799531";
+
+// Roadmap view (5e0), not satellite (5e1)
+const MAP_EMBED_URL =
+  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d427.66889595582217!2d3.4671492643391923!3d36.75950375007293!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e690441301233%3A0xff44c2ce1a7779a!2sAdvanced%20Pathways%20Global%20Boumerdes!5e0!3m2!1sen!2suk!4v1770573585913!5m2!1sen!2suk";
+
+const MAPS_DIRECTIONS = "https://maps.google.com/?q=36.759583,3.467306";
 
 const COUNTRIES = [
   "United Kingdom",
@@ -67,18 +50,32 @@ const COUNTRIES = [
   "Other",
 ];
 
-// WhatsApp icon component
+const START_DATES = [
+  "September 2025",
+  "January 2026",
+  "September 2026",
+  "Not sure yet",
+];
+
+// ─── Icons ────────────────────────────────────────────────────────────────────
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
   );
 }
+
+// ─── Field styles for the white card ─────────────────────────────────────────
+
+const fieldClass =
+  "w-full h-12 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#d4a84b] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d4a84b]/15 transition-all";
+
+const selectFieldClass =
+  "w-full h-12 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm focus:border-[#d4a84b] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d4a84b]/15 transition-all appearance-none cursor-pointer";
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 interface FooterSectionProps {
   dict: Dictionary;
@@ -86,47 +83,45 @@ interface FooterSectionProps {
 }
 
 export default function FooterSection({ dict, locale = "en" }: FooterSectionProps) {
+  const f = dict.footer;
+
+  const [step, setStep] = useState<1 | 2 | "done">(1);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    studyField: "",
     country: "",
-    email: "",
-    message: "",
+    startDate: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleStep1(e: React.FormEvent) {
+    e.preventDefault();
+    setStep(2);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
-
-    const result = await submitContactForm(formData);
-
+    const result = await submitContactForm({
+      name: formData.name,
+      phone: formData.phone,
+      country: formData.country,
+      startDate: formData.startDate,
+    });
     if (result.success) {
-      trackContactFormSubmit(formData.studyField, formData.country);
-      toast.success(dict.footer.messageSent, {
-        description: dict.footer.messageSentDesc,
-      });
-      setFormData({ name: "", phone: "", studyField: "", country: "", email: "", message: "" });
+      trackContactFormSubmit("General Inquiry", formData.country);
+      setStep("done");
     } else {
-      toast.error(dict.footer.messageFailed, {
-        description: result.message,
-      });
+      toast.error(f.messageFailed, { description: result.message });
     }
-
     setIsSubmitting(false);
-  };
+  }
 
-  const socialLinks: {
-    icon: React.ComponentType<{ className?: string }>;
-    href: string;
-    label: string;
-    onClick?: () => void;
-  }[] = [
-    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  const socialLinks = [
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram", onClick: undefined },
     {
       icon: WhatsAppIcon,
-      href: "https://wa.me/213561799531",
+      href: WHATSAPP_URL,
       label: "WhatsApp",
       onClick: () => trackWhatsAppClick("footer"),
     },
@@ -136,259 +131,454 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
       label: "Email",
       onClick: () => trackEmailClick(),
     },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn", onClick: undefined },
   ];
 
-  const inputClass =
-    "bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl h-12 focus:bg-white/[0.16] focus:border-white/40 transition-colors";
-
-  const selectClass =
-    "w-full h-12 rounded-xl border border-white/25 bg-white/[0.12] px-4 text-sm text-white placeholder:text-white/45 focus:bg-white/[0.16] focus:border-white/40 focus:outline-none transition-colors appearance-none cursor-pointer";
+  const benefits = [f.benefit1, f.benefit2, f.benefit3];
 
   return (
-    <footer id="contact" className="w-full bg-[#0a1628] text-white">
-      {/* Main footer content */}
-      <div className="max-w-6xl mx-auto px-4 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left column - Contact info and form */}
-          <div className="flex flex-col gap-8">
-            {/* Logo and tagline */}
-            <div className="flex items-center gap-4">
-              <Image
-                src={footerLogo}
-                alt="Nopeca Logo"
-                width={60}
-                height={60}
-                className="rounded-lg"
-              />
-              <div>
-                <h3 className="text-xl font-bold">{dict.footer.getInTouch}</h3>
-                <p className="text-white/70 text-sm">{dict.footer.weWouldLove}</p>
+    <footer id="contact" className="relative w-full bg-[#0a1628] text-white overflow-hidden">
+
+      {/* ── Wave top separator ────────────────────────────────────────── */}
+      <div aria-hidden className="pointer-events-none absolute top-0 left-0 w-full h-14 sm:h-20 overflow-hidden">
+        <svg
+          viewBox="0 0 1440 56"
+          preserveAspectRatio="none"
+          className="absolute top-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 56 L0 0 C200 56 400 12 600 28 C800 44 1000 8 1200 20 C1320 28 1380 14 1440 0 L1440 56 Z"
+            fill="#f5f0e8"
+          />
+        </svg>
+      </div>
+
+      {/* Decorative radial glow */}
+      <div aria-hidden className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-[#d4a84b]/5 blur-3xl" />
+
+      {/* ══════════════════════════════════════════════════════════════
+          SECTION 1 — CTA hero: value prop (left) + form card (right)
+          ══════════════════════════════════════════════════════════════ */}
+      <div className="relative mx-auto max-w-7xl px-4 pt-20 sm:pt-28 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+          {/* ── LEFT: Value proposition ── */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+
+            {/* Urgency + social proof row */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#d4a84b]/35 bg-[#d4a84b]/10 px-4 py-2">
+                <span className="h-2 w-2 rounded-full bg-[#d4a84b] animate-pulse" />
+                <span className="text-[#d4a84b] text-sm font-semibold">{f.urgencyBadge}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-white/55 text-sm">{f.advisorsOnline}</span>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              {/* Row 1: Name + Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Input
-                  type="text"
-                  placeholder={dict.footer.yourName}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className={inputClass}
-                />
-                <Input
-                  type="tel"
-                  placeholder={dict.footer.phoneNumber}
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  required
-                  className={inputClass}
-                />
-              </div>
+            {/* Headline */}
+            <div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white">
+                {f.consultationHeadline.split(" ").slice(0, -2).join(" ")}{" "}
+                <span className="text-[#d4a84b]">
+                  {f.consultationHeadline.split(" ").slice(-2).join(" ")}
+                </span>
+              </h2>
+              <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-lg">
+                {f.consultationSubhead}
+              </p>
+            </div>
 
-              {/* Row 2: Study field */}
-              <div className="relative">
-                <select
-                  value={formData.studyField}
-                  onChange={(e) => setFormData({ ...formData, studyField: e.target.value })}
-                  required
-                  className={`${selectClass} ${!formData.studyField ? "text-white/45" : "text-white"}`}
-                >
-                  <option value="" disabled className="bg-[#0a1628] text-white/60">
-                    {dict.footer.studyFieldPlaceholder}
-                  </option>
-                  {STUDY_FIELDS.map((field) => (
-                    <option key={field} value={field} className="bg-[#0a1628] text-white">
-                      {field}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                  <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
+            {/* Benefits list */}
+            <ul className="flex flex-col gap-3">
+              {benefits.map((benefit) => (
+                <li key={benefit} className="flex items-center gap-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#d4a84b]/15">
+                    <svg viewBox="0 0 12 10" fill="none" className="h-3 w-3">
+                      <path d="M1 5l3.5 3.5L11 1" stroke="#d4a84b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <span className="text-white/80 text-sm sm:text-base">{benefit}</span>
+                </li>
+              ))}
+            </ul>
 
-              {/* Row 3: Country */}
-              <div className="relative">
-                <select
-                  value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  required
-                  className={`${selectClass} ${!formData.country ? "text-white/45" : "text-white"}`}
-                >
-                  <option value="" disabled className="bg-[#0a1628] text-white/60">
-                    {dict.footer.countryPlaceholder}
-                  </option>
-                  {COUNTRIES.map((country) => (
-                    <option key={country} value={country} className="bg-[#0a1628] text-white">
-                      {country}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                  <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
+            {/* Response time strip */}
+            <div className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/8 px-4 py-3 w-fit">
+              <Clock className="h-4 w-4 text-[#d4a84b] shrink-0" />
+              <span className="text-white/70 text-sm font-medium">⚡ {f.responseTime}</span>
+            </div>
 
-              {/* Row 4: Email (optional) */}
-              <Input
-                type="email"
-                placeholder={dict.footer.emailAddress}
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className={inputClass}
-              />
+            {/* WhatsApp CTA — primary for mobile users */}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick("footer")}
+              className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#25D366] text-white font-bold text-base hover:bg-[#22c55e] active:scale-[0.98] transition-all shadow-lg shadow-[#25D366]/20"
+            >
+              <WhatsAppIcon className="h-6 w-6" />
+              {f.whatsappCta}
+            </a>
 
-              {/* Row 5: Message (optional) */}
-              <Textarea
-                placeholder={dict.footer.tellUs}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl min-h-[100px] resize-none focus:bg-white/[0.16] focus:border-white/40 transition-colors"
-              />
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-semibold rounded-full h-12 w-full sm:w-auto sm:px-8"
+            {/* Phone numbers */}
+            <div className="grid grid-cols-2 gap-3">
+              <a
+                href="tel:+213560409193"
+                onClick={() => trackPhoneCall("0560409193")}
+                className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/[0.07] border border-white/10 text-sm font-medium hover:bg-white/[0.14] active:scale-[0.98] transition-all"
               >
-                {isSubmitting ? dict.footer.sending : dict.footer.sendMessage}
-              </Button>
-            </form>
+                <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                0560 409 193
+              </a>
+              <a
+                href="tel:+213560409195"
+                onClick={() => trackPhoneCall("0560409195")}
+                className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/[0.07] border border-white/10 text-sm font-medium hover:bg-white/[0.14] active:scale-[0.98] transition-all"
+              >
+                <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                0560 409 195
+              </a>
+            </div>
+          </div>
 
-            {/* Social Links */}
-            <div className="flex flex-col gap-4">
-              <p className="text-white/70 text-sm font-medium">{dict.footer.connectWithUs}</p>
-              <div className="flex items-center gap-4">
-                {socialLinks.map((social) => (
+          {/* ── RIGHT: White form card ── */}
+          <div className="flex flex-col gap-4">
+            <div className="relative rounded-3xl bg-white shadow-2xl shadow-black/30 overflow-hidden">
+              {/* Gold top accent bar */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#d4a84b] via-[#e8c06a] to-[#c49a3d]" />
+
+              <div className="p-6 sm:p-8">
+                {/* Step progress indicator */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex-1 flex gap-2">
+                    <div className={`flex-1 h-1.5 rounded-full transition-colors duration-500 ${step === 1 || step === 2 || step === "done" ? "bg-[#d4a84b]" : "bg-gray-100"}`} />
+                    <div className={`flex-1 h-1.5 rounded-full transition-colors duration-500 ${step === 2 || step === "done" ? "bg-[#d4a84b]" : "bg-gray-100"}`} />
+                  </div>
+                  <span className="text-gray-400 text-xs font-medium shrink-0">
+                    {step === "done"
+                      ? "✓ Done"
+                      : `${f.stepStart} · ${step} ${f.stepOf} 2`}
+                  </span>
+                </div>
+
+                {/* Animated form steps */}
+                <AnimatePresence mode="wait">
+
+                  {/* STEP 1: Name + WhatsApp */}
+                  {step === 1 && (
+                    <motion.form
+                      key="step-1"
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -24 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      onSubmit={handleStep1}
+                      className="flex flex-col gap-4"
+                    >
+                      <div>
+                        <h3 className="text-xl font-black text-[#0a1628]">
+                          {f.consultationHeadline.split(" ").slice(0, 3).join(" ")} 🎓
+                        </h3>
+                        <p className="text-gray-500 text-sm mt-0.5">
+                          Free consultation · No commitment
+                        </p>
+                      </div>
+
+                      <input
+                        type="text"
+                        placeholder={f.yourName}
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        required
+                        className={fieldClass}
+                      />
+                      <input
+                        type="tel"
+                        placeholder={f.whatsappPlaceholder}
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        required
+                        className={fieldClass}
+                      />
+
+                      <button
+                        type="submit"
+                        className="flex items-center justify-center gap-2 h-13 w-full rounded-full bg-[#d4a84b] text-[#0a1628] font-bold text-base hover:bg-[#c49a3d] active:scale-[0.98] transition-all shadow-lg shadow-[#d4a84b]/25 py-3.5"
+                      >
+                        {f.continueStep}
+                        <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+
+                      <p className="flex items-center justify-center gap-1.5 text-center text-xs text-gray-400">
+                        <Lock className="h-3 w-3" />
+                        {f.trustNote}
+                      </p>
+                    </motion.form>
+                  )}
+
+                  {/* STEP 2: Destination + Start date */}
+                  {step === 2 && (
+                    <motion.form
+                      key="step-2"
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -24 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      onSubmit={handleSubmit}
+                      className="flex flex-col gap-4"
+                    >
+                      <div>
+                        <h3 className="text-xl font-black text-[#0a1628]">Almost there! 🚀</h3>
+                        <p className="text-gray-500 text-sm mt-0.5">
+                          Two quick questions, then we're done.
+                        </p>
+                      </div>
+
+                      {/* Destination country */}
+                      <div className="relative">
+                        <select
+                          value={formData.country}
+                          onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                          required
+                          className={`${selectFieldClass} ${!formData.country ? "text-gray-400" : "text-gray-900"}`}
+                        >
+                          <option value="" disabled>{f.destinationPlaceholder}</option>
+                          {COUNTRIES.map((c) => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                          <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Start date */}
+                      <div className="relative">
+                        <select
+                          value={formData.startDate}
+                          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                          required
+                          className={`${selectFieldClass} ${!formData.startDate ? "text-gray-400" : "text-gray-900"}`}
+                        >
+                          <option value="" disabled>{f.startDatePlaceholder}</option>
+                          {START_DATES.map((d) => (
+                            <option key={d} value={d}>{d}</option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                          <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="h-13 w-full rounded-full bg-[#0a1628] text-white font-bold text-base hover:bg-[#0d1f35] active:scale-[0.98] transition-all shadow-lg py-3.5 disabled:opacity-60"
+                      >
+                        {isSubmitting ? f.sending : f.primaryCta}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="flex items-center justify-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition-colors mx-auto"
+                      >
+                        <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5">
+                          <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        {f.backStep}
+                      </button>
+                    </motion.form>
+                  )}
+
+                  {/* DONE: Success state */}
+                  {step === "done" && (
+                    <motion.div
+                      key="done"
+                      initial={{ opacity: 0, scale: 0.94 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="flex flex-col items-center gap-4 py-4 text-center"
+                    >
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-50">
+                        <CheckCircle className="h-9 w-9 text-green-500" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-black text-[#0a1628]">{f.thankYouTitle}</h3>
+                        <p className="text-gray-500 text-sm mt-1 max-w-xs">{f.thankYouDesc}</p>
+                      </div>
+                      <a
+                        href={WHATSAPP_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackWhatsAppClick("footer-success")}
+                        className="flex w-full items-center justify-center gap-2.5 h-12 rounded-2xl bg-[#25D366] text-white font-bold text-sm hover:bg-[#22c55e] transition-colors shadow-lg shadow-[#25D366]/20"
+                      >
+                        <WhatsAppIcon className="h-5 w-5" />
+                        {f.thankYouWhatsapp}
+                      </a>
+                    </motion.div>
+                  )}
+
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Trust micro-signals below card */}
+            <div className="flex items-center justify-center gap-5 text-white/35 text-xs">
+              <span className="flex items-center gap-1.5">
+                <Lock className="h-3 w-3" />
+                Secure
+              </span>
+              <span className="h-3 w-px bg-white/15" />
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-3 w-3" />
+                {f.responseTime}
+              </span>
+              <span className="h-3 w-px bg-white/15" />
+              <span>500+ students</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════
+          SECTION 2 — Map + contact details
+          ══════════════════════════════════════════════════════════════ */}
+      <div className="border-t border-white/8">
+        <div className="mx-auto max-w-7xl px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
+
+            {/* Map — roadmap view, no satellite, no grayscale */}
+            <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 min-h-[240px] sm:min-h-[280px]">
+              <iframe
+                src={MAP_EMBED_URL}
+                width="100%"
+                height="100%"
+                style={{ border: 0, position: "absolute", inset: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Nopeca — Boumerdes Office"
+              />
+              {/* Overlay CTA on map */}
+              <div className="absolute bottom-3 left-3">
+                <a
+                  href={MAPS_DIRECTIONS}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-lg text-[#0a1628] text-sm font-semibold hover:shadow-xl transition-shadow"
+                >
+                  <MapPin className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                  {f.getDirections}
+                </a>
+              </div>
+            </div>
+
+            {/* Contact details card */}
+            <div className="flex flex-col gap-4 justify-center">
+              <div className="rounded-2xl bg-white/[0.06] border border-white/8 p-5 flex flex-col gap-4">
+                <h3 className="flex items-center gap-2 text-base font-bold text-white">
+                  <MapPin className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                  {f.boumerdesOffice}
+                </h3>
+                <div className="flex flex-col gap-3 text-sm">
+                  <div className="flex items-center gap-3 text-white/60">
+                    <Clock className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    {f.officeHours}
+                  </div>
                   <a
-                    key={social.label}
-                    href={social.href}
+                    href="mailto:contact@nopeca.com"
+                    onClick={() => trackEmailClick()}
+                    className="flex items-center gap-3 text-white/60 hover:text-[#d4a84b] transition-colors group"
+                  >
+                    <Mail className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    contact@nopeca.com
+                  </a>
+                  <a
+                    href="tel:+213560409193"
+                    onClick={() => trackPhoneCall("0560409193")}
+                    className="flex items-center gap-3 text-white/60 hover:text-white transition-colors"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 193
+                  </a>
+                  <a
+                    href="tel:+213560409195"
+                    onClick={() => trackPhoneCall("0560409195")}
+                    className="flex items-center gap-3 text-white/60 hover:text-white transition-colors"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 195
+                  </a>
+                </div>
+              </div>
+
+              {/* Social links */}
+              <div className="flex items-center gap-3">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={social.label}
-                    onClick={social.onClick}
-                    className="w-12 h-12 rounded-full bg-white/10 hover:bg-[#d4a84b] flex items-center justify-center transition-colors duration-300 group"
+                    aria-label={s.label}
+                    onClick={s.onClick}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/8 border border-white/10 hover:bg-[#d4a84b] hover:border-transparent transition-all duration-200 group"
                   >
-                    <social.icon className="w-5 h-5 text-white group-hover:text-[#0a1628] transition-colors duration-300" />
+                    <s.icon className="h-4 w-4 text-white/70 group-hover:text-[#0a1628] transition-colors" />
                   </a>
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Right column - Map */}
-          <div className="flex flex-col gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-2">{dict.footer.ourLocation}</h3>
-              <p className="text-white/70 text-sm">{dict.footer.visitUs}</p>
-            </div>
-
-            {/* Map container */}
-            <div className="relative w-full h-[30dvh] md:h-72 rounded-2xl overflow-hidden border border-white/10">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d427.66889595582217!2d3.4671492643391923!3d36.75950375007293!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e690441301233%3A0xff44c2ce1a7779a!2sAdvanced%20Pathways%20Global%20Boumerdes!5e1!3m2!1sen!2suk!4v1770573585913!5m2!1sen!2suk"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Our Location"
-                className="grayscale contrast-125"
-              />
-            </div>
-
-            {/* Contact details */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-[#d4a84b]" />
-                </div>
-                <div>
-                  <p className="text-white/50 text-xs">{dict.footer.email}</p>
-                  <a
-                    href="mailto:contact@nopeca.com"
-                    onClick={() => trackEmailClick()}
-                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
-                  >
-                    contact@nopeca.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                </div>
-                <div>
-                  <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
-                  <a
-                    href="tel:+213560409193"
-                    onClick={() => trackPhoneCall("0560409193")}
-                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
-                  >
-                    0560409193
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                </div>
-                <div>
-                  <p className="text-white/50 text-xs">{dict.footer.mobile}</p>
-                  <a
-                    href="tel:+213560409195"
-                    onClick={() => trackPhoneCall("0560409195")}
-                    className="text-white text-sm hover:text-[#d4a84b] transition-colors"
-                  >
-                    0560409195
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom section with copyright + admin */}
-      <div className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/50 text-sm">
-            &copy; {new Date().getFullYear()} {dict.footer.copyright}
-          </p>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href={`/${locale}/faq`} className="text-white/50 hover:text-white transition-colors">FAQ</Link>
-            <Link href={`/${locale}/blog`} className="text-white/50 hover:text-white transition-colors">{dict.nav.blog}</Link>
-            <Link href={`/${locale}/universities`} className="text-white/50 hover:text-white transition-colors">{dict.nav.universities}</Link>
-            <Link
-              href="/admin/login"
-              className="text-white/25 hover:text-white/50 transition-colors text-xs"
-            >
-              {dict.footer.adminLogin}
-            </Link>
+      {/* ══════════════════════════════════════════════════════════════
+          SECTION 3 — Bottom nav bar
+          ══════════════════════════════════════════════════════════════ */}
+      <div className="border-t border-white/8">
+        <div className="mx-auto max-w-7xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Image src={footerLogo} alt="Nopeca" width={28} height={28} className="rounded-md opacity-70" />
+            <p className="text-white/35 text-sm">&copy; {new Date().getFullYear()} {f.copyright}</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+            <Link href={`/${locale}`} className="text-white/40 hover:text-white/70 transition-colors">{dict.nav.home}</Link>
+            <Link href={`/${locale}/universities`} className="text-white/40 hover:text-white/70 transition-colors">{dict.nav.universities}</Link>
+            <Link href={`/${locale}/blog`} className="text-white/40 hover:text-white/70 transition-colors">{dict.nav.blog}</Link>
+            <Link href={`/${locale}/faq`} className="text-white/40 hover:text-white/70 transition-colors">FAQ</Link>
+            <Link href="/admin/login" className="text-white/20 hover:text-white/40 transition-colors text-xs">{f.adminLogin}</Link>
           </div>
         </div>
       </div>
 
-      {/* Full-width text logo */}
+      {/* ══════════════════════════════════════════════════════════════
+          SECTION 4 — Logo watermark
+          ══════════════════════════════════════════════════════════════ */}
       <div className="w-full px-4 py-8 md:py-12">
         <Image
           src={footerLogoText}
           alt="Nopeca"
           width={1920}
           height={200}
-          className="w-full h-auto opacity-10"
+          className="w-full h-auto opacity-[0.07]"
           priority
         />
       </div>
+
     </footer>
   );
 }
