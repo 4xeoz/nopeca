@@ -54,7 +54,7 @@ export async function submitContactForm(
         name: data.name.trim(),
         email: data.email?.trim().toLowerCase() ?? null,
         phone: data.phone.trim() || null,
-        message: composedMessage ?? undefined,
+        message: composedMessage,
       },
     });
 
