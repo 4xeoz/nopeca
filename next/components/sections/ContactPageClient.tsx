@@ -22,7 +22,7 @@ import footerLogo from "@/public/NopecaFooterLogo.png";
 const WHATSAPP_URL = "https://wa.me/213561799531";
 
 const MAP_EMBED_URL =
-  "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d427.66889595582217!2d3.4671492643391923!3d36.75950375007293!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e690441301233%3A0xff44c2ce1a7779a!2sAdvanced%20Pathways%20Global%20Boumerdes!5e0!3m2!1sen!2suk!4v1770573585913!5m2!1sen!2suk";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d312.9344613050395!2d3.4672178234090936!3d36.75958503987817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e6957bd70a3df%3A0x78f957dec5305e68!2sAdvanced%20Pathways%20campus!5e0!3m2!1sen!2suk!4v1773536205755!5m2!1sen!2suk";
 
 const MAPS_DIRECTIONS = "https://maps.google.com/?q=36.759583,3.467306";
 
