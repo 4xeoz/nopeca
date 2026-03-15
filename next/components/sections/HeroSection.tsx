@@ -33,13 +33,13 @@ const images = [
 ];
 
   return (
-    <section id="home" className="w-full max-h-[1120px] overflow-hidden bg-white">
+    <section id="home" className="w-full max-h-[600px] sm:max-h-[920px] overflow-hidden ">
       <div className="max-w-7xl mx-auto  relative">
         <ArcGalleryHero
         images={images}
         startAngle={20}
         endAngle={160}
-        radiusXl={560}
+        radiusXl={660}
         radiusLg={560}
         radiusMd={550}
         radiusSm={490}
