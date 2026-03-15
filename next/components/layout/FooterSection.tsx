@@ -139,21 +139,6 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
   return (
     <footer id="contact" className="relative w-full bg-[#0a1628] text-white overflow-hidden">
 
-      {/* ── Wave top separator ────────────────────────────────────────── */}
-      <div aria-hidden className="pointer-events-none absolute top-0 left-0 w-full h-14 sm:h-20 overflow-hidden">
-        <svg
-          viewBox="0 0 1440 56"
-          preserveAspectRatio="none"
-          className="absolute top-0 w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0 56 L0 0 C200 56 400 12 600 28 C800 44 1000 8 1200 20 C1320 28 1380 14 1440 0 L1440 56 Z"
-            fill="#f5f0e8"
-          />
-        </svg>
-      </div>
-
       {/* Decorative radial glow */}
       <div aria-hidden className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-[#d4a84b]/5 blur-3xl" />
 
@@ -204,12 +189,6 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
                 </li>
               ))}
             </ul>
-
-            {/* Response time strip */}
-            <div className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/8 px-4 py-3 w-fit">
-              <Clock className="h-4 w-4 text-[#d4a84b] shrink-0" />
-              <span className="text-white/70 text-sm font-medium">⚡ {f.responseTime}</span>
-            </div>
 
             {/* WhatsApp CTA — primary for mobile users */}
             <a
@@ -455,7 +434,7 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
       {/* ══════════════════════════════════════════════════════════════
           SECTION 2 — Map + contact details
           ══════════════════════════════════════════════════════════════ */}
-      <div className="border-t border-white/8">
+      <div className="">
         <div className="mx-auto max-w-7xl px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
 
@@ -549,7 +528,7 @@ export default function FooterSection({ dict, locale = "en" }: FooterSectionProp
       {/* ══════════════════════════════════════════════════════════════
           SECTION 3 — Bottom nav bar
           ══════════════════════════════════════════════════════════════ */}
-      <div className="border-t border-white/8">
+      <div className="">
         <div className="mx-auto max-w-7xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Image src={footerLogo} alt="Nopeca" width={28} height={28} className="rounded-md opacity-70" />

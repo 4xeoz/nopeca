@@ -184,11 +184,6 @@ export default function ContactPageClient({ dict, locale }: Props) {
                   ))}
                 </ul>
 
-                {/* Response time */}
-                <div className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/8 px-4 py-3 w-fit">
-                  <Clock className="h-4 w-4 text-[#d4a84b] shrink-0" />
-                  <span className="text-white/70 text-sm font-medium">⚡ {f.responseTime}</span>
-                </div>
 
                 {/* WhatsApp CTA — most important for Algerian users */}
                 <a
@@ -435,7 +430,7 @@ export default function ContactPageClient({ dict, locale }: Props) {
         </div>
 
         {/* ── Map + contact details ── */}
-        <div className="border-t border-white/8">
+        <div className="">
           <div className="mx-auto max-w-7xl px-4 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
 
@@ -524,7 +519,7 @@ export default function ContactPageClient({ dict, locale }: Props) {
       </main>
 
       {/* ── Slim page footer ── */}
-      <footer className="border-t border-white/8">
+      <footer className="">
         <div className="mx-auto max-w-7xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
           <p className="text-white/35">
             &copy; {new Date().getFullYear()} {f.copyright}

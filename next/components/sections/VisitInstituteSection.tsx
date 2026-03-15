@@ -6,7 +6,7 @@ import ScrollReveal from "../ui/ScrollReveal";
 import type { Dictionary } from "@/dictionaries";
 
 const VIDEO_URL =
-  "https://ugmzfzkyvnajamtfmzpk.supabase.co/storage/v1/object/public/public%20assets/school.mp4";
+  "https://ugmzfzkyvnajamtfmzpk.supabase.co/storage/v1/object/public/public%20assets/ecole.mp4";
 // 36°45'34.5"N 3°28'02.3"E
 const MAPS_URL = "https://maps.google.com/?q=36.759583,3.467306";
 
