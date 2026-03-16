@@ -54,7 +54,7 @@ export default async function BlogSection({ locale }: BlogSectionProps) {
   const featuredLocalized = getLocalizedPost(featured, locale);
 
   return (
-    <section id="blog" className="bg-[--color-bg-primary] py-20">
+    <section id="blog" className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ─────────────────────────────────────────────── */}

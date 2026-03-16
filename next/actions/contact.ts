@@ -5,8 +5,9 @@ import prisma from "@/lib/prisma";
 export interface ContactFormData {
   name: string;
   phone: string;
-  studyField: string;
-  country: string;
+  studyField?: string;
+  country?: string;
+  startDate?: string;
   email?: string;
   message?: string;
 }
@@ -21,16 +22,14 @@ export async function submitContactForm(
   data: ContactFormData
 ): Promise<ContactFormResponse> {
   try {
-    // Validate required fields
-    if (!data.name || !data.phone || !data.studyField || !data.country) {
+    if (!data.name || !data.phone) {
       return {
         success: false,
-        message: "Please fill in all required fields.",
+        message: "Please fill in your name and phone number.",
         error: "VALIDATION_ERROR",
       };
     }
 
-    // Validate email format if provided
     if (data.email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(data.email)) {
@@ -42,15 +41,12 @@ export async function submitContactForm(
       }
     }
 
-    // Compose a structured message to store field of study and country
-    const parts: string[] = [
-      `📚 Field of Study: ${data.studyField}`,
-      `🌍 Country: ${data.country}`,
-    ];
-    if (data.message?.trim()) {
-      parts.push(`\n💬 Message:\n${data.message.trim()}`);
-    }
-    const composedMessage = parts.join("\n");
+    const parts: string[] = [];
+    if (data.studyField) parts.push(`📚 Field: ${data.studyField}`);
+    if (data.country) parts.push(`🌍 Destination: ${data.country}`);
+    if (data.startDate) parts.push(`📅 Start: ${data.startDate}`);
+    if (data.message?.trim()) parts.push(`\n💬 Message:\n${data.message.trim()}`);
+    const composedMessage = parts.length ? parts.join("\n") : null;
 
     // Create contact in database
     await prisma.contact.create({

@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, Phone, MapPin, CheckCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { Mail, Phone, MapPin, Clock, CheckCircle, Lock, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { submitContactForm } from "@/actions/contact";
 import {
   trackContactFormSubmit,
@@ -19,28 +17,14 @@ import Navbar from "@/components/layout/Navbar";
 import type { Dictionary } from "@/dictionaries";
 import footerLogo from "@/public/NopecaFooterLogo.png";
 
-const STUDY_FIELDS = [
-  "Computer Science & IT",
-  "Business Administration",
-  "Engineering (General)",
-  "Medicine & Healthcare",
-  "Law & Legal Studies",
-  "Finance & Accounting",
-  "Architecture & Urban Planning",
-  "Psychology",
-  "Nursing & Midwifery",
-  "Data Science & Artificial Intelligence",
-  "Mechanical Engineering",
-  "Electrical Engineering",
-  "Civil Engineering",
-  "Economics",
-  "Marketing & Communications",
-  "Pharmacy & Pharmaceutical Sciences",
-  "Biology & Life Sciences",
-  "Mathematics & Statistics",
-  "Education & Teaching",
-  "International Relations & Political Science",
-];
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const WHATSAPP_URL = "https://wa.me/213561799531";
+
+const MAP_EMBED_URL =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d312.9344613050395!2d3.4672178234090936!3d36.75958503987817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e6957bd70a3df%3A0x78f957dec5305e68!2sAdvanced%20Pathways%20campus!5e0!3m2!1sen!2suk!4v1773536205755!5m2!1sen!2suk";
+
+const MAPS_DIRECTIONS = "https://maps.google.com/?q=36.759583,3.467306";
 
 const COUNTRIES = [
   "United Kingdom",
@@ -65,6 +49,15 @@ const COUNTRIES = [
   "Other",
 ];
 
+const START_DATES = [
+  "September 2025",
+  "January 2026",
+  "September 2026",
+  "Not sure yet",
+];
+
+// ─── Icons ────────────────────────────────────────────────────────────────────
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -73,359 +66,470 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+// ─── Shared field styles (white-bg context) ───────────────────────────────────
+
+const fieldClass =
+  "w-full h-12 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#d4a84b] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d4a84b]/15 transition-all";
+
+const selectClass =
+  "w-full h-12 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm focus:border-[#d4a84b] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#d4a84b]/15 transition-all appearance-none cursor-pointer";
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 interface Props {
   dict: Dictionary;
   locale: string;
 }
 
-const WHATSAPP_URL = "https://wa.me/213561799531";
-
-const inputClass =
-  "bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl h-12 focus:bg-white/[0.16] focus:border-white/40 transition-colors";
-
-const selectClass =
-  "w-full h-12 rounded-xl border border-white/25 bg-white/[0.12] px-4 text-sm text-white placeholder:text-white/45 focus:bg-white/[0.16] focus:border-white/40 focus:outline-none transition-colors appearance-none cursor-pointer";
-
 export default function ContactPageClient({ dict, locale }: Props) {
+  const f = dict.footer;
+
+  const [step, setStep] = useState<1 | 2 | "done">(1);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    studyField: "",
     country: "",
-    email: "",
-    message: "",
+    startDate: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleStep1(e: React.FormEvent) {
+    e.preventDefault();
+    setStep(2);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsSubmitting(true);
-
-    const result = await submitContactForm(formData);
-
+    const result = await submitContactForm({
+      name: formData.name,
+      phone: formData.phone,
+      country: formData.country,
+      startDate: formData.startDate,
+    });
     if (result.success) {
-      trackContactFormSubmit(formData.studyField, formData.country);
-      setSubmitted(true);
-      toast.success(dict.footer.messageSent, {
-        description: dict.footer.messageSentDesc,
-      });
-      setFormData({
-        name: "",
-        phone: "",
-        studyField: "",
-        country: "",
-        email: "",
-        message: "",
-      });
+      trackContactFormSubmit("General Inquiry", formData.country);
+      setStep("done");
     } else {
-      toast.error(dict.footer.messageFailed, {
-        description: result.message,
-      });
+      toast.error(f.messageFailed, { description: result.message });
     }
-
     setIsSubmitting(false);
-  };
+  }
+
+  const benefits = [f.benefit1, f.benefit2, f.benefit3];
 
   return (
     <div className="min-h-screen bg-[#0a1628] text-white flex flex-col">
       <Navbar locale={locale} dict={dict} />
 
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-10 md:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-16 items-start">
+      {/* ── Hero / main content ── */}
+      <main className="flex-1 w-full">
 
-          {/* ── LEFT: Form ───────────────────────────────────────────── */}
-          <div className="order-1">
+        {/* Top hero section */}
+        <div className="relative overflow-hidden px-4 pt-24 pb-12 md:pt-32 md:pb-16">
+          {/* Radial glow */}
+          <div aria-hidden className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#d4a84b]/6 blur-3xl" />
 
-            {/* Mobile-only heading */}
-            <div className="lg:hidden mb-6">
-              <h1 className="text-2xl font-bold text-white">
-                {dict.footer.getInTouch}
-              </h1>
-              <p className="text-white/60 text-sm mt-1">
-                {dict.footer.weWouldLove}
-              </p>
-            </div>
+          <div className="relative mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-            {/* Quick-contact buttons — mobile only, above the form */}
-            <div className="lg:hidden flex flex-col gap-3 mb-8">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackWhatsAppClick("contact")}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#25D366] text-white font-semibold text-base active:scale-[0.98] transition-transform shadow-lg shadow-[#25D366]/25"
-              >
-                <WhatsAppIcon className="w-6 h-6" />
-                WhatsApp us now
-              </a>
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href="tel:+213560409193"
-                  onClick={() => trackPhoneCall("0560409193")}
-                  className="flex items-center justify-center gap-2 h-14 rounded-2xl bg-white/10 border border-white/15 font-medium text-sm active:scale-[0.98] transition-transform"
+              {/* ── LEFT: Value proposition ── */}
+              <div className="flex flex-col gap-5 order-2 lg:order-1">
+
+                {/* Back link */}
+                <Link
+                  href={`/${locale}`}
+                  className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm transition-colors w-fit"
                 >
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                  0560409193
-                </a>
-                <a
-                  href="tel:+213560409195"
-                  onClick={() => trackPhoneCall("0560409195")}
-                  className="flex items-center justify-center gap-2 h-14 rounded-2xl bg-white/10 border border-white/15 font-medium text-sm active:scale-[0.98] transition-transform"
-                >
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                  0560409195
-                </a>
-              </div>
-              <div className="relative flex items-center gap-3 py-1">
-                <div className="flex-1 h-px bg-white/10" />
-                <span className="text-white/30 text-xs font-medium">or send us a message</span>
-                <div className="flex-1 h-px bg-white/10" />
-              </div>
-            </div>
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  {dict.nav.home}
+                </Link>
 
-            {/* ── Contact form ── */}
-            {submitted ? (
-              <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-                <CheckCircle className="w-16 h-16 text-[#d4a84b]" />
-                <h2 className="text-2xl font-bold">{dict.footer.messageSent}</h2>
-                <p className="text-white/60 max-w-xs">{dict.footer.messageSentDesc}</p>
-                <Button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-2 rounded-full bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-semibold h-11 px-8"
-                >
-                  Send another
-                </Button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                {/* Name + Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Input
-                    type="text"
-                    placeholder={dict.footer.yourName}
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    required
-                    className={inputClass}
-                  />
-                  <Input
-                    type="tel"
-                    placeholder={dict.footer.phoneNumber}
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    required
-                    className={inputClass}
-                  />
-                </div>
-
-                {/* Study Field */}
-                <div className="relative">
-                  <select
-                    value={formData.studyField}
-                    onChange={(e) =>
-                      setFormData({ ...formData, studyField: e.target.value })
-                    }
-                    required
-                    className={`${selectClass} ${
-                      !formData.studyField ? "text-white/45" : "text-white"
-                    }`}
-                  >
-                    <option value="" disabled className="bg-[#0a1628] text-white/60">
-                      {dict.footer.studyFieldPlaceholder}
-                    </option>
-                    {STUDY_FIELDS.map((field) => (
-                      <option key={field} value={field} className="bg-[#0a1628] text-white">
-                        {field}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                    <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
+                {/* Urgency badge */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#d4a84b]/35 bg-[#d4a84b]/10 px-4 py-2">
+                    <span className="h-2 w-2 rounded-full bg-[#d4a84b] animate-pulse" />
+                    <span className="text-[#d4a84b] text-sm font-semibold">{f.urgencyBadge}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-white/55 text-sm">{f.advisorsOnline}</span>
                   </div>
                 </div>
 
-                {/* Country */}
-                <div className="relative">
-                  <select
-                    value={formData.country}
-                    onChange={(e) =>
-                      setFormData({ ...formData, country: e.target.value })
-                    }
-                    required
-                    className={`${selectClass} ${
-                      !formData.country ? "text-white/45" : "text-white"
-                    }`}
-                  >
-                    <option value="" disabled className="bg-[#0a1628] text-white/60">
-                      {dict.footer.countryPlaceholder}
-                    </option>
-                    {COUNTRIES.map((country) => (
-                      <option key={country} value={country} className="bg-[#0a1628] text-white">
-                        {country}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                    <svg className="h-4 w-4 text-white/45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Email (optional) */}
-                <Input
-                  type="email"
-                  placeholder={dict.footer.emailAddress}
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  className={inputClass}
-                />
-
-                {/* Message (optional) */}
-                <Textarea
-                  placeholder={dict.footer.tellUs}
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  className="bg-white/[0.12] border-white/25 text-white placeholder:text-white/45 rounded-xl min-h-[90px] resize-none focus:bg-white/[0.16] focus:border-white/40 transition-colors"
-                />
-
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-14 rounded-full bg-[#d4a84b] hover:bg-[#c49a3f] text-[#0a1628] font-bold text-base w-full transition-colors shadow-lg shadow-[#d4a84b]/20 mt-1"
-                >
-                  {isSubmitting ? dict.footer.sending : dict.footer.sendMessage}
-                </Button>
-              </form>
-            )}
-          </div>
-
-          {/* ── RIGHT: Contact details ────────────────────────────────── */}
-          <div className="order-2 flex flex-col gap-8">
-
-            {/* Desktop-only heading */}
-            <div className="hidden lg:block">
-              <div className="flex items-center gap-4 mb-4">
-                <Image
-                  src={footerLogo}
-                  alt="Nopeca"
-                  width={52}
-                  height={52}
-                  className="rounded-xl"
-                />
+                {/* Headline */}
                 <div>
-                  <h1 className="text-2xl font-bold leading-tight">{dict.footer.getInTouch}</h1>
-                  <p className="text-white/55 text-sm mt-0.5">{dict.footer.weWouldLove}</p>
-                </div>
-              </div>
-              <p className="text-white/45 text-sm leading-relaxed">
-                Fill the form and we&apos;ll reach back to you quickly, or use one of the direct channels below.
-              </p>
-            </div>
-
-            {/* Desktop quick-contact buttons */}
-            <div className="hidden lg:flex flex-col gap-3">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackWhatsAppClick("contact")}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#25D366] text-white font-semibold text-base hover:bg-[#22c55e] transition-colors shadow-lg shadow-[#25D366]/20"
-              >
-                <WhatsAppIcon className="w-6 h-6" />
-                WhatsApp us now
-              </a>
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href="tel:+213560409193"
-                  onClick={() => trackPhoneCall("0560409193")}
-                  className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/10 border border-white/15 text-sm font-medium hover:bg-white/[0.18] transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                  0560409193
-                </a>
-                <a
-                  href="tel:+213560409195"
-                  onClick={() => trackPhoneCall("0560409195")}
-                  className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/10 border border-white/15 text-sm font-medium hover:bg-white/[0.18] transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-[#d4a84b]" />
-                  0560409195
-                </a>
-              </div>
-            </div>
-
-            {/* Contact details strip */}
-            <div className="flex flex-col gap-4">
-              <a
-                href="mailto:contact@nopeca.com"
-                onClick={() => trackEmailClick()}
-                className="flex items-center gap-4 group"
-              >
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#d4a84b]/20 transition-colors">
-                  <Mail className="w-4 h-4 text-[#d4a84b]" />
-                </div>
-                <div>
-                  <p className="text-white/40 text-xs">{dict.footer.email}</p>
-                  <p className="text-white text-sm group-hover:text-[#d4a84b] transition-colors">
-                    contact@nopeca.com
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white">
+                    {f.consultationHeadline.split(" ").slice(0, -2).join(" ")}{" "}
+                    <span className="text-[#d4a84b]">
+                      {f.consultationHeadline.split(" ").slice(-2).join(" ")}
+                    </span>
+                  </h1>
+                  <p className="mt-3 text-white/60 text-base sm:text-lg leading-relaxed max-w-lg">
+                    {f.consultationSubhead}
                   </p>
                 </div>
-              </a>
 
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-[#d4a84b]" />
-                </div>
-                <div>
-                  <p className="text-white/40 text-xs">{dict.footer.ourLocation}</p>
-                  <p className="text-white text-sm">Boumerdes, Algeria</p>
+                {/* Benefits */}
+                <ul className="flex flex-col gap-3">
+                  {benefits.map((b) => (
+                    <li key={b} className="flex items-center gap-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#d4a84b]/15">
+                        <svg viewBox="0 0 12 10" fill="none" className="h-3 w-3">
+                          <path d="M1 5l3.5 3.5L11 1" stroke="#d4a84b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span className="text-white/80 text-sm sm:text-base">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+
+                {/* WhatsApp CTA — most important for Algerian users */}
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick("contact")}
+                  className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#25D366] text-white font-bold text-base hover:bg-[#22c55e] active:scale-[0.98] transition-all shadow-lg shadow-[#25D366]/20"
+                >
+                  <WhatsAppIcon className="h-6 w-6" />
+                  {f.whatsappCta}
+                </a>
+
+                {/* Phones */}
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href="tel:+213560409193"
+                    onClick={() => trackPhoneCall("0560409193")}
+                    className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/[0.07] border border-white/10 text-sm font-medium hover:bg-white/[0.14] active:scale-[0.98] transition-all"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 193
+                  </a>
+                  <a
+                    href="tel:+213560409195"
+                    onClick={() => trackPhoneCall("0560409195")}
+                    className="flex items-center justify-center gap-2 h-12 rounded-xl bg-white/[0.07] border border-white/10 text-sm font-medium hover:bg-white/[0.14] active:scale-[0.98] transition-all"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 195
+                  </a>
                 </div>
               </div>
-            </div>
 
-            {/* Map */}
-            <div className="relative w-full rounded-2xl overflow-hidden border border-white/10" style={{ height: "220px" }}>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d427.66889595582217!2d3.4671492643391923!3d36.75950375007293!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e690441301233%3A0xff44c2ce1a7779a!2sAdvanced%20Pathways%20Global%20Boumerdes!5e1!3m2!1sen!2suk!4v1770573585913!5m2!1sen!2suk"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Our Location"
-                className="grayscale contrast-125"
-              />
+              {/* ── RIGHT: White form card ── */}
+              <div className="order-1 lg:order-2 flex flex-col gap-4">
+                <div className="relative rounded-3xl bg-white shadow-2xl shadow-black/40 overflow-hidden">
+                  {/* Gold accent bar */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#d4a84b] via-[#e8c06a] to-[#c49a3d]" />
+
+                  <div className="p-6 sm:p-8 md:p-10">
+                    {/* Progress bar */}
+                    <div className="flex items-center gap-3 mb-7">
+                      <div className="flex-1 flex gap-2">
+                        <div className={`flex-1 h-1.5 rounded-full transition-colors duration-500 ${step === 1 || step === 2 || step === "done" ? "bg-[#d4a84b]" : "bg-gray-100"}`} />
+                        <div className={`flex-1 h-1.5 rounded-full transition-colors duration-500 ${step === 2 || step === "done" ? "bg-[#d4a84b]" : "bg-gray-100"}`} />
+                      </div>
+                      <span className="text-gray-400 text-xs font-medium shrink-0">
+                        {step === "done"
+                          ? "✓ Done"
+                          : `${f.stepStart} · ${step} ${f.stepOf} 2`}
+                      </span>
+                    </div>
+
+                    <AnimatePresence mode="wait">
+
+                      {/* STEP 1 */}
+                      {step === 1 && (
+                        <motion.form
+                          key="step-1"
+                          initial={{ opacity: 0, x: 24 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -24 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          onSubmit={handleStep1}
+                          className="flex flex-col gap-4"
+                        >
+                          <div>
+                            <h2 className="text-2xl font-black text-[#0a1628]">
+                              {f.consultationHeadline.split(" ").slice(0, 3).join(" ")} 🎓
+                            </h2>
+                            <p className="text-gray-500 text-sm mt-1">
+                              {f.consultationSubhead.split(".")[0]}.
+                            </p>
+                          </div>
+
+                          <input
+                            type="text"
+                            placeholder={f.yourName}
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            required
+                            className={fieldClass}
+                          />
+                          <input
+                            type="tel"
+                            placeholder={f.whatsappPlaceholder}
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            required
+                            className={fieldClass}
+                          />
+
+                          <button
+                            type="submit"
+                            className="flex items-center justify-center gap-2 w-full rounded-full bg-[#d4a84b] text-[#0a1628] font-bold text-base hover:bg-[#c49a3d] active:scale-[0.98] transition-all shadow-lg shadow-[#d4a84b]/25 py-3.5"
+                          >
+                            {f.continueStep}
+                            <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+                              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                          <p className="flex items-center justify-center gap-1.5 text-xs text-gray-400 text-center">
+                            <Lock className="h-3 w-3" />
+                            {f.trustNote}
+                          </p>
+                        </motion.form>
+                      )}
+
+                      {/* STEP 2 */}
+                      {step === 2 && (
+                        <motion.form
+                          key="step-2"
+                          initial={{ opacity: 0, x: 24 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -24 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          onSubmit={handleSubmit}
+                          className="flex flex-col gap-4"
+                        >
+                          <div>
+                            <h2 className="text-2xl font-black text-[#0a1628]">Almost there! 🚀</h2>
+                            <p className="text-gray-500 text-sm mt-1">
+                              Two quick questions and we&apos;ll match you with the right advisor.
+                            </p>
+                          </div>
+
+                          <div className="relative">
+                            <select
+                              value={formData.country}
+                              onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                              required
+                              className={`${selectClass} ${!formData.country ? "text-gray-400" : "text-gray-900"}`}
+                            >
+                              <option value="" disabled>{f.destinationPlaceholder}</option>
+                              {COUNTRIES.map((c) => (
+                                <option key={c} value={c}>{c}</option>
+                              ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </div>
+                          </div>
+
+                          <div className="relative">
+                            <select
+                              value={formData.startDate}
+                              onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                              required
+                              className={`${selectClass} ${!formData.startDate ? "text-gray-400" : "text-gray-900"}`}
+                            >
+                              <option value="" disabled>{f.startDatePlaceholder}</option>
+                              {START_DATES.map((d) => (
+                                <option key={d} value={d}>{d}</option>
+                              ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </div>
+                          </div>
+
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full rounded-full bg-[#0a1628] text-white font-bold text-base hover:bg-[#0d1f35] active:scale-[0.98] transition-all shadow-lg py-3.5 disabled:opacity-60"
+                          >
+                            {isSubmitting ? f.sending : f.primaryCta}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setStep(1)}
+                            className="flex items-center justify-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition-colors mx-auto"
+                          >
+                            <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5">
+                              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            {f.backStep}
+                          </button>
+                        </motion.form>
+                      )}
+
+                      {/* DONE */}
+                      {step === "done" && (
+                        <motion.div
+                          key="done"
+                          initial={{ opacity: 0, scale: 0.94 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          className="flex flex-col items-center gap-5 py-6 text-center"
+                        >
+                          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
+                            <CheckCircle className="h-11 w-11 text-green-500" />
+                          </div>
+                          <div>
+                            <h2 className="text-2xl font-black text-[#0a1628]">{f.thankYouTitle}</h2>
+                            <p className="text-gray-500 text-base mt-2 max-w-xs">{f.thankYouDesc}</p>
+                          </div>
+                          <a
+                            href={WHATSAPP_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackWhatsAppClick("contact-success")}
+                            className="flex w-full items-center justify-center gap-3 h-14 rounded-2xl bg-[#25D366] text-white font-bold text-base hover:bg-[#22c55e] transition-colors shadow-lg shadow-[#25D366]/20"
+                          >
+                            <WhatsAppIcon className="h-6 w-6" />
+                            {f.thankYouWhatsapp}
+                          </a>
+                          <button
+                            onClick={() => { setStep(1); setFormData({ name: "", phone: "", country: "", startDate: "" }); }}
+                            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                          >
+                            Send another request
+                          </button>
+                        </motion.div>
+                      )}
+
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                {/* Trust micro-signals */}
+                <div className="flex items-center justify-center gap-5 text-white/35 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <Lock className="h-3 w-3" />
+                    Secure
+                  </span>
+                  <span className="h-3 w-px bg-white/15" />
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" />
+                    {f.responseTime}
+                  </span>
+                  <span className="h-3 w-px bg-white/15" />
+                  <span>500+ students</span>
+                </div>
+              </div>
+
             </div>
           </div>
-
         </div>
+
+        {/* ── Map + contact details ── */}
+        <div className="">
+          <div className="mx-auto max-w-7xl px-4 py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-stretch">
+
+              {/* Map — clean roadmap */}
+              <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 min-h-[240px] sm:min-h-[300px]">
+                <iframe
+                  src={MAP_EMBED_URL}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, position: "absolute", inset: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Nopeca — Boumerdes Office"
+                />
+                <div className="absolute bottom-3 left-3">
+                  <a
+                    href={MAPS_DIRECTIONS}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 shadow-lg text-[#0a1628] text-sm font-semibold hover:shadow-xl transition-shadow"
+                  >
+                    <MapPin className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    {f.getDirections}
+                  </a>
+                </div>
+              </div>
+
+              {/* Contact details */}
+              <div className="rounded-2xl bg-white/[0.06] border border-white/8 p-6 flex flex-col gap-5 justify-center">
+                <div className="flex items-center gap-3">
+                  <Image src={footerLogo} alt="Nopeca" width={36} height={36} className="rounded-lg" />
+                  <div>
+                    <h3 className="font-bold text-white">{f.boumerdesOffice}</h3>
+                    <p className="text-white/50 text-sm">{f.visitUs}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 text-sm">
+                  <div className="flex items-center gap-3 text-white/60">
+                    <Clock className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    {f.officeHours}
+                  </div>
+                  <a
+                    href="mailto:contact@nopeca.com"
+                    onClick={() => trackEmailClick()}
+                    className="flex items-center gap-3 text-white/60 hover:text-[#d4a84b] transition-colors"
+                  >
+                    <Mail className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    contact@nopeca.com
+                  </a>
+                  <a
+                    href="tel:+213560409193"
+                    onClick={() => trackPhoneCall("0560409193")}
+                    className="flex items-center gap-3 text-white/60 hover:text-white transition-colors"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 193
+                  </a>
+                  <a
+                    href="tel:+213560409195"
+                    onClick={() => trackPhoneCall("0560409195")}
+                    className="flex items-center gap-3 text-white/60 hover:text-white transition-colors"
+                  >
+                    <Phone className="h-4 w-4 text-[#d4a84b] shrink-0" />
+                    0560 409 195
+                  </a>
+                </div>
+
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick("contact-sidebar")}
+                  className="flex items-center justify-center gap-2.5 h-12 rounded-2xl bg-[#25D366] text-white font-semibold text-sm hover:bg-[#22c55e] transition-colors shadow-lg shadow-[#25D366]/20"
+                >
+                  <WhatsAppIcon className="h-5 w-5" />
+                  {f.whatsappCta}
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </main>
 
-      {/* Slim footer */}
-      <footer className="border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+      {/* ── Slim page footer ── */}
+      <footer className="">
+        <div className="mx-auto max-w-7xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
           <p className="text-white/35">
-            &copy; {new Date().getFullYear()} {dict.footer.copyright}
+            &copy; {new Date().getFullYear()} {f.copyright}
           </p>
           <div className="flex items-center gap-5">
             <Link href={`/${locale}`} className="text-white/35 hover:text-white/70 transition-colors">
               {dict.nav.home}
             </Link>
             <Link href="/admin/login" className="text-white/20 hover:text-white/40 transition-colors text-xs">
-              {dict.footer.adminLogin}
+              {f.adminLogin}
             </Link>
           </div>
         </div>

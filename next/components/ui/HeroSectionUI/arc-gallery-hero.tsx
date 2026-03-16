@@ -4,6 +4,7 @@ import Image, { type StaticImageData } from 'next/image';
 import { motion } from 'motion/react';
 import AnimatedVectorline from './animated-vector-line';
 import { trackGetStartedClick } from '@/lib/gtag';
+import { off } from 'process';
 
 type ArcGalleryHeroProps = {
   images: Array<string | StaticImageData>;
@@ -53,16 +54,18 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
     cardSize: cardSizeXl,
   });
   const [canAnimate, setCanAnimate] = useState(false);
+  const [offsetX, setOffsetX] = useState(50);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       let radius = radiusXl;
       let cardSize = cardSizeXl;
+      let newOffsetX = width >= 1024 ? 70 : 50;
 
       if (width < 768) {
         radius = radiusXs;
-        cardSize = cardSizeXs;
+        cardSize = cardSizeXs; 
       } else if (width < 1024) {
         radius = radiusSm;
         cardSize = cardSizeSm;
@@ -78,6 +81,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
       }
 
       setDimensions({ radius, cardSize });
+      setOffsetX(newOffsetX);
     };
 
     handleResize();
@@ -103,16 +107,16 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   const step = (endAngle - startAngle) / (count - 1);
 
   return (
-    <section className={`relative h-[90dvh] max-h-[1120px] flex items-center md:items-end ${className} `}>
-      <div className="relative flex-1 flex items-center justify-center md:items-end h-full">
+    <section className={`relative max-h-[100dvh] h-[90dvh]  flex items-center md:items-end ${className} `}>
+      <div className="relative bg-blue-100 flex-1 flex items-center justify-center md:items-end h-full mx-auto">
         <div
-          className="absolute -translate-y-[10%] sm:-translate-y-[60%] md:-translate-y-[20%] xl:-translate-y-[10%]  flex-1 flex items-center justify-center translate-x-[-10%] lg:translate-x-[-5%]"
+          className="absolute sm:-translate-y-[60%] md:-translate-y-[0%] left-1/2 -translate-x-1/2 flex items-center justify-center "
           style={{
             width: '100%',
             height: dimensions.radius,
           }}
         >
-          <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
+          <div className='h-full w-full m-5'>
             {images.map((src, i) => {
               const angle = startAngle + step * i;
               const angleRad = (angle * Math.PI) / 180;
@@ -126,7 +130,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                   style={{
                     width: dimensions.cardSize,
                     height: dimensions.cardSize,
-                    left: `calc(50% + ${x}px)`,
+                    left: `calc(50% + ${x}px - ${offsetX}px)`,
                     bottom: `${y}px`,
                     transform: `translate(-50%, 50%)`,
                     zIndex: count - i,
@@ -165,7 +169,7 @@ const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
           animate={canAnimate ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: canAnimate ? 0.8 : 0, ease: 'easeOut' }}
         >
-          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[5.5rem] font-black tracking-tight text-foreground py-6 ">
+          <h1 className="text-[2.4rem] mt-20 leading-none sm:leading-normal sm:text-5xl lg:text-[4.5rem] font-black tracking-tight text-foreground py-6 ">
             {title}{" "}
             <span className="relative inline-block text-nowrap ">
               {titleHighlight}

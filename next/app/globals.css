@@ -38,6 +38,7 @@
 
 body {
   @apply antialiased;
+  background-color: #ffffff;
 }
 
 @layer utilities {
