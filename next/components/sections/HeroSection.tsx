@@ -33,7 +33,7 @@ const images = [
 ];
 
   return (
-    <section id="home" className="w-full max-h-[600px] sm:max-h-[920px] overflow-hidden ">
+    <section id="home" className="w-full max-h-[100dvh] h-[90dvh]  overflow-hidden ">
       <div className="max-w-7xl mx-auto  relative">
         <ArcGalleryHero
         images={images}
