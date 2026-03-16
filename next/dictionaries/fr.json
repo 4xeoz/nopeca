@@ -25,12 +25,12 @@
   "why": {
     "badge": "Pourquoi on nous aime",
     "title": "Créé par des étudiants pour des étudiants",
-    "subtitle": "Nous sommes passés par là et nous savons comment vous y amener"
+    "subtitle": "Nous aidons les étudiants algériens à étudier dans les meilleures universités britanniques. Des demandes de visa à l'accompagnement à l'arrivée, nous vous guidons à chaque étape."
   },
   "discover": {
     "title": "Découvrez vos parcours",
     "badge": "Explorez vos options",
-    "cta": "Prochaine étape",
+    "cta": "Explorer les universités",
     "statCardTitle": "Nos Résultats",
     "stat1Value": "500+",
     "stat1Label": "Étudiants placés",
@@ -40,7 +40,7 @@
     "quoteCta": "Explorer les universités"
   },
   "universities": {
-    "badge": "Pourquoi on nous aime",
+    "badge": "Universités partenaires",
     "title": "Les meilleures universités du monde",
     "pageTitle": "Étudiez dans les meilleures universités britanniques",
     "pageSubtitle": "Explorez les programmes, comparez les frais de scolarité et laissez nos experts vous guider — entièrement gratuit.",
@@ -159,6 +159,25 @@
     "secondaryCta": "Obtenir l'itinéraire",
     "locationLabel": "Boumerdès, Algérie",
     "locationSub": "Comment nous retrouver"
+  },
+  "testimonials": {
+    "badge": "Témoignages d'étudiants",
+    "title": "500+ étudiants placés. Des résultats réels.",
+    "stat1Value": "500+",
+    "stat1Label": "Étudiants placés",
+    "stat2Value": "98%",
+    "stat2Label": "Taux de succès visa",
+    "stat3Value": "200+",
+    "stat3Label": "Universités partenaires",
+    "t1Name": "Yasmine B.",
+    "t1Location": "Alger → Université de Manchester",
+    "t1Quote": "Nopeca s'est occupé de tout — ma candidature, mon visa, même la réservation de vol. J'ai commencé à Manchester en septembre. La meilleure décision de ma vie.",
+    "t2Name": "Karim M.",
+    "t2Location": "Constantine → Oxford Brookes",
+    "t2Quote": "J'avais peur du processus de visa — ça semblait insurmontable. Ils m'ont guidé pas à pas. Le taux de 98% est réel, j'en suis la preuve.",
+    "t3Name": "Amira D.",
+    "t3Location": "Oran → Université de Surrey",
+    "t3Quote": "La bourse que Nopeca m'a trouvée a réduit mes frais de première année. Je ne l'aurais jamais découverte sans eux. Un vrai conseil gratuit."
   },
   "partnership": {
     "label": "Représentant officiel de",

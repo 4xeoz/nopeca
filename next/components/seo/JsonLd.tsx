@@ -17,8 +17,18 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
     name: "Nopeca",
     alternateName: ["Advanced Pathways Global", "نوبيكا"],
     url: SITE_URL,
-    logo: `${SITE_URL}/singl_logo_colord_white_background@4x.png`,
-    image: `${SITE_URL}/og-image.png`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/singl_logo_colord_white_background@4x.png`,
+      width: 2049,
+      height: 2049,
+    },
+    image: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/og-image.png`,
+      width: 1200,
+      height: 630,
+    },
     description: dict.seo.description,
     address: {
       "@type": "PostalAddress",
