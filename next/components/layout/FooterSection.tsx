@@ -19,7 +19,7 @@ import {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const WHATSAPP_URL = "https://wa.me/213561799531";
+const WHATSAPP_URL = "https://wa.me/447879003218";
 
 // Roadmap view (5e0), not satellite (5e1)
 const MAP_EMBED_URL =
