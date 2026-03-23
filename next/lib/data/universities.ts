@@ -52,7 +52,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "One of the world's most prestigious universities, Oxford offers an incomparable academic environment built on centuries of tradition, tutorial-based learning, and groundbreaking research.",
     shortDescription: "Elite Ivy League-equivalent institution with world-class academics",
-    image: "https://images.unsplash.com/photo-1580582932707-520aed0d5f0a?w=800&h=500&fit=crop&q=80", // Oxford
+    image: "https://images.unsplash.com/photo-1580582932707-520aed0d5f0a?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "law", name: "Law", category: "Law", feeFrom: 29012 },
       { id: "cs", name: "Computer Science", category: "Computer Science", feeFrom: 28950 },
@@ -692,7 +692,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A research-focused Scottish university known for engineering, sciences, and business. Located in Edinburgh with strong industry connections.",
     shortDescription: "Edinburgh research university with engineering and business focus",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1595880723089-baa85d20f80e?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 18500 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 17500 },
@@ -716,7 +716,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Scotland's northeast university with a 500+ year history. Strong in sciences, engineering, and medicine with a close-knit community feel.",
     shortDescription: "Historic Scottish university with strong sciences and medicine",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1541353511-f5a4c8f24b67?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "med", name: "Medicine", category: "Medicine", feeFrom: 31000 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 19000 },
@@ -740,7 +740,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A campus university with a strong focus on engineering, sciences, and business. Known for excellent graduate employability and a vibrant student community in historic Bath.",
     shortDescription: "Campus university with excellent engineering and strong employability",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 24500 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 21500 },
