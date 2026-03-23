@@ -58,7 +58,7 @@ function PhoneIcon({ className }: { className?: string }) {
 }
 
 const CONTACTS = [
-  { key: "whatsapp", label: "WhatsApp", sublabel: "Chat with us", href: "https://wa.me/213561799531", Icon: WhatsAppIcon, bg: "#25D366", onTrack: () => trackWhatsAppClick("navbar") },
+  { key: "whatsapp", label: "WhatsApp", sublabel: "Chat with us", href: "https://wa.me/447879003218", Icon: WhatsAppIcon, bg: "#25D366", onTrack: () => trackWhatsAppClick("navbar") },
   { key: "phone1",   label: "0560 409 193", sublabel: "Call us", href: "tel:+213560409193", Icon: PhoneIcon, bg: "#0a1628", onTrack: () => trackPhoneCall("0560409193") },
   { key: "phone2",   label: "0560 409 195", sublabel: "Call us", href: "tel:+213560409195", Icon: PhoneIcon, bg: "#0a1628", onTrack: () => trackPhoneCall("0560409195") },
 ] as const;
