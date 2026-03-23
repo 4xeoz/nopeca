@@ -52,7 +52,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "One of the world's most prestigious universities, Oxford offers an incomparable academic environment built on centuries of tradition, tutorial-based learning, and groundbreaking research.",
     shortDescription: "Elite Ivy League-equivalent institution with world-class academics",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1580582932707-520aed0d5f0a?w=800&h=500&fit=crop&q=80", // Oxford
     programs: [
       { id: "law", name: "Law", category: "Law", feeFrom: 29012 },
       { id: "cs", name: "Computer Science", category: "Computer Science", feeFrom: 28950 },
@@ -77,7 +77,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Consistently ranked among the world's top two universities, Cambridge is renowned for its collegiate system, exceptional faculty, and alumni who have shaped science, politics, and culture.",
     shortDescription: "Collegiate university system with unparalleled research legacy",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1560264418-c4445382edbc?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 34176 },
       { id: "nat-sci", name: "Natural Sciences", category: "Sciences", feeFrom: 30105 },
@@ -102,7 +102,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "World-leading science and technology university specializing in engineering, sciences, and business, consistently ranked in the top 10 globally.",
     shortDescription: "Elite STEM-focused institution in central London",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 34500 },
       { id: "physics", name: "Physics", category: "Sciences", feeFrom: 31000 },
@@ -126,7 +126,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Located in the heart of London, UCL is a global powerhouse known for world-class research, a highly diverse international community, and unrivalled proximity to industry leaders.",
     shortDescription: "Premier London research institution with strong global connections",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1573167243872-43c6433b9d40?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "arch", name: "Architecture", category: "Arts", feeFrom: 30095 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 28500 },
@@ -151,7 +151,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "World-leading social science university specializing in economics, law, political science, and business. Located in central London with unmatched industry connections.",
     shortDescription: "Premier institution for economics, law, and social sciences",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "econ", name: "Economics", category: "Business", feeFrom: 28800 },
       { id: "law", name: "Law", category: "Law", feeFrom: 27500 },
@@ -177,7 +177,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A research-led university with a rich 200-year history in the heart of London, KCL is particularly renowned for its medical, law, nursing, and social science programmes.",
     shortDescription: "Historic London institution strong in medicine, law, and sciences",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "law", name: "Law", category: "Law", feeFrom: 25890 },
       { id: "nursing", name: "Nursing", category: "Medicine", feeFrom: 17100 },
@@ -201,7 +201,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Set in one of Europe's most beautiful and culturally rich cities, Edinburgh ranks consistently among the UK's top universities with outstanding research and a welcoming international community.",
     shortDescription: "Scottish premier university in historic, vibrant Edinburgh",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "med", name: "Medicine", category: "Medicine", feeFrom: 32500 },
       { id: "law", name: "Law", category: "Law", feeFrom: 19700 },
@@ -226,7 +226,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "With 25 Nobel laureates among its staff and alumni, Manchester blends academic excellence with a vibrant, affordable city life and some of the UK's strongest industry partnerships.",
     shortDescription: "Industrial powerhouse with 25 Nobel laureates and strong STEM programs",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 25500 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 24000 },
@@ -250,7 +250,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A founding member of the prestigious Russell Group, Bristol is celebrated for strong graduate employability, a thriving student community, and a stunning campus in one of the UK's most liveable cities.",
     shortDescription: "Russell Group institution with excellent employability and vibrant city",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 24700 },
       { id: "law", name: "Law", category: "Law", feeFrom: 21700 },
@@ -274,7 +274,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "One of Scotland's most prestigious universities with a strong emphasis on research and innovation. Glasgow combines academic rigor with a vibrant cultural scene.",
     shortDescription: "Scottish Russell Group with strong research and vibrant culture",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 23000 },
       { id: "med", name: "Medicine", category: "Medicine", feeFrom: 30000 },
@@ -298,7 +298,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A relatively young but highly prestigious Russell Group university known for business, engineering, and social sciences, with exceptional graduate outcomes.",
     shortDescription: "Modern Russell Group with top business and engineering programs",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business/MBA", category: "Business", feeFrom: 26000 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 23500 },
@@ -322,7 +322,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "An ancient collegiate university with an exceptional reputation in humanities and sciences, combining historic prestige with modern research excellence.",
     shortDescription: "Historic collegiate university with exceptional academic heritage",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "law", name: "Law", category: "Law", feeFrom: 20000 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 19500 },
@@ -348,7 +348,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A founding Russell Group member with a stunning Victorian campus, Birmingham delivers world-class education backed by strong industry connections and an active alumni network of 200,000+ worldwide.",
     shortDescription: "Russell Group with historic campus and strong industry ties",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1607237138185-60b34fce4bd9?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 20020 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 21200 },
@@ -373,7 +373,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Known for excellent facilities and strong industry links, Leeds attracts students from over 150 countries and consistently ranks highly for student satisfaction and graduate employment.",
     shortDescription: "Russell Group with international student body and strong facilities",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1532009324734-20a7a5813719?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 19250 },
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 21000 },
@@ -398,7 +398,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A Russell Group university with a beautiful campus and a global reputation for research. Strong programs in engineering, sciences, business, and medicine.",
     shortDescription: "Russell Group with beautiful campus and global research reputation",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 20500 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 19000 },
@@ -422,7 +422,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A modern, research-focused university with a stunning parkland campus. Particularly strong in humanities, sciences, and social sciences.",
     shortDescription: "Modern research university in historic York with parkland campus",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1575537302-a2c5a8750c98?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "lang", name: "Languages", category: "Humanities", feeFrom: 16500 },
       { id: "hist", name: "History", category: "Humanities", feeFrom: 16500 },
@@ -447,7 +447,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A Russell Group university in the vibrant Southwest, known for research excellence and a strong sense of community. Excellent programs in sciences and engineering.",
     shortDescription: "Russell Group in scenic Southwest with strong sciences and engineering",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 22000 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 19500 },
@@ -471,7 +471,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A Russell Group institution with a strong reputation for research and strong graduate employability. Home to outstanding engineering and STEM programs.",
     shortDescription: "Russell Group with exceptional engineering and graduate outcomes",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1555041200-9355ef2abab7?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 20800 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 18500 },
@@ -495,7 +495,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A research-driven university with a picturesque campus near Brighton, known for social sciences, media, and creative industries. Strong international reputation.",
     shortDescription: "Research-focused with strong social sciences near vibrant Brighton",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1519671845927-5f2ff1022a78?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 17500 },
       { id: "media", name: "Media Studies", category: "Arts", feeFrom: 16500 },
@@ -519,7 +519,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Ranked #1 in the UK for student experience in multiple independent surveys, Surrey is especially strong in engineering, business, and health sciences, with guaranteed placement years available.",
     shortDescription: "#1 for student experience with placement year opportunities",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1571068700993-f3e22d8c7f0f?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 19800 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 20200 },
@@ -543,7 +543,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A stunning Victorian campus 40 minutes from central London, Royal Holloway excels in creative arts, business, and the sciences, with a close-knit campus community and excellent pastoral support.",
     shortDescription: "Victorian campus with strong arts and sciences in London area",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 17500 },
       { id: "cs", name: "Computer Science", category: "Computer Science", feeFrom: 17500 },
@@ -568,7 +568,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Located in Oxford alongside the world-famous university, Brookes is one of the UK's leading modern universities — especially strong in hospitality, business, and architecture.",
     shortDescription: "Modern Oxford university with practical, accessible education",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1548535248-b9e5af9ee8a6?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "bus", name: "Business", category: "Business", feeFrom: 14350 },
       { id: "arch", name: "Architecture", category: "Arts", feeFrom: 16050 },
@@ -593,7 +593,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "One of Wales' leading universities, Cardiff offers strong programs in engineering, business, journalism, and architecture in a vibrant capital city.",
     shortDescription: "Welsh university with strong engineering and journalism in vibrant city",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1500534314209-a157d0e5dd5a?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 19500 },
       { id: "jour", name: "Journalism", category: "Humanities", feeFrom: 15500 },
@@ -618,7 +618,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "A Welsh university with stunning coastal locations and modern facilities. Strong in engineering, sciences, and business with an emphasis on research and innovation.",
     shortDescription: "Welsh coastal university with strong engineering and sciences",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1518479098-06b7a87b7e7c?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 16500 },
       { id: "bus", name: "Business", category: "Business", feeFrom: 15500 },
@@ -642,7 +642,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Located in East London with modern facilities, Queen Mary is particularly strong in engineering, physics, and sciences with a diverse, welcoming student community.",
     shortDescription: "East London university with strong engineering and physics",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1486325212980-4d5ec0ef6bcd?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "eng", name: "Engineering", category: "Engineering", feeFrom: 23500 },
       { id: "physics", name: "Physics", category: "Sciences", feeFrom: 21500 },
@@ -667,7 +667,7 @@ export const UK_UNIVERSITIES_DATA: University[] = [
     description:
       "Scotland's oldest university with a picturesque coastal setting, St Andrews combines academic excellence with a unique college system and vibrant student life.",
     shortDescription: "Scotland's oldest university with historic charm and academic excellence",
-    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=500&h=400&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1581591748-64c3e69e5c11?w=800&h=500&fit=crop&q=80",
     programs: [
       { id: "cs", name: "Computer Science", category: "Computer Science", feeFrom: 20000 },
       { id: "phys", name: "Physics", category: "Sciences", feeFrom: 19500 },

@@ -16,14 +16,15 @@ interface UniversityCardProps {
 export default function UniversityCard({ university, locale, onCardClick }: UniversityCardProps) {
   const minFee = getMinFee(university);
   const topPrograms = university.programs.slice(0, 2);
+  const detailHref = `/${locale}/universities/${university.slug}`;
 
   return (
     <article
       className="group flex flex-col h-full overflow-hidden rounded-2xl border border-[#0a1628]/10 bg-white shadow-sm hover:shadow-lg transition-all duration-300 hover:border-[#d4a84b]/20"
       onClick={onCardClick}
     >
-      {/* Image Container - Airbnb style */}
-      <div className="relative h-56 overflow-hidden bg-gray-100">
+      {/* Image Container - Airbnb style, links to detail page */}
+      <Link href={detailHref} className="relative h-56 overflow-hidden bg-gray-100 block">
         <Image
           src={university.image}
           alt={university.name}
@@ -58,7 +59,7 @@ export default function UniversityCard({ university, locale, onCardClick }: Univ
             </span>
           ))}
         </div>
-      </div>
+      </Link>
 
       {/* Card Body */}
       <div className="flex flex-1 flex-col gap-4 p-5">
@@ -70,9 +71,11 @@ export default function UniversityCard({ university, locale, onCardClick }: Univ
 
         {/* University Name & Description */}
         <div>
-          <h3 className="text-lg font-bold leading-snug text-[#0a1628] line-clamp-2">
-            {university.name}
-          </h3>
+          <Link href={detailHref}>
+            <h3 className="text-lg font-bold leading-snug text-[#0a1628] line-clamp-2 hover:text-[#d4a84b] transition-colors">
+              {university.name}
+            </h3>
+          </Link>
           <p className="mt-2 text-sm leading-relaxed text-[#0a1628]/60 line-clamp-2">
             {university.shortDescription}
           </p>
@@ -118,10 +121,10 @@ export default function UniversityCard({ university, locale, onCardClick }: Univ
 
         {/* CTA Button */}
         <Link
-          href={`/${locale}/contact`}
+          href={detailHref}
           className="mt-auto flex h-11 items-center justify-center gap-2 rounded-xl bg-[#0a1628] font-semibold text-white transition-all hover:bg-[#0f1f3c] hover:shadow-md active:scale-95"
         >
-          Get Guidance
+          View Details
           <span className="text-[#d4a84b]">→</span>
         </Link>
       </div>

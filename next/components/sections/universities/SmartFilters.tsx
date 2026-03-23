@@ -241,9 +241,9 @@ export default function SmartFilters({ universities, filters, onFilterChange }: 
       )}
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-        <div className="sticky top-24 rounded-2xl border border-[#0a1628]/10 bg-white overflow-hidden">
-          <div className="bg-gradient-to-r from-[#0a1628] to-[#0f1f3c] px-4 py-3">
+      <div className="hidden lg:block lg:w-80 lg:flex-shrink-0 self-start">
+        <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-[#0a1628]/10 bg-white">
+          <div className="bg-gradient-to-r from-[#0a1628] to-[#0f1f3c] px-4 py-3 sticky top-0 z-10">
             <h2 className="font-bold text-white flex items-center gap-2">
               <Filter className="h-5 w-5" />
               Smart Filters

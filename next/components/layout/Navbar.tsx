@@ -66,15 +66,6 @@ function SearchIcon({ className }: { className?: string }) {
   );
 }
 
-function CompareIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <rect x="3" y="3" width="7" height="7" />
-      <rect x="14" y="3" width="7" height="7" />
-      <path d="M6 17v4M17 17v4M6 21h12" />
-    </svg>
-  );
-}
 
 const CONTACTS = [
   { key: "whatsapp", label: "WhatsApp", sublabel: "Chat with us", href: "https://wa.me/447879003218", Icon: WhatsAppIcon, bg: "#25D366", onTrack: () => trackWhatsAppClick("navbar") },
@@ -186,26 +177,26 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                 {dict.nav.home}
               </a>
             ) : (
-              <Link href={`/${locale}`} className="rounded-full px-4 py-2 transition-colors hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5">
+              <Link href={`/${locale}`} className="rounded-full px-4 py-2 transition-colors text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5">
                 {dict.nav.home}
               </Link>
             )}
             <Link
               href={`/${locale}/universities`}
-              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
             >
               {dict.nav.universities}
             </Link>
             <Link
               href={`/${locale}/blog`}
               onClick={() => trackBlogClick()}
-              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
             >
               {dict.nav.blog}
             </Link>
             <Link
               href={`/${locale}/contact`}
-              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
             >
               {dict.nav.contact}
             </Link>
@@ -213,16 +204,6 @@ export default function Navbar({ locale, dict }: NavbarProps) {
 
           {/* RIGHT: Search + Quick actions + CTA + WhatsApp dropdown + hamburger */}
           <div className="flex items-center justify-end gap-1.5 md:gap-2">
-            {/* Quick Compare Button - Desktop only */}
-            <Link
-              href={`/${locale}/universities`}
-              aria-label="Compare universities"
-              className="hidden items-center gap-1.5 rounded-full border border-[--color-border-soft] px-3 py-2 text-xs font-medium text-[--color-text-secondary] transition hover:bg-[--color-bg-secondary] hover:text-[--color-brand-primary] md:inline-flex lg:px-4"
-            >
-              <CompareIcon className="h-4 w-4" />
-              <span className="hidden lg:inline">Compare</span>
-            </Link>
-
             {/* Language pill toggle - Desktop only */}
             <div className="hidden items-center rounded-full border border-[--color-border-soft] bg-[--color-bg-primary]/60 p-0.5 sm:flex">
               <Link
@@ -285,17 +266,17 @@ export default function Navbar({ locale, dict }: NavbarProps) {
                         {dict.nav.home}
                       </a>
                     ) : (
-                      <Link href={`/${locale}`} onClick={handleClose} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
+                      <Link href={`/${locale}`} onClick={handleClose} className="rounded-xl px-3 py-2.5 text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]">
                         {dict.nav.home}
                       </Link>
                     )}
-                    <Link href={`/${locale}/universities`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]'}`}>
+                    <Link href={`/${locale}/universities`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
                       {dict.nav.universities}
                     </Link>
-                    <Link href={`/${locale}/blog`} onClick={() => { handleClose(); trackBlogClick(); }} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]'}`}>
+                    <Link href={`/${locale}/blog`} onClick={() => { handleClose(); trackBlogClick(); }} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
                       {dict.nav.blog}
                     </Link>
-                    <Link href={`/${locale}/contact`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]'}`}>
+                    <Link href={`/${locale}/contact`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
                       {dict.nav.contact}
                     </Link>
                   </div>

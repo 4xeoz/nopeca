@@ -110,7 +110,7 @@ export default function UniversitiesPageClient({ dict, locale }: Props) {
             />
 
             {/* Universities Grid */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {filteredUniversities.length === 0 ? (
                 <div className="flex flex-col items-center gap-4 py-24 text-center">
                   <p className="text-lg text-[#0a1628]/60">{dict.universities.noResults}</p>
