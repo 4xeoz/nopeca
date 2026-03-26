@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Image from 'next/image';
 
 const panels = [
   { id: 'panel-top', className: 'bg-[--color-brand-primary] z-20' },        // darker blue
@@ -61,7 +62,40 @@ export default function LoadingOverlay() {
             />
           ))}
 
+          {/* Centered Logo + Spinner */}
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Logo */}
+            <Image
+              src="/NopecaFooterLogo.png"
+              alt="Nopeca"
+              width={80}
+              height={80}
+              priority
+              className="w-20 h-20 object-contain drop-shadow-lg"
+            />
 
+            {/* Loading Spinner */}
+            <div className="relative w-12 h-12">
+              {/* Outer ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-3 border-transparent border-t-white border-r-white"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              />
+              {/* Inner ring */}
+              <motion.div
+                className="absolute inset-1.5 rounded-full border-2 border-transparent border-b-white/60 border-l-white/60"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }}
+              />
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
