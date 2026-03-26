@@ -68,7 +68,7 @@ export default function RegisterClient({ eventId }: Props) {
   const labelCls = "block mb-1.5 text-sm font-medium text-[#0a1628]";
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-white to-[#f5f0e8] p-5 shadow-md border border-[#d4a84b]/20">
+    <div className="rounded-2xl bg-gradient-to-br from-[#d4a84b]/15 to-[#d4a84b]/5 border-2 border-[#d4a84b]/50 p-5 shadow-lg">
       {/* Header */}
       <div className="mb-4">
         <h2 className="text-xl font-black text-[#0a1628]">Join Us! 🎓</h2>
