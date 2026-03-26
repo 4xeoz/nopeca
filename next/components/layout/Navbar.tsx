@@ -57,8 +57,18 @@ function PhoneIcon({ className }: { className?: string }) {
   );
 }
 
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
+    </svg>
+  );
+}
+
+
 const CONTACTS = [
-  { key: "whatsapp", label: "WhatsApp", sublabel: "Chat with us", href: "https://wa.me/213561799531", Icon: WhatsAppIcon, bg: "#25D366", onTrack: () => trackWhatsAppClick("navbar") },
+  { key: "whatsapp", label: "WhatsApp", sublabel: "Chat with us", href: "https://wa.me/447879003218", Icon: WhatsAppIcon, bg: "#25D366", onTrack: () => trackWhatsAppClick("navbar") },
   { key: "phone1",   label: "0560 409 193", sublabel: "Call us", href: "tel:+213560409193", Icon: PhoneIcon, bg: "#0a1628", onTrack: () => trackPhoneCall("0560409193") },
   { key: "phone2",   label: "0560 409 195", sublabel: "Call us", href: "tel:+213560409195", Icon: PhoneIcon, bg: "#0a1628", onTrack: () => trackPhoneCall("0560409195") },
 ] as const;
@@ -160,45 +170,55 @@ export default function Navbar({ locale, dict }: NavbarProps) {
             )}
           </div>
 
-          {/* CENTER: Desktop nav links */}
-          <div className="hidden flex-1 items-center justify-center gap-5 text-sm font-semibold text-[--color-text-primary] lg:flex xl:gap-7 xl:text-base">
+          {/* CENTER: Desktop nav links with active state */}
+          <div className="hidden flex-1 items-center justify-center gap-1 text-sm font-semibold text-[--color-text-primary] lg:flex xl:gap-2 xl:text-base">
             {isHomePage ? (
-              <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="transition-colors hover:text-[--color-brand-primary]">
+              <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="rounded-full px-4 py-2 transition-colors hover:text-[--color-brand-primary] bg-[--color-brand-primary]/10 text-[--color-brand-primary]">
                 {dict.nav.home}
               </a>
             ) : (
-              <Link href={`/${locale}`} className="transition-colors hover:text-[--color-brand-primary]">
+              <Link href={`/${locale}`} className="rounded-full px-4 py-2 transition-colors text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5">
                 {dict.nav.home}
               </Link>
             )}
-            <Link href={`/${locale}/universities`} className="transition-colors hover:text-[--color-brand-primary]">
+            <Link
+              href={`/${locale}/universities`}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+            >
               {dict.nav.universities}
             </Link>
-            <Link href={`/${locale}/blog`} onClick={() => trackBlogClick()} className="transition-colors hover:text-[--color-brand-primary]">
+            <Link
+              href={`/${locale}/blog`}
+              onClick={() => trackBlogClick()}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+            >
               {dict.nav.blog}
             </Link>
-            <Link href={`/${locale}/contact`} className="transition-colors hover:text-[--color-brand-primary]">
+            <Link
+              href={`/${locale}/contact`}
+              className={`rounded-full px-4 py-2 transition-colors ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:text-[--color-brand-primary] hover:bg-[--color-brand-primary]/5'}`}
+            >
               {dict.nav.contact}
             </Link>
           </div>
 
-          {/* RIGHT: Lang + CTA + WhatsApp dropdown + hamburger */}
-          <div className="flex items-center justify-end gap-2 md:gap-2.5">
-            {/* Language pill toggle */}
+          {/* RIGHT: Search + Quick actions + CTA + WhatsApp dropdown + hamburger */}
+          <div className="flex items-center justify-end gap-1.5 md:gap-2">
+            {/* Language pill toggle - Desktop only */}
             <div className="hidden items-center rounded-full border border-[--color-border-soft] bg-[--color-bg-primary]/60 p-0.5 sm:flex">
               <Link
                 href={enHref}
                 onClick={() => trackLanguageSwitch("en")}
                 className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-all md:px-3 md:text-sm ${locale === "en" ? "bg-[--color-brand-primary] text-white shadow-sm" : "text-[--color-text-secondary] hover:text-[--color-text-primary]"}`}
               >
-                <span aria-hidden>{LOCALE_FLAGS.en}</span><span>EN</span>
+                <span aria-hidden>{LOCALE_FLAGS.en}</span><span className="hidden md:inline">EN</span>
               </Link>
               <Link
                 href={frHref}
                 onClick={() => trackLanguageSwitch("fr")}
                 className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-all md:px-3 md:text-sm ${locale === "fr" ? "bg-[--color-brand-primary] text-white shadow-sm" : "text-[--color-text-secondary] hover:text-[--color-text-primary]"}`}
               >
-                <span aria-hidden>{LOCALE_FLAGS.fr}</span><span>FR</span>
+                <span aria-hidden>{LOCALE_FLAGS.fr}</span><span className="hidden md:inline">FR</span>
               </Link>
             </div>
 
@@ -236,52 +256,78 @@ export default function Navbar({ locale, dict }: NavbarProps) {
               transition={{ duration: 0.2 }}
               className="mt-2 rounded-3xl border border-[--color-border-soft] bg-[--color-bg-primary] p-4 shadow-2xl shadow-black/10 lg:hidden"
             >
-              <div className="flex flex-col gap-1 text-sm font-semibold text-[--color-text-primary]">
-                {isHomePage ? (
-                  <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
-                    {dict.nav.home}
-                  </a>
-                ) : (
-                  <Link href={`/${locale}`} onClick={handleClose} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
-                    {dict.nav.home}
-                  </Link>
-                )}
-                <Link href={`/${locale}/universities`} onClick={handleClose} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
-                  {dict.nav.universities}
-                </Link>
-                <Link href={`/${locale}/blog`} onClick={() => { handleClose(); trackBlogClick(); }} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
-                  {dict.nav.blog}
-                </Link>
-                <Link href={`/${locale}/contact`} onClick={handleClose} className="rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40 hover:text-[--color-brand-primary]">
-                  {dict.nav.contact}
-                </Link>
+              <div className="flex flex-col gap-3 text-sm font-semibold text-[--color-text-primary]">
+                {/* Main Navigation Section */}
+                <div>
+                  <p className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[--color-text-secondary]">Navigation</p>
+                  <div className="flex flex-col gap-1">
+                    {isHomePage ? (
+                      <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="rounded-xl px-3 py-2.5 bg-[--color-brand-primary]/10 text-[--color-brand-primary]">
+                        {dict.nav.home}
+                      </a>
+                    ) : (
+                      <Link href={`/${locale}`} onClick={handleClose} className="rounded-xl px-3 py-2.5 text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]">
+                        {dict.nav.home}
+                      </Link>
+                    )}
+                    <Link href={`/${locale}/universities`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/universities') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
+                      {dict.nav.universities}
+                    </Link>
+                    <Link href={`/${locale}/blog`} onClick={() => { handleClose(); trackBlogClick(); }} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/blog') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
+                      {dict.nav.blog}
+                    </Link>
+                    <Link href={`/${locale}/contact`} onClick={handleClose} className={`rounded-xl px-3 py-2.5 transition ${pathname.includes('/contact') ? 'bg-[--color-brand-primary]/10 text-[--color-brand-primary]' : 'text-[--color-text-primary] hover:bg-[--color-brand-primary]/5 hover:text-[--color-brand-primary]'}`}>
+                      {dict.nav.contact}
+                    </Link>
+                  </div>
+                </div>
 
-                <div className="mt-2 flex flex-col gap-2">
+                {/* Language Section */}
+                <div>
+                  <p className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[--color-text-secondary]">Language</p>
                   <div className="flex items-center gap-2 rounded-xl border border-[--color-border-soft] p-1">
-                    <Link href={enHref} onClick={() => { handleClose(); trackLanguageSwitch("en"); }} className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold ${locale === "en" ? "bg-[--color-brand-primary] text-white" : "text-[--color-text-secondary]"}`}>
+                    <Link href={enHref} onClick={() => { handleClose(); trackLanguageSwitch("en"); }} className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold transition ${locale === "en" ? "bg-[--color-brand-primary] text-white shadow-sm" : "text-[--color-text-secondary]"}`}>
                       <span>{LOCALE_FLAGS.en}</span><span>English</span>
                     </Link>
-                    <Link href={frHref} onClick={() => { handleClose(); trackLanguageSwitch("fr"); }} className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold ${locale === "fr" ? "bg-[--color-brand-primary] text-white" : "text-[--color-text-secondary]"}`}>
+                    <Link href={frHref} onClick={() => { handleClose(); trackLanguageSwitch("fr"); }} className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold transition ${locale === "fr" ? "bg-[--color-brand-primary] text-white shadow-sm" : "text-[--color-text-secondary]"}`}>
                       <span>{LOCALE_FLAGS.fr}</span><span>Français</span>
                     </Link>
                   </div>
-
-                  {CONTACTS.map((c) => (
-                    <a key={c.key} href={c.href} target={c.key === "whatsapp" ? "_blank" : undefined} rel={c.key === "whatsapp" ? "noopener noreferrer" : undefined} onClick={() => { c.onTrack(); handleClose(); }} className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-[--color-bg-secondary]/40">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: c.bg }}>
-                        <c.Icon className="h-4 w-4 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs text-[--color-text-primary]/50 leading-none mb-0.5">{c.sublabel}</p>
-                        <p className="text-sm font-semibold leading-none">{c.label}</p>
-                      </div>
-                    </a>
-                  ))}
-
-                  <Link href={`/${locale}/contact`} onClick={() => { handleClose(); trackGetStartedClick("navbar"); }} className="inline-flex items-center justify-center rounded-full bg-[--color-brand-secondary] px-5 py-2.5 text-sm font-semibold tracking-wide text-white shadow-md transition hover:-translate-y-0.5">
-                    {dict.nav.applyNow}
-                  </Link>
                 </div>
+
+                {/* Contact Section */}
+                <div>
+                  <p className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[--color-text-secondary]">Get in Touch</p>
+                  <div className="flex flex-col gap-1.5">
+                    {CONTACTS.map((c) => (
+                      <a
+                        key={c.key}
+                        href={c.href}
+                        target={c.key === "whatsapp" ? "_blank" : undefined}
+                        rel={c.key === "whatsapp" ? "noopener noreferrer" : undefined}
+                        onClick={() => { c.onTrack(); handleClose(); }}
+                        className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-[--color-bg-secondary]/40"
+                      >
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: c.bg }}>
+                          <c.Icon className="h-4 w-4 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-[--color-text-primary]/50 leading-none mb-0.5">{c.sublabel}</p>
+                          <p className="text-sm font-semibold leading-none">{c.label}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA Section */}
+                <Link
+                  href={`/${locale}/contact`}
+                  onClick={() => { handleClose(); trackGetStartedClick("navbar"); }}
+                  className="inline-flex items-center justify-center rounded-full bg-[--color-brand-secondary] px-5 py-3 text-sm font-semibold tracking-wide text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+                >
+                  {dict.nav.applyNow}
+                </Link>
               </div>
             </motion.div>
           )}

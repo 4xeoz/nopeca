@@ -52,10 +52,10 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
       },
       {
         "@type": "ContactPoint",
-        telephone: "+213-561-799-531",
+        telephone: "+44-7879-003-218",
         contactType: "customer service",
-        contactOption: "https://wa.me/213561799531",
-        areaServed: "DZ",
+        contactOption: "https://wa.me/447879003218",
+        areaServed: "GB",
         availableLanguage: ["English", "French", "Arabic"],
       },
     ],

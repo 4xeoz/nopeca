@@ -37,7 +37,7 @@ const CONTACTS = [
     key: "whatsapp",
     label: "WhatsApp",
     sublabel: "Chat with us",
-    href: "https://wa.me/213561799531",
+    href: "https://wa.me/447879003218",
     icon: WhatsAppIcon,
     bg: "#25D366",
     iconColor: "text-white",
