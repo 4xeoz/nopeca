@@ -144,11 +144,11 @@ export default async function EventPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Main content grid - Compact */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+          {/* Main content grid - 50/50 Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
 
-            {/* Left column: Description + Location (2 cols on desktop) */}
-            <div className="lg:col-span-2 flex flex-col gap-5">
+            {/* Left column: Description + Location */}
+            <div className="flex flex-col gap-5">
               <div className="rounded-2xl bg-white p-5 shadow-md border border-[#e5e0d5]">
                 <h2 className="text-lg font-black text-[#0a1628] mb-2">About This Event</h2>
                 <p className="whitespace-pre-wrap leading-relaxed text-[#0a1628]/70 text-sm line-clamp-4">
