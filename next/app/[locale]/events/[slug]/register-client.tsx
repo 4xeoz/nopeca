@@ -80,59 +80,67 @@ export default function RegisterClient({ eventId }: Props) {
   const labelCls = "block mb-1.5 text-sm font-medium text-[#0a1628]";
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-white via-white to-[#f5f0e8] p-6 shadow-md border border-white/60 sm:p-8">
-      <div className="flex items-start gap-3 mb-6">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4a84b]/15">
-          <svg className="h-5 w-5 text-[#d4a84b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-          </svg>
-        </div>
-        <div>
-          <h3 className="text-lg font-bold text-[#0a1628]">Secure Your Spot</h3>
-          <p className="text-sm text-[#0a1628]/50 mt-0.5">
-            Join other interested students at this event
-          </p>
-        </div>
+    <div className="rounded-3xl bg-gradient-to-br from-white to-[#f5f0e8] p-8 md:p-12 shadow-xl border border-[#d4a84b]/20">
+      {/* Header */}
+      <div className="mb-8">
+        <h2 className="text-3xl md:text-4xl font-black text-[#0a1628] mb-3">Join Us! 🎓</h2>
+        <p className="text-base text-[#0a1628]/60">
+          Register now to secure your spot at this exclusive event. Limited spots available!
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* Full name */}
         <div>
           <label className={labelCls}>
-            Full Name <span className="text-red-500">*</span>
+            Full Name <span className="text-red-500 font-bold">*</span>
           </label>
           <input
             name="name"
             type="text"
             required
             placeholder="e.g. Ahmed Mohammed"
-            className={inputCls}
+            className={`${inputCls} text-base`}
           />
         </div>
 
         {/* Phone */}
         <div>
           <label className={labelCls}>
-            Phone Number <span className="text-red-500">*</span>
+            Phone Number <span className="text-red-500 font-bold">*</span>
           </label>
-          <input
-            name="phone"
-            type="tel"
-            required
-            placeholder="e.g. +213 555 123 456"
-            className={inputCls}
-          />
+          <div className="relative">
+            <input
+              name="phone"
+              type="tel"
+              required
+              placeholder="e.g. +213 555 123 456"
+              className={`${inputCls} text-base`}
+            />
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0a1628]/30">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         {/* Email */}
         <div>
           <label className={labelCls}>Email Address <span className="text-[#0a1628]/35">(optional)</span></label>
-          <input
-            name="email"
-            type="email"
-            placeholder="your@email.com"
-            className={inputCls}
-          />
+          <div className="relative">
+            <input
+              name="email"
+              type="email"
+              placeholder="your@email.com"
+              className={`${inputCls} text-base`}
+            />
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0a1628]/30">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         {/* Message */}
@@ -140,9 +148,9 @@ export default function RegisterClient({ eventId }: Props) {
           <label className={labelCls}>Questions or Notes <span className="text-[#0a1628]/35">(optional)</span></label>
           <textarea
             name="message"
-            rows={3}
-            placeholder="Tell us anything we should know..."
-            className={`${inputCls} resize-none`}
+            rows={4}
+            placeholder="Tell us anything we should know about you..."
+            className={`${inputCls} resize-none text-base`}
           />
         </div>
 
@@ -150,11 +158,11 @@ export default function RegisterClient({ eventId }: Props) {
         <button
           type="submit"
           disabled={loading}
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#d4a84b] to-[#c49a3d] text-base font-semibold text-white hover:from-[#c49a3d] hover:to-[#b8883d] active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-[#d4a84b]/25 mt-2"
+          className="flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#d4a84b] to-[#c49a3d] text-base font-bold text-white hover:from-[#c49a3d] hover:to-[#b8883d] active:scale-[0.98] transition-all disabled:opacity-60 shadow-xl shadow-[#d4a84b]/30 mt-4"
         >
           {loading ? (
             <>
-              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+              <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
@@ -162,7 +170,7 @@ export default function RegisterClient({ eventId }: Props) {
             </>
           ) : (
             <>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Confirm Registration
@@ -170,10 +178,11 @@ export default function RegisterClient({ eventId }: Props) {
           )}
         </button>
 
-        {/* Trust note */}
-        <p className="text-xs text-[#0a1628]/40 text-center mt-2">
-          ✓ Your information is secure and won't be shared
-        </p>
+        {/* Trust badges */}
+        <div className="flex flex-col gap-2 text-xs text-[#0a1628]/50 text-center pt-2">
+          <p>✓ Your information is secure and won't be shared</p>
+          <p>📧 Confirmation email sent immediately</p>
+        </div>
       </form>
     </div>
   );
