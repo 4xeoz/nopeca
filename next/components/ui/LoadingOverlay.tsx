@@ -4,21 +4,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 
 const panels = [
-  { id: 'panel-top', className: 'bg-[#0a1628]' },        // darker blue
-  { id: 'panel-bottom', className: 'bg-[#d4a84b]' },     // gold
-];
-
-const MESSAGES = [
-  'Loading your experience...',
-  'Preparing amazing universities...',
-  'Connecting you to success...',
-  'Almost ready...',
+  { id: 'panel-top', className: 'bg-[#0a1628]' },
+  { id: 'panel-bottom', className: 'bg-[#d4a84b]' },
 ];
 
 export default function LoadingOverlay() {
   const [loaded, setLoaded] = useState(false);
   const [minTimePassed, setMinTimePassed] = useState(false);
-  const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
     const onReady = () => setLoaded(true);
@@ -28,19 +20,9 @@ export default function LoadingOverlay() {
   }, []);
 
   useEffect(() => {
-    const t = setTimeout(() => setMinTimePassed(true), 1200);
+    const t = setTimeout(() => setMinTimePassed(true), 1500);
     return () => clearTimeout(t);
   }, []);
-
-  // Cycle through messages
-  useEffect(() => {
-    if (!minTimePassed && loaded) {
-      const interval = setInterval(() => {
-        setMessageIndex((prev) => (prev + 1) % MESSAGES.length);
-      }, 800);
-      return () => clearInterval(interval);
-    }
-  }, [minTimePassed, loaded]);
 
   const ready = loaded && minTimePassed;
 
@@ -58,12 +40,27 @@ export default function LoadingOverlay() {
     <AnimatePresence>
       {!ready && (
         <motion.div
-          className="fixed inset-0 z-[9999] overflow-hidden"
+          className="fixed inset-0 z-[9999] overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#0f1f35] to-[#0a1628]"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 1 }}
         >
-          {/* Background panels (stacked) */}
+          {/* Animated gradient background */}
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            animate={{
+              background: [
+                'radial-gradient(circle at 20% 50%, #d4a84b 0%, transparent 50%)',
+                'radial-gradient(circle at 80% 50%, #d4a84b 0%, transparent 50%)',
+                'radial-gradient(circle at 50% 20%, #d4a84b 0%, transparent 50%)',
+                'radial-gradient(circle at 50% 80%, #d4a84b 0%, transparent 50%)',
+                'radial-gradient(circle at 20% 50%, #d4a84b 0%, transparent 50%)',
+              ],
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          {/* Panel transitions */}
           {panels.map((panel, idx) => (
             <motion.div
               key={panel.id}
@@ -79,112 +76,172 @@ export default function LoadingOverlay() {
             />
           ))}
 
-          {/* Loading content - centered */}
+          {/* Main content container */}
           <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-8"
+            className="absolute inset-0 flex flex-col items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Logo with pulse effect */}
-            <motion.div
-              className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center"
-              animate={{
-                scale: [1, 1.05, 1],
-                filter: ['drop-shadow(0 0 0px rgba(212, 168, 75, 0))', 'drop-shadow(0 0 20px rgba(212, 168, 75, 0.6))', 'drop-shadow(0 0 0px rgba(212, 168, 75, 0))'],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            >
-              <Image
-                src="/NopecaFooterLogo.png"
-                alt="Nopeca"
-                width={128}
-                height={128}
-                priority
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-
-            {/* Animated spinner rings */}
-            <div className="relative w-16 h-16">
-              {/* Outer ring */}
+            {/* Floating orbiting elements */}
+            <div className="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center">
+              {/* Center circle */}
               <motion.div
-                className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#d4a84b] border-r-[#d4a84b]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              />
-              {/* Middle ring */}
-              <motion.div
-                className="absolute inset-2 rounded-full border-2 border-transparent border-b-[#d4a84b]/60 border-l-[#d4a84b]/60"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              />
-              {/* Inner dot */}
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center"
+                className="absolute w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[#d4a84b] to-[#c49a3d] shadow-2xl shadow-[#d4a84b]/50 flex items-center justify-center"
                 animate={{
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.1, 1],
+                  boxShadow: [
+                    '0 0 30px 0px rgba(212, 168, 75, 0.3)',
+                    '0 0 50px 15px rgba(212, 168, 75, 0.6)',
+                    '0 0 30px 0px rgba(212, 168, 75, 0.3)',
+                  ],
                 }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <div className="w-1.5 h-1.5 bg-[#d4a84b] rounded-full" />
+                <Image
+                  src="/NopecaFooterLogo.png"
+                  alt="Nopeca"
+                  width={80}
+                  height={80}
+                  priority
+                  className="w-14 h-14 md:w-20 md:h-20 object-contain"
+                />
               </motion.div>
-            </div>
 
-            {/* Dynamic loading message */}
-            <div className="h-8 flex items-center justify-center">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={messageIndex}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.4 }}
-                  className="text-center text-sm md:text-base font-medium text-white"
-                >
-                  {MESSAGES[messageIndex]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            {/* Animated dots */}
-            <div className="flex items-center gap-1.5">
+              {/* Orbiting dots - 3 planets */}
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
-                  className="w-1.5 h-1.5 bg-[#d4a84b] rounded-full"
+                  className="absolute w-3 h-3 md:w-4 md:h-4 bg-[#d4a84b] rounded-full"
                   animate={{
-                    opacity: [0.4, 1, 0.4],
-                    scale: [0.8, 1.1, 0.8],
+                    rotate: 360,
                   }}
                   transition={{
-                    duration: 1.2,
+                    duration: 4 + i * 0.5,
                     repeat: Infinity,
-                    delay: i * 0.2,
+                    ease: 'linear',
+                  }}
+                  style={{
+                    top: '50%',
+                    left: '50%',
+                    originX: (80 + (i + 1) * 25) / 2 + 'px',
+                    originY: '50%',
+                  }}
+                />
+              ))}
+
+              {/* Orbital rings */}
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={`ring-${i}`}
+                  className="absolute rounded-full border border-[#d4a84b]/20"
+                  style={{
+                    width: 80 + (i + 1) * 50,
+                    height: 80 + (i + 1) * 50,
+                  }}
+                  animate={{
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: i * 0.3,
                     ease: 'easeInOut',
                   }}
                 />
               ))}
             </div>
 
-            {/* Reassurance text */}
-            <motion.p
-              className="text-xs md:text-sm text-white/40 text-center max-w-xs mt-2"
+            {/* Animated text */}
+            <motion.div
+              className="mt-12 md:mt-16 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <h2 className="text-2xl md:text-4xl font-black text-white mb-2 tracking-tight">
+                <motion.span
+                  animate={{ opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  Nopeca
+                </motion.span>
+              </h2>
+              <motion.p
+                className="text-[#d4a84b] text-sm md:text-base font-semibold"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                Your Gateway Awaits
+              </motion.p>
+            </motion.div>
+
+            {/* Loading bars */}
+            <div className="mt-10 md:mt-14 flex gap-1.5">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-1.5 md:w-2 h-8 md:h-10 bg-gradient-to-t from-[#d4a84b] to-[#e8c06a] rounded-full"
+                  animate={{
+                    scaleY: [0.3, 1, 0.3],
+                    opacity: [0.4, 1, 0.4],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                    ease: 'easeInOut',
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Floating particles */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={`particle-${i}`}
+                className="absolute w-1 h-1 bg-[#d4a84b] rounded-full"
+                animate={{
+                  x: [0, Math.random() * 100 - 50, 0],
+                  y: [0, Math.random() * 100 - 50, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: i * 0.3,
+                  ease: 'easeInOut',
+                }}
+                style={{
+                  top: `${30 + Math.random() * 40}%`,
+                  left: `${20 + Math.random() * 60}%`,
+                }}
+              />
+            ))}
+
+            {/* Bottom text */}
+            <motion.div
+              className="absolute bottom-8 md:bottom-12 text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              transition={{ delay: 0.8 }}
             >
-              This won't take long. Your gateway to top universities awaits! ✨
-            </motion.p>
+              <p className="text-white/50 text-xs md:text-sm font-medium">
+                <motion.span
+                  animate={{
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                >
+                  ✨ Loading
+                </motion.span>
+              </p>
+            </motion.div>
           </motion.div>
         </motion.div>
       )}
