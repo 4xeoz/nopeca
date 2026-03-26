@@ -1,11 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import Image from 'next/image';
 
 const panels = [
-  { id: 'panel-top', className: 'bg-[#0a1628]' },
-  { id: 'panel-bottom', className: 'bg-[#d4a84b]' },
+  { id: 'panel-top', className: 'bg-[--color-brand-primary] z-20' },        // darker blue
+  { id: 'panel-bottom', className: 'bg-[--color-brand-secondary] z-10' },   // yellow/gold
 ];
 
 export default function LoadingOverlay() {
@@ -20,7 +19,7 @@ export default function LoadingOverlay() {
   }, []);
 
   useEffect(() => {
-    const t = setTimeout(() => setMinTimePassed(true), 1500);
+    const t = setTimeout(() => setMinTimePassed(true), 1000);
     return () => clearTimeout(t);
   }, []);
 
@@ -28,6 +27,7 @@ export default function LoadingOverlay() {
 
   useEffect(() => {
     if (!ready) return;
+    // Mark readiness globally after overlay exit delay so downstream animations start after the panels clear.
     const timer = setTimeout(() => {
       (window as any).__appReady = true;
       window.dispatchEvent(new Event('app:ready'));
@@ -40,189 +40,28 @@ export default function LoadingOverlay() {
     <AnimatePresence>
       {!ready && (
         <motion.div
-          className="fixed inset-0 z-[9999] overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#0f1f35] to-[#0a1628]"
+          className="fixed inset-0 z-[9999] overflow-hidden"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 1 }}
         >
-          {/* Animated gradient background */}
-          <motion.div
-            className="absolute inset-0 opacity-30"
-            animate={{
-              background: [
-                'radial-gradient(circle at 20% 50%, #d4a84b 0%, transparent 50%)',
-                'radial-gradient(circle at 80% 50%, #d4a84b 0%, transparent 50%)',
-                'radial-gradient(circle at 50% 20%, #d4a84b 0%, transparent 50%)',
-                'radial-gradient(circle at 50% 80%, #d4a84b 0%, transparent 50%)',
-                'radial-gradient(circle at 20% 50%, #d4a84b 0%, transparent 50%)',
-              ],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          {/* Panel transitions */}
+          {/* Panels (stacked) */}
           {panels.map((panel, idx) => (
             <motion.div
               key={panel.id}
               className={`absolute inset-0 ${panel.className}`}
               initial={{ y: 0 }}
               animate={{ y: 0 }}
-              exit={{ y: idx === 0 ? '-110%' : '110%' }}
+              exit={{ y: '-110%' }}
               transition={{
-                duration: 0.8,
+                duration: 0.7,
                 ease: 'easeInOut',
-                delay: idx * 0.12,
+                delay: idx * 0.15, // stagger upward
               }}
             />
           ))}
 
-          {/* Main content container */}
-          <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Floating orbiting elements */}
-            <div className="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center">
-              {/* Center logo - NOT ANIMATED */}
-              <div className="absolute w-20 h-20 md:w-28 md:h-28 rounded-full flex items-center justify-center">
-                <Image
-                  src="/NopecaFooterLogo.png"
-                  alt="Nopeca"
-                  width={112}
-                  height={112}
-                  priority
-                  className="w-16 h-16 md:w-24 md:h-24 object-contain drop-shadow-xl"
-                />
-              </div>
 
-              {/* Orbiting dots - 3 planets */}
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-3 h-3 md:w-4 md:h-4 bg-[#d4a84b] rounded-full"
-                  animate={{
-                    rotate: 360,
-                  }}
-                  transition={{
-                    duration: 4 + i * 0.5,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                  style={{
-                    top: '50%',
-                    left: '50%',
-                    originX: (80 + (i + 1) * 25) / 2 + 'px',
-                    originY: '50%',
-                  }}
-                />
-              ))}
-
-              {/* Orbital rings */}
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={`ring-${i}`}
-                  className="absolute rounded-full border border-[#d4a84b]/20"
-                  style={{
-                    width: 80 + (i + 1) * 50,
-                    height: 80 + (i + 1) * 50,
-                  }}
-                  animate={{
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: i * 0.3,
-                    ease: 'easeInOut',
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Loading spinner below logo */}
-            <div className="mt-12 relative w-16 h-16">
-              {/* Outer ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#d4a84b] border-r-[#d4a84b]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              />
-              {/* Middle ring */}
-              <motion.div
-                className="absolute inset-2 rounded-full border-2 border-transparent border-b-[#d4a84b]/60 border-l-[#d4a84b]/60"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              />
-            </div>
-
-            {/* Loading bars */}
-            <div className="mt-12 flex gap-1.5">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-1.5 md:w-2 h-8 md:h-10 bg-gradient-to-t from-[#d4a84b] to-[#e8c06a] rounded-full"
-                  animate={{
-                    scaleY: [0.3, 1, 0.3],
-                    opacity: [0.4, 1, 0.4],
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    repeat: Infinity,
-                    delay: i * 0.1,
-                    ease: 'easeInOut',
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Floating particles */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={`particle-${i}`}
-                className="absolute w-1 h-1 bg-[#d4a84b] rounded-full"
-                animate={{
-                  x: [0, Math.random() * 100 - 50, 0],
-                  y: [0, Math.random() * 100 - 50, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: i * 0.3,
-                  ease: 'easeInOut',
-                }}
-                style={{
-                  top: `${30 + Math.random() * 40}%`,
-                  left: `${20 + Math.random() * 60}%`,
-                }}
-              />
-            ))}
-
-            {/* Bottom text */}
-            <motion.div
-              className="absolute bottom-8 md:bottom-12 text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <p className="text-white/50 text-xs md:text-sm font-medium">
-                <motion.span
-                  animate={{
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                  }}
-                >
-                  ✨ Loading
-                </motion.span>
-              </p>
-            </motion.div>
-          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
