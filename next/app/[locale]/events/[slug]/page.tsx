@@ -119,68 +119,58 @@ export default async function EventPage({ params }: Props) {
       </section>
 
       {/* ── Main content ─────────────────────────────────────────── */}
-      <section className="px-4 py-16 bg-gradient-to-b from-[#f5f0e8] to-white">
+      <section className="px-4 py-8 bg-gradient-to-b from-[#f5f0e8] to-white">
         <div className="mx-auto max-w-6xl">
 
-          {/* Location section - PROMINENT */}
-          <div className="mb-12 rounded-3xl bg-gradient-to-br from-white to-[#f5f0e8] border border-[#d4a84b]/20 shadow-lg overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-              {/* Left: Location info */}
-              <div className="p-8 md:p-10 flex flex-col justify-center">
-                <p className="text-xs font-bold uppercase tracking-wider text-[#d4a84b] mb-3">Event Location</p>
-                <h3 className="text-2xl md:text-3xl font-black text-[#0a1628] mb-4">{event.location}</h3>
-                <p className="text-[#0a1628]/60 text-sm mb-6">
-                  Find us on the map and get directions to our venue
+          {/* Compact Event Info - Quick Access */}
+          <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="rounded-lg bg-white border border-[#e5e0d5] p-3 text-center">
+              <p className="text-xs text-[#0a1628]/50 mb-1">📅 DATE</p>
+              <p className="text-sm font-bold text-[#0a1628]">{format(new Date(event.date), "MMM d")}</p>
+            </div>
+            <div className="rounded-lg bg-white border border-[#e5e0d5] p-3 text-center">
+              <p className="text-xs text-[#0a1628]/50 mb-1">🕐 TIME</p>
+              <p className="text-sm font-bold text-[#0a1628]">{format(new Date(event.date), "HH:mm")}</p>
+            </div>
+            {event._count.registrations > 0 && (
+              <div className="rounded-lg bg-white border border-[#e5e0d5] p-3 text-center">
+                <p className="text-xs text-[#0a1628]/50 mb-1">👥 GOING</p>
+                <p className="text-sm font-bold text-[#d4a84b]">{event._count.registrations}</p>
+              </div>
+            )}
+            <div className="rounded-lg bg-white border border-[#e5e0d5] p-3 text-center">
+              <p className="text-xs text-[#0a1628]/50 mb-1">📍 LOCATION</p>
+              <p className="text-xs font-bold text-[#0a1628] line-clamp-1">{event.location}</p>
+            </div>
+          </div>
+
+          {/* Main content grid - Compact */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+
+            {/* Left column: Description + Location (2 cols on desktop) */}
+            <div className="lg:col-span-2 flex flex-col gap-5">
+              <div className="rounded-2xl bg-white p-5 shadow-md border border-[#e5e0d5]">
+                <h2 className="text-lg font-black text-[#0a1628] mb-2">About This Event</h2>
+                <p className="whitespace-pre-wrap leading-relaxed text-[#0a1628]/70 text-sm line-clamp-4">
+                  {event.description}
                 </p>
+              </div>
+
+              {/* Location + Maps Button */}
+              <div className="rounded-2xl bg-gradient-to-br from-white to-[#f5f0e8] border border-[#d4a84b]/20 p-5 shadow-md">
+                <h3 className="text-base font-black text-[#0a1628] mb-3">📍 {event.location}</h3>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-[#d4a84b] to-[#c49a3d] hover:from-[#c49a3d] hover:to-[#b8883d] text-white font-bold px-6 py-4 rounded-2xl transition-all shadow-lg hover:shadow-xl active:scale-[0.98] w-fit"
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#d4a84b] to-[#c49a3d] hover:from-[#c49a3d] hover:to-[#b8883d] text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                   </svg>
                   View on Google Maps
                 </a>
-              </div>
-
-              {/* Right: Quick info cards */}
-              <div className="p-8 md:p-10 bg-[#0a1628]/[0.02] flex flex-col justify-center gap-4">
-                <div className="rounded-xl bg-white border border-[#e5e0d5] p-4">
-                  <p className="text-xs font-medium text-[#0a1628]/50 mb-2">📅 DATE & TIME</p>
-                  <p className="text-base font-bold text-[#0a1628]">{format(new Date(event.date), "EEEE, MMMM d, yyyy")}</p>
-                  <p className="text-sm font-semibold text-[#d4a84b]">{format(new Date(event.date), "HH:mm")}</p>
-                </div>
-
-                {event._count.registrations > 0 && (
-                  <div className="rounded-xl bg-white border border-[#e5e0d5] p-4">
-                    <p className="text-xs font-medium text-[#0a1628]/50 mb-2">👥 ATTENDING</p>
-                    <p className="text-base font-bold text-[#0a1628]">{event._count.registrations} <span className="text-[#d4a84b] text-sm">student{event._count.registrations !== 1 ? 's' : ''}</span></p>
-                  </div>
-                )}
-
-                <div className="rounded-xl bg-white border border-[#e5e0d5] p-4">
-                  <p className="text-xs font-medium text-[#0a1628]/50 mb-2">🎓 ORGANISED BY</p>
-                  <p className="text-base font-bold text-[#0a1628]">Nopeca</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-
-            {/* Left column: Description (2 cols on desktop) */}
-            <div className="lg:col-span-2 flex flex-col gap-8">
-              <div className="rounded-2xl bg-white p-8 shadow-md border border-[#e5e0d5]">
-                <h2 className="text-2xl font-black text-[#0a1628] mb-4 flex items-center gap-2">
-                  <span className="text-3xl">ℹ️</span> About This Event
-                </h2>
-                <p className="whitespace-pre-wrap leading-relaxed text-[#0a1628]/70 text-base">
-                  {event.description}
-                </p>
               </div>
             </div>
 
