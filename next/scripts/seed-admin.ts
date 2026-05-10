@@ -13,9 +13,9 @@ import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const SUPER_ADMIN_EMAIL = "iyad@nopeca.com";
+const SUPER_ADMIN_EMAIL = "admin@nopeca.com";
 const SUPER_ADMIN_PASSWORD = "nopeca@ceo";
-const SUPER_ADMIN_NAME = "Iyad";
+const SUPER_ADMIN_NAME = "Admin";
 
 async function main() {
   const connectionString = process.env.DATABASE_URL;

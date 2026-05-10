@@ -12,7 +12,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const AUTHOR_EMAIL = "iyad@nopeca.com";
+const AUTHOR_EMAIL = "admin@nopeca.com";
 
 const BLOG_POSTS = [
   {

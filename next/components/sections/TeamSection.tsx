@@ -21,18 +21,6 @@ interface TeamMember {
 const TEAM: TeamMember[] = [
   {
     id: 1,
-    name: "Eyad Cherifi",
-    role: "Uk Representative & Co-Founder",
-    department: "Leadership",
-    bio: "Former Oxford Brookes student who founded Nopeca to make UK education accessible for every Algerian student. 7+ years guiding students through admissions and visas.",
-    image: "/team/Eyad-cherifi.png",
-    initials: "AB",
-    color: "#0a1628",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    id: 2,
     name: "Mellisa zouzou",
     role: "Co-Founder & Head of Admissions",
     department: "Admissions",
@@ -44,7 +32,7 @@ const TEAM: TeamMember[] = [
     instagram: "#",
   },
   {
-    id: 3,
+    id: 2,
     name: "Karim Oualid",
     role: "Visa Specialist",
     department: "Visa",
@@ -56,7 +44,7 @@ const TEAM: TeamMember[] = [
     twitter: "#",
   },
   {
-    id: 4,
+    id: 3,
     name: "Lina Haddad",
     role: "Student Success Manager",
     department: "Support",
@@ -68,7 +56,7 @@ const TEAM: TeamMember[] = [
     instagram: "#",
   },
   {
-    id: 5,
+    id: 4,
     name: "Yacine Ferhat",
     role: "Scholarship Advisor",
     department: "Admissions",
