@@ -51,13 +51,6 @@ export default function JsonLd({ locale, dict }: JsonLdProps) {
         availableLanguage: ["English", "French", "Arabic"],
       },
       {
-        "@type": "ContactPoint",
-        telephone: "+44-7879-003-218",
-        contactType: "customer service",
-        contactOption: "https://wa.me/447879003218",
-        areaServed: "GB",
-        availableLanguage: ["English", "French", "Arabic"],
-      },
     ],
     email: "contact@nopeca.com",
     sameAs: [
